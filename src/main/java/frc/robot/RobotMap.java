@@ -8,15 +8,30 @@
 package frc.robot;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * Add your docs here.
  */
-public final class Constants {
+public enum RobotMap {
+    LEFT_DRIVE_MOTOR_ONE(0), LEFT_DRIVE_MOTOR_TWO(0), RIGHT_DRIVE_MOTOR_ONE(0), RIGHT_DRIVE_MOTOR_TWO(0),
 
+    CLIMB_MOTOR(0),
+
+    AIM_VICTOR(0), AIM_TALON(0),
+
+    BALL_STOPPER_MOTOR(0),
+
+    CONVEYOR_VICTOR(0),
+
+    TOP_SHOOTER(0), BOTTOM_SHOOTER(0),
+
+    TOP_ENCODER_A(0), TOP_ENCODER_B(1), BOTTOM_ENCODER_A(2), BOTTOM_ENCODER_B(3),;
+
+    int pin;
+
+    RobotMap(int i) {
+        this.pin = i;
+    }
+
+    public int getPin() {
+        return pin;
+    }
 }
-
-
