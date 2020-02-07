@@ -16,7 +16,7 @@ public class ConveyorSystem extends SubsystemBase {
   /**
    * Creates a new ConveyorSystem.
    */
-  VictorSPX conveyorVictor;
+  public VictorSPX conveyorVictor;
   public ConveyorSystem() {
   conveyorVictor = new VictorSPX(RobotMap.CONVEYOR_VICTOR.getPin());
   }
