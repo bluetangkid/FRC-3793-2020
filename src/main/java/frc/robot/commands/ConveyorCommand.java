@@ -41,7 +41,7 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      C_system.conveyorVictor.set(ControlMode.PercentOutput,.75);
+      C_system.setVictor(.75);
   }
 
   // Called once the command ends or is interrupted.
