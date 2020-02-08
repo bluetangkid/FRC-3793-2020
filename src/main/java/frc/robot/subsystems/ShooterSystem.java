@@ -29,4 +29,12 @@ public class ShooterSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public CANSparkMax topWheel(){
+    return topWheel;
+  }
+
+  public CANSparkMax bottomWheel(){
+    return bottomWheel;
+  }
 }

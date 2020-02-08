@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSystem;
 
@@ -21,6 +23,7 @@ public class IntakeCommand extends CommandBase {
    private BooleanSupplier button;
   public IntakeCommand(IntakeSystem I_System, BooleanSupplier ) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(I_System);
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +34,7 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, .8);
   }
 
   // Called once the command ends or is interrupted.

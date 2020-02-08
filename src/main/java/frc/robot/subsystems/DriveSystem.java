@@ -19,21 +19,21 @@ public class DriveSystem extends SubsystemBase {
   /**
    * Creates a new DriveSystem.
    */
-  CANSparkMax leftMotorOne;
-  CANSparkMax leftMotorTwo;
-  CANSparkMax rightMotorOne;
-  CANSparkMax rightMotorTwo;
-  SpeedControllerGroup left;
-  SpeedControllerGroup right;
-  public DifferentialDrive drive;
-  
+  private CANSparkMax leftMotorOne;
+  private CANSparkMax leftMotorTwo;
+  private CANSparkMax rightMotorOne;
+  private CANSparkMax rightMotorTwo;
+  private SpeedControllerGroup left;
+  private SpeedControllerGroup right;
+  private DifferentialDrive drive;
+
   public DriveSystem() {
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     leftMotorTwo = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     left = new SpeedControllerGroup(leftMotorOne, leftMotorTwo);
-    right = new SpeedControllerGroup(rightMotorOne,rightMotorTwo);
+    right = new SpeedControllerGroup(rightMotorOne, rightMotorTwo);
     drive = new DifferentialDrive(left, right);
   }
 
@@ -41,4 +41,33 @@ public class DriveSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public DifferentialDrive getDrive() {
+    return drive;
+  }
+
+  public CANSparkMax getLeftMotorOne() {
+    return leftMotorOne;
+  }
+
+  public CANSparkMax getLeftMotorTwo() {
+    return leftMotorTwo;
+  }
+
+  public CANSparkMax getRightMotorOne() {
+    return rightMotorOne;
+  }
+
+  public CANSparkMax getRightMotorTwo() {
+    return rightMotorTwo;
+  }
+
+  public SpeedControllerGroup getLeft() {
+    return left;
+  }
+
+  public SpeedControllerGroup getRight() {
+    return right;
+  }
+
 }

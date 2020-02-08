@@ -15,7 +15,7 @@ public class IntakeSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystem.
    */
-  VictorSPX intakeMotor;
+  private VictorSPX intakeMotor;
   public IntakeSystem() {
   intakeMotor = new VictorSPX(0);
   }
@@ -24,4 +24,9 @@ public class IntakeSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+public VictorSPX getIntakeMotor(){
+  return intakeMotor;
+}
+
 }

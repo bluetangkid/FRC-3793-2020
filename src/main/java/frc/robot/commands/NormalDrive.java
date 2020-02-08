@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSystem;
 
@@ -21,9 +23,10 @@ public class NormalDrive extends CommandBase {
   private DoubleSupplier m_leftTrigger;
   private DoubleSupplier m_rightTrigger;
 
-  public NormalDrive(DriveSystem m_Drive, DoubleSupplier leftStick, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
+  public NormalDrive(DriveSystem m_Drive, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     myDrive = m_Drive;
+    this.controller = controller;
     addRequirements(myDrive);
   }
 
@@ -36,9 +39,11 @@ public class NormalDrive extends CommandBase {
   @Override
   public void execute() {
 
-   double dif;
-    
-   double leftY =  m_leftTrigger.getAsDouble() - m_rightTrigger.getAsDouble();
+  double dif;
+  m_leftTrigger = controller.getTriggerAxis(Hand.kLeft);
+  m_rightTrigger = controller.getTriggerAxis(Hand.kRight);
+  m_leftStick = controller.getRawAxis(0);
+  double leftY =  m_leftTrigger - m_rightTrigger;
 
   if (Math.abs(leftY) < .05)
     dif = 0.0;
@@ -48,14 +53,14 @@ public class NormalDrive extends CommandBase {
    double lx = m_leftStick.getAsDouble();
    double lNum;
   if (Math.abs(lx) > .25)
-    lNum = m_leftStick.getAsDouble();
+    lNum = m_leftStick;
   else
     lNum = 0;
   
     if (lNum == 0 && dif == 0){
-    myDrive.drive.arcadeDrive(0, 0);
+    myDrive.getDrive().arcadeDrive(0, 0);
   }else{
-    myDrive.drive.arcadeDrive(-dif * 1, lNum * .7);
+    myDrive.getDrive().arcadeDrive(-dif * 1, lNum * .7);
   }
  
   }
