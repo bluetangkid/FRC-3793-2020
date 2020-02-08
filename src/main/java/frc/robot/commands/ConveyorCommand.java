@@ -13,22 +13,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * An example command that uses an example subsystem.
  */
 public class ConveyorCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  ConveyorSystem C_system;
-  BooleanSupplier activateButton;
+  private ConveyorSystem C_system;
+  private BooleanSupplier activateButton;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ConveyorCommand(ConveyorSystem C_system, BooleanSupplier activateButton) {
+  public ConveyorCommand(ConveyorSystem C_system) {
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
@@ -42,11 +41,7 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (activateButton.getAsBoolean()) {
-      C_system.conveyorVictor.set(ControlMode.PercentOutput,.75);
-    } else {
-      
-    }
+      C_system.setVictor(.75);
   }
 
   // Called once the command ends or is interrupted.

@@ -7,24 +7,26 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.HowitzerSystem;
 
-public class NormalDrive extends CommandBase {
+public class AimCommand extends CommandBase {
   /**
-   * Creates a new NormalDrive.
+   * Creates a new AimCommand.
    */
-  DriveSystem myDrive;
-  DoubleSupplier m_leftStick;
-  DoubleSupplier m_leftTrigger;
-  DoubleSupplier m_rightTrigger;
 
-  public NormalDrive(DriveSystem m_Drive, DoubleSupplier leftStick, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
+   HowitzerSystem m_HowitzerSystem;
+   DriveSystem m_DriveSystem;
+
+   
+  public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    myDrive = m_Drive;
-    addRequirements(myDrive);
+    m_HowitzerSystem = howitzerSystem;
+    m_DriveSystem = driveSystem;
+
+    addRequirements(m_HowitzerSystem, m_DriveSystem);
+
   }
 
   // Called when the command is initially scheduled.
@@ -35,29 +37,9 @@ public class NormalDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-  double dif;
-    
-  double leftY =  m_leftTrigger.getAsDouble() - m_rightTrigger.getAsDouble();
-
-  if (Math.abs(leftY) < .05)
-    dif = 0.0;
-  else {
-    dif = (leftY/ Math.abs(leftY))*(.4 + (Math.abs(leftY) * .6));
-  }
-  double lx = m_leftStick.getAsDouble();
-  double lNum;
-  if (Math.abs(lx) > .25)
-    lNum = m_leftStick.getAsDouble();
-  else
-    lNum = 0;
+  turnTo(m_HowitzerSystem.xOffset);
+  m_HowitzerSystem.goToAngle(angle);
   
-    if (lNum == 0 && dif == 0){
-    myDrive.drive.arcadeDrive(0, 0);
-  }else{
-    myDrive.drive.arcadeDrive(-dif * 1, lNum * .7);
-  }
- 
   }
 
   // Called once the command ends or is interrupted.
