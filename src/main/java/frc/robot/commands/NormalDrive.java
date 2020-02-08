@@ -16,10 +16,10 @@ public class NormalDrive extends CommandBase {
   /**
    * Creates a new NormalDrive.
    */
-  DriveSystem myDrive;
-  DoubleSupplier m_leftStick;
-  DoubleSupplier m_leftTrigger;
-  DoubleSupplier m_rightTrigger;
+  private DriveSystem myDrive;
+  private DoubleSupplier m_leftStick;
+  private DoubleSupplier m_leftTrigger;
+  private DoubleSupplier m_rightTrigger;
 
   public NormalDrive(DriveSystem m_Drive, DoubleSupplier leftStick, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,17 +36,17 @@ public class NormalDrive extends CommandBase {
   @Override
   public void execute() {
 
-  double dif;
+   double dif;
     
-  double leftY =  m_leftTrigger.getAsDouble() - m_rightTrigger.getAsDouble();
+   double leftY =  m_leftTrigger.getAsDouble() - m_rightTrigger.getAsDouble();
 
   if (Math.abs(leftY) < .05)
     dif = 0.0;
   else {
     dif = (leftY/ Math.abs(leftY))*(.4 + (Math.abs(leftY) * .6));
   }
-  double lx = m_leftStick.getAsDouble();
-  double lNum;
+   double lx = m_leftStick.getAsDouble();
+   double lNum;
   if (Math.abs(lx) > .25)
     lNum = m_leftStick.getAsDouble();
   else

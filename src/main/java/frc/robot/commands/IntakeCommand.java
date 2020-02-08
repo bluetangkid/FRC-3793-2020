@@ -17,8 +17,8 @@ public class IntakeCommand extends CommandBase {
    * Creates a new IntakeCommand.
    */
 
-   IntakeSystem m_subsystem;
-   BooleanSupplier button;
+   private IntakeSystem m_subsystem;
+   private BooleanSupplier button;
   public IntakeCommand(IntakeSystem I_System, BooleanSupplier ) {
     // Use addRequirements() here to declare subsystem dependencies.
   }

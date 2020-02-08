@@ -20,8 +20,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class ConveyorCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  ConveyorSystem C_system;
-  BooleanSupplier activateButton;
+  private ConveyorSystem C_system;
+  private BooleanSupplier activateButton;
 
   /**
    * Creates a new ExampleCommand.

@@ -20,7 +20,7 @@ public class ShootCommand extends PIDCommand {
   /**
    * Creates a new ShootCommand.
    */
-  ShooterSystem myShooterSystem;
+  private ShooterSystem myShooterSystem;
 
   public ShootCommand(ShooterSystem sys, CANSparkMax motor, Double setpoint) {
   
