@@ -18,6 +18,8 @@ public class AimCommand extends CommandBase {
 
    HowitzerSystem m_HowitzerSystem;
    DriveSystem m_DriveSystem;
+
+   
   public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_HowitzerSystem = howitzerSystem;
@@ -36,6 +38,7 @@ public class AimCommand extends CommandBase {
   @Override
   public void execute() {
   turnTo(m_HowitzerSystem.xOffset);
+  m_HowitzerSystem.goToAngle(angle);
   
   }
 
