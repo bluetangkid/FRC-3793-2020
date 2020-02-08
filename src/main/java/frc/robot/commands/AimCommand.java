@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,30 +7,24 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSystem;
+import frc.robot.subsystems.DriveSystem;
+import frc.robot.subsystems.HowitzerSystem;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
-/**
- * An example command that uses an example subsystem.
- */
-public class ConveyorCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  ConveyorSystem C_system;
-  BooleanSupplier activateButton;
-
+public class AimCommand extends CommandBase {
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Creates a new AimCommand.
    */
-  public ConveyorCommand(ConveyorSystem C_system) {
-    
+
+   HowitzerSystem m_HowitzerSystem;
+   DriveSystem m_DriveSystem;
+  public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(C_system);
+    m_HowitzerSystem = howitzerSystem;
+    m_DriveSystem = driveSystem;
+
+    addRequirements(m_HowitzerSystem, m_DriveSystem);
+
   }
 
   // Called when the command is initially scheduled.
@@ -41,7 +35,8 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      C_system.conveyorVictor.set(ControlMode.PercentOutput,.75);
+  turnTo(m_HowitzerSystem.xOffset);
+  
   }
 
   // Called once the command ends or is interrupted.

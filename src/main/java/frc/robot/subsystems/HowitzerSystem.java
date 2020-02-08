@@ -10,6 +10,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -19,14 +22,24 @@ public class HowitzerSystem extends SubsystemBase {
    */
   VictorSPX aimVictor;
   TalonSRX aimTalon;
+  
+  NetworkTable limelightTable;
+  NetworkTableEntry horizontalOffset;
+  public double xOffset;
+
+  
 
   public HowitzerSystem() {
     aimVictor = new VictorSPX(RobotMap.AIM_VICTOR.getPin());
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
+    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+
+    horizontalOffset = limelightTable.getEntry("tx");
   }
 
   @Override
   public void periodic() {
+    xOffset = horizontalOffset.getDouble(0);
     // This method will be called once per scheduler run
   }
 }
