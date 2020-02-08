@@ -28,4 +28,7 @@ public final class Constants {
     public final static double trackWidth = 0;
     public final static double b = .7;
     public final static double zeta = .5;
+    public final static double turnMax = .7;
+    public final static double throttleMax = 1;
+    public final static double maxVelocity = 27500;
 }
