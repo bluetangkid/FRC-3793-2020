@@ -23,9 +23,9 @@ public class HowitzerSystem extends SubsystemBase {
    * Creates a new HowitzerSystem.
    */
   VictorSPX aimVictor;
-  TalonSRX aimTalon;
+  public TalonSRX aimTalon;
 
-  PIDController howitzerController;
+  public PIDController howitzerController;
   
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
@@ -34,7 +34,7 @@ public class HowitzerSystem extends SubsystemBase {
   double currentHowitzerPosition;
 
   final double lengthOfHowitzerIn = 40;
-  double howitzerAngle;
+  public double howitzerAngle;
 
   
 

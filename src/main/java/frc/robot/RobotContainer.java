@@ -11,15 +11,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
-<<<<<<< HEAD
-import frc.robot.commands.ExampleCommand;
-<<<<<<< HEAD
+import frc.robot.commands.ConveyorCommand;
+import frc.robot.commands.ExampleCommand;<<<<<<<HEAD
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.NormalDrive;
-=======
->>>>>>> 7342aaa170f0689983ea6f0494800e7b66f0aaba
-=======
->>>>>>> b88a421c2fc1af8e2d929e45042113f848a43e80
+import frc.robot.commands.ShootCommand;
+import frc.robot.commands.moveHowitzer;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -71,7 +68,13 @@ public class RobotContainer {
 
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld( new IntakeCommand(intakeSystem));
     new JoystickButton(ControllerMap.operator, ControllerMap.LB).whenHeld(new AimCommand(howitzerSystem, driveSystem));
+    new JoystickButton(ControllerMap.operator, ControllerMap.RB).whenHeld(new ConveyorCommand(conveyorSystem));
 
+    new JoystickButton(ControllerMap.operator, ControllerMap.B).whenHeld(new ShootCommand(shooterSystem, shooterSystem.topWheel(), .8));
+    new JoystickButton(ControllerMap.operator, ControllerMap.B).whenHeld(new ShootCommand(shooterSystem, shooterSystem.bottomWheel(), .8));
+    
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveHowitzer(howitzerSystem, 5));
+    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveHowitzer(howitzerSystem, -5));
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
 
