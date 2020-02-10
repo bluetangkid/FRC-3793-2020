@@ -29,8 +29,6 @@ public class DriveSystem extends SubsystemBase implements DriveBase{
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
-
-  private FollowPath pathFollower;
   private Pose2d pose;
 
   public DriveSystem() {
