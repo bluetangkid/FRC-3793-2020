@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
+<<<<<<< HEAD
 import frc.robot.commands.ExampleCommand;
 <<<<<<< HEAD
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.NormalDrive;
 =======
 >>>>>>> 7342aaa170f0689983ea6f0494800e7b66f0aaba
+=======
+>>>>>>> b88a421c2fc1af8e2d929e45042113f848a43e80
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -39,15 +42,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
   private final ClimbSystem climbSystem = new ClimbSystem();
-<<<<<<< HEAD
-  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem(null);
-=======
   private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
->>>>>>> 7342aaa170f0689983ea6f0494800e7b66f0aaba
   private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
   private final HowitzerSystem howitzerSystem = new HowitzerSystem();
@@ -86,6 +83,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
   }
 }
