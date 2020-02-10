@@ -37,6 +37,7 @@ public class DriveSystem extends SubsystemBase {
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
+    //remember to config the PIDs for all the motors or it won't work
   }
 
   @Override
