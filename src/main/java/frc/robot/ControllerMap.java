@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 
     public class ControllerMap {
-        public XboxController driver = new XboxController(0);
-        public XboxController operator = new XboxController(1);
+        public static XboxController driver = new XboxController(0);
+        public static XboxController operator = new XboxController(1);
 
 
         public static final int A = 1;
