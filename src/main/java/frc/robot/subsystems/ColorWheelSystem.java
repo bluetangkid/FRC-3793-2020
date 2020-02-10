@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 import jdk.jfr.Percentage;
 
 public class ColorWheelSystem extends SubsystemBase {
@@ -39,13 +40,13 @@ public class ColorWheelSystem extends SubsystemBase {
   double VARY = .1;
 
 
-  public ColorWheelSystem(VictorSPX cw) {
+  public ColorWheelSystem() {
 i2cPort = I2C.Port.kOnboard;
 colorSensor = new ColorSensorV3(i2cPort);
 
 currentColor = colorSensor.getColor();
 
-colorWheel = cw;
+colorWheel = new VictorSPX(RobotMap.COLOR_VICTOR.getPin());
  }
 
 
