@@ -27,10 +27,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
@@ -43,35 +44,35 @@ public class RobotContainer {
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
 
-    
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld( new IntakeCommand(intakeSystem));
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem));
     new JoystickButton(ControllerMap.operator, ControllerMap.LB).whenHeld(new AimCommand(howitzerSystem, driveSystem));
     new JoystickButton(ControllerMap.operator, ControllerMap.RB).whenHeld(new ConveyorCommand(conveyorSystem));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.B).whenHeld(new ShootCommand(shooterSystem, shooterSystem.topWheel(), .8));
-    new JoystickButton(ControllerMap.operator, ControllerMap.B).whenHeld(new ShootCommand(shooterSystem, shooterSystem.bottomWheel(), .8));
-    
+    new JoystickButton(ControllerMap.operator, ControllerMap.B)
+        .whenHeld(new ShootCommand(shooterSystem, shooterSystem.topWheel(), .8));
+    new JoystickButton(ControllerMap.operator, ControllerMap.B)
+        .whenHeld(new ShootCommand(shooterSystem, shooterSystem.bottomWheel(), .8));
+
     new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveHowitzer(howitzerSystem, 5));
     new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveHowitzer(howitzerSystem, -5));
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

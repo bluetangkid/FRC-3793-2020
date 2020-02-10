@@ -24,13 +24,7 @@ public class ColorWheelCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cw_System);
   }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    cw_System.setColorWheel(.5);
-  }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -45,13 +39,8 @@ public class ColorWheelCommand extends CommandBase {
     }
     if (spinCount >= 3.5) {
       cw_System.setColorWheel(0);
-    }
+    } else cw_System.setColorWheel(.5);
     timer++;
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

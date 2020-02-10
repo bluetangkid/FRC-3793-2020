@@ -19,6 +19,8 @@ public enum RobotMap {
 
     BALL_STOPPER_MOTOR(0),
 
+    INTAKE_VICTOR(0),
+
     CONVEYOR_VICTOR(0), COLOR_VICTOR(0),
 
     TOP_SHOOTER(0), BOTTOM_SHOOTER(0),

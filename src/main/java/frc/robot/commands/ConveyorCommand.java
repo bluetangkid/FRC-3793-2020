@@ -14,7 +14,6 @@ import frc.robot.subsystems.ConveyorSystem;
  * An example command that uses an example subsystem.
  */
 public class ConveyorCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private ConveyorSystem C_system;
 
   /**
@@ -28,20 +27,10 @@ public class ConveyorCommand extends CommandBase {
     addRequirements(C_system);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
       C_system.setVictor(.75);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

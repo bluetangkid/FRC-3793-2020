@@ -23,7 +23,7 @@ public class ShootCommand extends PIDCommand {
   private ShooterSystem myShooterSystem;
 
   public ShootCommand(ShooterSystem sys, CANSparkMax motor, Double setpoint) {
-  
+  //TODO Update to spark max
     super(
         // The controller that the command will use
         new PIDController(.1, .0015, .0005),
@@ -55,5 +55,5 @@ public class ShootCommand extends PIDCommand {
 
   protected void setSetpoint(double setpoint){
     super.m_controller.setSetpoint(setpoint);
-    }
+  }
 }

@@ -17,27 +17,17 @@ public class IntakeCommand extends CommandBase {
    * Creates a new IntakeCommand.
    */
 
-   private IntakeSystem m_subsystem;
+  private IntakeSystem m_subsystem;
   public IntakeCommand(IntakeSystem I_System) {
     m_subsystem = I_System;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(I_System);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+  @Override//TODO motors will stay spinning, make doNothing set it to 0 or something
   public void execute() {
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, .8);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

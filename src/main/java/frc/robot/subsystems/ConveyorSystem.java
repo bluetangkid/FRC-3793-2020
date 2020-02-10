@@ -18,16 +18,12 @@ public class ConveyorSystem extends SubsystemBase {
    * Creates a new ConveyorSystem.
    */
   private VictorSPX conveyorVictor;
+
   public ConveyorSystem() {
-  conveyorVictor = new VictorSPX(RobotMap.CONVEYOR_VICTOR.getPin());
+    conveyorVictor = new VictorSPX(RobotMap.CONVEYOR_VICTOR.getPin());
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  public void setVictor( double speed) {
+  public void setVictor(double speed) {
     conveyorVictor.set(ControlMode.PercentOutput, speed);
   }
 }

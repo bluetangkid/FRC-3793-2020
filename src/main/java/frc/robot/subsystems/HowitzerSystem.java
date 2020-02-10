@@ -33,8 +33,6 @@ public class HowitzerSystem extends SubsystemBase {
   final double lengthOfHowitzerIn = 40;
   public double howitzerAngle;
 
-  
-
   public HowitzerSystem() {
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
     aimTalon.configFactoryDefault();
@@ -51,7 +49,6 @@ public class HowitzerSystem extends SubsystemBase {
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     horizontalOffset = limelightTable.getEntry("tx");
-
   }
 
   @Override

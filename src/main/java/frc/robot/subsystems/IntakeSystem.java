@@ -10,14 +10,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class IntakeSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystem.
    */
   private VictorSPX intakeMotor;
+
   public IntakeSystem() {
-  intakeMotor = new VictorSPX(0);
+    intakeMotor = new VictorSPX(RobotMap.INTAKE_VICTOR.getPin());
   }
 
   @Override
@@ -25,8 +27,8 @@ public class IntakeSystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-public VictorSPX getIntakeMotor(){
-  return intakeMotor;
-}
+  public VictorSPX getIntakeMotor() {
+    return intakeMotor;
+  }
 
 }

@@ -21,8 +21,8 @@ public class ShooterSystem extends SubsystemBase {
   CANSparkMax bottomWheel;
 
   public ShooterSystem() {
-  topWheel = new CANSparkMax(RobotMap.TOP_SHOOTER.getPin(), MotorType.kBrushless);
-  bottomWheel = new CANSparkMax(RobotMap.BOTTOM_SHOOTER.getPin(), MotorType.kBrushless);
+    topWheel = new CANSparkMax(RobotMap.TOP_SHOOTER.getPin(), MotorType.kBrushless);
+    bottomWheel = new CANSparkMax(RobotMap.BOTTOM_SHOOTER.getPin(), MotorType.kBrushless);
   }
 
   @Override
@@ -30,11 +30,11 @@ public class ShooterSystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public CANSparkMax topWheel(){
+  public CANSparkMax topWheel() {
     return topWheel;
   }
 
-  public CANSparkMax bottomWheel(){
+  public CANSparkMax bottomWheel() {
     return bottomWheel;
   }
 }

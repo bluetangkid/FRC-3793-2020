@@ -20,9 +20,9 @@ public class ArcadeDrive extends CommandBase {
    * Creates a new NormalDrive.
    */
   DriveSystem myDrive;
-  double m_leftStick;
-  double m_leftTrigger;
-  double m_rightTrigger;
+  // double m_leftStick;
+  // double m_leftTrigger;
+  // double m_rightTrigger;
   XboxController controller;
 
   public ArcadeDrive(DriveSystem m_Drive, XboxController controller) {
@@ -32,20 +32,13 @@ public class ArcadeDrive extends CommandBase {
     addRequirements(myDrive);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
   double dif;
-  m_leftTrigger = controller.getTriggerAxis(Hand.kLeft);
-  m_rightTrigger = controller.getTriggerAxis(Hand.kRight);
-  m_leftStick = controller.getX();
-  double leftY =  m_leftTrigger - m_rightTrigger;
+  double leftY = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
+  double m_leftStick = controller.getX();
 
   if (Math.abs(leftY) < .05)
     dif = 0.0;
@@ -103,11 +96,6 @@ public class ArcadeDrive extends CommandBase {
     } else {
         return 0.0;
     }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

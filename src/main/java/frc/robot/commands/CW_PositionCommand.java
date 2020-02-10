@@ -30,35 +30,27 @@ public class CW_PositionCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    switch (specifiedColor)
-    {
-case "R":
-desiredColor = CW_System.RED;
-case "B":
-desiredColor = CW_System.BLUE;
-case "G":
-desiredColor = CW_System.GREEN;
-case "Y":
-desiredColor= CW_System.YELLOW;
+    switch (specifiedColor) {
+      case "R":
+      desiredColor = CW_System.RED;
+      case "B":
+      desiredColor = CW_System.BLUE;
+      case "G":
+      desiredColor = CW_System.GREEN;
+      case "Y":
+      desiredColor= CW_System.YELLOW;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(CW_System.isColor(desiredColor))
-    {
-CW_System.setColorWheel(0);
+    if(CW_System.isColor(desiredColor)) {
+      CW_System.setColorWheel(0);
     }
-    else
-    {
+    else {
       CW_System.setColorWheel(.2);
     }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.

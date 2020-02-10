@@ -19,13 +19,7 @@ public class BallStopperSystem extends SubsystemBase {
    */
   TalonSRX ballStopperTalon;
   public BallStopperSystem() {
-  ballStopperTalon = new TalonSRX(RobotMap.BALL_STOPPER_MOTOR.getPin());
-   
-}
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  ballStopperTalon = new TalonSRX(RobotMap.BALL_STOPPER_MOTOR.getPin()); 
   }
 
   public void setTalon(double d) {

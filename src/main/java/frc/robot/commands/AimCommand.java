@@ -16,7 +16,7 @@ public class AimCommand extends CommandBase {
   /**
    * Creates a new AimCommand.
    */
-
+//TODO a single button can do this in parallel
    HowitzerSystem m_HowitzerSystem;
    DriveSystem m_DriveSystem;
 
@@ -35,24 +35,13 @@ public class AimCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     m_DriveSystem.setDefaultCommand(new FollowPath(m_DriveSystem, FindPath.getTurn(m_HowitzerSystem.xOffset)));// is this right?
     m_HowitzerSystem.goToAngle(calculatedAngle);
-  
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
