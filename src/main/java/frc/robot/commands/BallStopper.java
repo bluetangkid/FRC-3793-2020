@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallStopperSystem;
-import frc.robot.subsystems.ConveyorSystem;
 
 /**
  * An example command that uses an example subsystem.

@@ -85,11 +85,11 @@ public class ArcadeDrive extends CommandBase {
   }
   //kF is 1/target speed(or 12 because voltage)
   if(lNum == 0 && dif == 0) {
-    myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity, 0);
-    myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity, 0);
+    myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
+    myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
   } else {
-    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput*Constants.maxVelocity, ControlType.kVelocity, 0);
-    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput*Constants.maxVelocity, ControlType.kVelocity, 0);
+    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput*Constants.maxVelocity/60f, ControlType.kVelocity);
+    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput*Constants.maxVelocity/60f, ControlType.kVelocity);
   }
 }
 
