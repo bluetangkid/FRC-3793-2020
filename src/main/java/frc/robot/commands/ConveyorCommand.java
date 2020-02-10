@@ -7,12 +7,8 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ConveyorSystem;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 /**
  * An example command that uses an example subsystem.
@@ -20,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 public class ConveyorCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private ConveyorSystem C_system;
-  private BooleanSupplier activateButton;
 
   /**
    * Creates a new ExampleCommand.
