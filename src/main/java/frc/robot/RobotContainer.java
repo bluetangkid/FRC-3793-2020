@@ -13,6 +13,7 @@ import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.moveHowitzer;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.BallStopperSystem;
