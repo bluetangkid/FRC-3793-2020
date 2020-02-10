@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,8 +18,7 @@ public class IntakeCommand extends CommandBase {
    */
 
    private IntakeSystem m_subsystem;
-
-  public IntakeCommand(IntakeSystem I_System ) {
+  public IntakeCommand(IntakeSystem I_System) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(I_System);
   }
