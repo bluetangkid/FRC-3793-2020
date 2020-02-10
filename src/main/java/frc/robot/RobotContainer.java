@@ -9,8 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.NormalDrive;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
@@ -22,6 +24,7 @@ import frc.robot.subsystems.HowitzerSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,7 +40,7 @@ public class RobotContainer {
 
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
   private final ClimbSystem climbSystem = new ClimbSystem();
-  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem(cw);
+  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem(null);
   private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
   private final HowitzerSystem howitzerSystem = new HowitzerSystem();
@@ -51,7 +54,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
+    
   }
 
   /**
@@ -61,6 +64,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld( new IntakeCommand(intakeSystem));
+    new JoystickButton(ControllerMap.operator, ControllerMap.LB).whenHeld(new AimCommand(howitzerSystem, driveSystem));
+
+    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
 
 
