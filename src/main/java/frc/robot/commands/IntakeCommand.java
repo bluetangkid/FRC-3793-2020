@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
+
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -20,8 +20,8 @@ public class IntakeCommand extends CommandBase {
    */
 
    private IntakeSystem m_subsystem;
-   private BooleanSupplier button;
-  public IntakeCommand(IntakeSystem I_System, BooleanSupplier ) {
+
+  public IntakeCommand(IntakeSystem I_System ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(I_System);
   }
