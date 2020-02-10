@@ -23,7 +23,7 @@ public class ConveyorCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public ConveyorCommand(ConveyorSystem C_system) {
-    
+    this.C_system = C_system;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
   }

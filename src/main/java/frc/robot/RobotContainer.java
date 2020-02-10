@@ -12,11 +12,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ConveyorCommand;
-import frc.robot.commands.ExampleCommand;<<<<<<<HEAD
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.NormalDrive;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.moveHowitzer;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -36,9 +34,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
   private final ClimbSystem climbSystem = new ClimbSystem();
   private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
@@ -85,6 +80,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return null;
     // An ExampleCommand will run in autonomous
   }
 }
