@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HowitzerSystem;
 
-public class moveHowitzer extends CommandBase {
+public class moveDeltaHowitzer extends CommandBase {
   /**
    * Creates a new upHowitzer.
    */
@@ -20,7 +20,7 @@ public class moveHowitzer extends CommandBase {
 
   
 
-  public moveHowitzer(HowitzerSystem howitzerSystem, double degrees) {
+  public moveDeltaHowitzer(HowitzerSystem howitzerSystem, double degrees) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     m_HowitzerSystem = howitzerSystem;
