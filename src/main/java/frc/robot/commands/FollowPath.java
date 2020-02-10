@@ -1,19 +1,15 @@
 package frc.robot.commands;
 
-import java.util.ArrayList;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
+import frc.robot.subsystems.DriveSystem;
 
 public class FollowPath extends RamseteCommand {
-    FollowPath(Supplier<Pose2d> pose, BiConsumer<Double, Double> output) {
-        super(new Trajectory(new ArrayList<State>()), pose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), output, null);
+    DriveSystem d_system;
+    FollowPath(DriveSystem d_system, Trajectory trajectory) {
+        super(trajectory, d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
     }
 }
