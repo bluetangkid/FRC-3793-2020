@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -16,16 +17,14 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class HowitzerSystem extends SubsystemBase {
   /**
    * Creates a new HowitzerSystem.
    */
-  VictorSPX aimVictor;
   public TalonSRX aimTalon;
-
-  public PIDController howitzerController;
   
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
@@ -39,8 +38,18 @@ public class HowitzerSystem extends SubsystemBase {
   
 
   public HowitzerSystem() {
-    aimVictor = new VictorSPX(RobotMap.AIM_VICTOR.getPin());
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
+    aimTalon.configFactoryDefault();
+    aimTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    aimTalon.config_kP(0, Constants.kPHow);
+    aimTalon.config_kI(0, Constants.kIHow);
+    aimTalon.config_kD(0, Constants.kDHow);
+    aimTalon.configNominalOutputForward(0, Constants.timeoutMs);
+		aimTalon.configNominalOutputReverse(0, Constants.timeoutMs);
+		aimTalon.configPeakOutputForward(1, Constants.timeoutMs);
+		aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
+    aimTalon.configAllowableClosedloopError(0, 50);
+    
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     horizontalOffset = limelightTable.getEntry("tx");

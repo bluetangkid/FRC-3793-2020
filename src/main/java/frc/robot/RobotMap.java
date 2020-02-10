@@ -15,7 +15,7 @@ public enum RobotMap {
 
     CLIMB_MOTOR(0),
 
-    AIM_VICTOR(0), AIM_TALON(0),
+    AIM_TALON(0),
 
     BALL_STOPPER_MOTOR(0),
 

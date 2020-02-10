@@ -31,4 +31,8 @@ public final class Constants {
     public final static double kPRight = 0;
     public final static double kIRight = 0;
     public final static double kDRight = 0;
+    public final static int timeoutMs = 500;
+    public final static double kPHow = 0;
+    public final static double kIHow = 0;
+    public final static double kDHow = 0;
 }
