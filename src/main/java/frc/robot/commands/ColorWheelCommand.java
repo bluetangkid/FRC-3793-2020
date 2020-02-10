@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheelSystem;
 
@@ -21,6 +20,7 @@ public class ColorWheelCommand extends CommandBase {
   double spinCount = 0;
 
   public ColorWheelCommand(ColorWheelSystem cw_System) {
+    this.cw_System = cw_System;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cw_System);
   }

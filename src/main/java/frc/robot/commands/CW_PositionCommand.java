@@ -22,6 +22,7 @@ public class CW_PositionCommand extends CommandBase {
 
   
   public CW_PositionCommand(ColorWheelSystem CW_System) {
+    this.CW_System = CW_System;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(CW_System);
   }

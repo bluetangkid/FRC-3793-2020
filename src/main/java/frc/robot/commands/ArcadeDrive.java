@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.XboxController;

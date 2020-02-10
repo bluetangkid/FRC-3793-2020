@@ -11,15 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
-<<<<<<< HEAD
-import frc.robot.commands.ExampleCommand;
-<<<<<<< HEAD
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.NormalDrive;
-=======
->>>>>>> 7342aaa170f0689983ea6f0494800e7b66f0aaba
-=======
->>>>>>> b88a421c2fc1af8e2d929e45042113f848a43e80
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -39,9 +31,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
   private final ClimbSystem climbSystem = new ClimbSystem();
   private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
