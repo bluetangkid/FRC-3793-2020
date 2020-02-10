@@ -36,7 +36,7 @@ public class RobotContainer {
 
   private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
   private final ClimbSystem climbSystem = new ClimbSystem();
-  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem(cw);
+  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
   private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
   private final HowitzerSystem howitzerSystem = new HowitzerSystem();
