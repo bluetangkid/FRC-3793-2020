@@ -15,6 +15,7 @@ import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.moveHowitzer;
+import frc.robot.commands.moveToHowitzer;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -69,8 +70,8 @@ public class RobotContainer {
     new JoystickButton(ControllerMap.operator, ControllerMap.B)
         .whenHeld(new ShootCommand(shooterSystem, shooterSystem.bottomWheel(), .8));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveHowitzer(howitzerSystem, 5));
-    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveHowitzer(howitzerSystem, -5));
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));
+    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveToHowitzer(howitzerSystem, -5));
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
 
