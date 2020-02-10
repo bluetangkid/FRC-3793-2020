@@ -10,8 +10,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.commands.FollowPath;
 
 public class DriveSystem extends SubsystemBase {
   /**
@@ -21,6 +26,9 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
+
+  private FollowPath pathFollower;
+  private Pose2d pose;
 
   public DriveSystem() {
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
@@ -34,6 +42,10 @@ public class DriveSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("leftWheel", leftMotorOne.getEncoder().getPosition());
+    SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder().getPosition());
+    Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
+    pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
   }
 
   public CANSparkMax getLeftMotorOne() {
@@ -50,6 +62,10 @@ public class DriveSystem extends SubsystemBase {
 
   public CANSparkMax getRightMotorTwo() {
     return rightMotorTwo;
+  }
+
+  public Pose2d getPose(){
+    return pose;
   }
 
 }
