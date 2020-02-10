@@ -10,8 +10,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -23,27 +21,19 @@ public class DriveSystem extends SubsystemBase implements DriveBase{
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
-  private SpeedControllerGroup left;
-  private SpeedControllerGroup right;
-  private DifferentialDrive drive;
 
   public DriveSystem() {
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     leftMotorTwo = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
-    left = new SpeedControllerGroup(leftMotorOne, leftMotorTwo);
-    right = new SpeedControllerGroup(rightMotorOne, rightMotorTwo);
-    drive = new DifferentialDrive(left, right);
+    leftMotorTwo.follow(leftMotorOne);
+    rightMotorTwo.follow(rightMotorOne);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  public DifferentialDrive getDrive() {
-    return drive;
   }
 
   public CANSparkMax getLeftMotorOne() {
@@ -60,14 +50,6 @@ public class DriveSystem extends SubsystemBase implements DriveBase{
 
   public CANSparkMax getRightMotorTwo() {
     return rightMotorTwo;
-  }
-
-  public SpeedControllerGroup getLeft() {
-    return left;
-  }
-
-  public SpeedControllerGroup getRight() {
-    return right;
   }
 
 }

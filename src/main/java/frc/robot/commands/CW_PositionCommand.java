@@ -7,34 +7,52 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ColorWheelSystem;
 
-public class IntakeCommand extends CommandBase {
+public class CW_PositionCommand extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new CW_PositionCommand.
    */
+  ColorWheelSystem CW_System;
+  String specifiedColor = DriverStation.getInstance().getGameSpecificMessage();;
+  Color8Bit desiredColor;
 
-   private IntakeSystem m_subsystem;
-   private BooleanSupplier button;
-  public IntakeCommand(IntakeSystem I_System, BooleanSupplier ) {
+  
+  public CW_PositionCommand(ColorWheelSystem CW_System) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(I_System);
+    addRequirements(CW_System);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    switch (specifiedColor)
+    {
+case "R":
+desiredColor = CW_System.RED;
+case "B":
+desiredColor = CW_System.BLUE;
+case "G":
+desiredColor = CW_System.GREEN;
+case "Y":
+desiredColor= CW_System.YELLOW;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, .8);
+    if(CW_System.isColor(desiredColor))
+    {
+CW_System.setColorWheel(0);
+    }
+    else
+    {
+      CW_System.setColorWheel(.2);
+    }
   }
 
   // Called once the command ends or is interrupted.

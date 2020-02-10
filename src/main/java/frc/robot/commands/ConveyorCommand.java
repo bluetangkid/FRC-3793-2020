@@ -19,8 +19,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
  */
 public class ConveyorCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  ConveyorSystem C_system;
-  BooleanSupplier activateButton;
+  private ConveyorSystem C_system;
+  private BooleanSupplier activateButton;
 
   /**
    * Creates a new ExampleCommand.
@@ -41,7 +41,7 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      C_system.conveyorVictor.set(ControlMode.PercentOutput,.75);
+      C_system.setVictor(.75);
   }
 
   // Called once the command ends or is interrupted.
