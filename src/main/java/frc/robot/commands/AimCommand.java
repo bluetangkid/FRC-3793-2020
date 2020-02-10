@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.FindPath;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
 
@@ -39,8 +40,8 @@ public class AimCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  //turnTo(m_HowitzerSystem.xOffset);
-  m_HowitzerSystem.goToAngle(calculatedAngle);
+    m_DriveSystem.setDefaultCommand(new FollowPath(m_DriveSystem, FindPath.getTurn(m_HowitzerSystem.xOffset)));// is this right?
+    m_HowitzerSystem.goToAngle(calculatedAngle);
   
   }
 

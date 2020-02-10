@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.commands.FollowPath;
 
 public class DriveSystem extends SubsystemBase implements DriveBase{
   /**
@@ -29,8 +28,6 @@ public class DriveSystem extends SubsystemBase implements DriveBase{
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
-
-  private FollowPath pathFollower;
   private Pose2d pose;
 
   public DriveSystem() {
