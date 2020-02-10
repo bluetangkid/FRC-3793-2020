@@ -10,7 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.NormalDrive;
+import frc.robot.subsystems.BallStopperSystem;
+import frc.robot.subsystems.ClimbSystem;
+import frc.robot.subsystems.ColorWheelSystem;
+import frc.robot.subsystems.ConveyorSystem;
+import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.HowitzerSystem;
+import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -25,13 +34,24 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
+  private final ClimbSystem climbSystem = new ClimbSystem();
+  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem(cw);
+  private final ConveyorSystem conveyorSystem = new ConveyorSystem();
+  private final DriveSystem driveSystem = new DriveSystem();
+  private final HowitzerSystem howitzerSystem = new HowitzerSystem();
+  private final IntakeSystem intakeSystem = new IntakeSystem();
+  private final ShooterSystem shooterSystem = new ShooterSystem();
 
+  NormalDrive drive;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    driveSystem.setDefaultCommand(new Drive(driveSystem,ControllerMap.driver).perpetually());
   }
 
   /**
