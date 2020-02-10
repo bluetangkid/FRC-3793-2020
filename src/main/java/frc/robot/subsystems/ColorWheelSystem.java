@@ -115,9 +115,9 @@ public void dispColor() {
 public void goToColor(Color8Bit desiredColor){
 
   if(!isColor(desiredColor)){
-      colorWheel.set(.8);
+      colorWheel.set(ControlMode.PercentOutput, .8);
   }else{
-      colorWheel.set(0);
+      colorWheel.set(ControlMode.PercentOutput, 0);
   }
   
 }
