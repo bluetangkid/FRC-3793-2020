@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class DriveSystem extends SubsystemBase {
+public class DriveSystem extends SubsystemBase implements DriveBase{
   /**
    * Creates a new DriveSystem.
    */

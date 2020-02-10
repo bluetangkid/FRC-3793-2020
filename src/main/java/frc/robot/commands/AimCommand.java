@@ -19,6 +19,8 @@ public class AimCommand extends CommandBase {
    HowitzerSystem m_HowitzerSystem;
    DriveSystem m_DriveSystem;
 
+   double calculatedAngle;
+
    
   public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,8 +39,8 @@ public class AimCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  turnTo(m_HowitzerSystem.xOffset);
-  m_HowitzerSystem.goToAngle(angle);
+  //turnTo(m_HowitzerSystem.xOffset);
+  m_HowitzerSystem.goToAngle(calculatedAngle);
   
   }
 
