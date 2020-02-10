@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.NormalDrive;
 import frc.robot.subsystems.BallStopperSystem;
@@ -43,7 +44,6 @@ public class RobotContainer {
   private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
-  NormalDrive drive;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -51,7 +51,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    driveSystem.setDefaultCommand(new Drive(driveSystem,ControllerMap.driver).perpetually());
+    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
 
   /**
