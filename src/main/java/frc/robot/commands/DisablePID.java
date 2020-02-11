@@ -13,6 +13,7 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANPIDController.AccelStrategy;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
@@ -21,8 +22,15 @@ import frc.robot.subsystems.ShooterSystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DisablePID extends InstantCommand {
+public class DisablePID extends CommandBase {
+  CANSparkMax motor;
   public DisablePID(CANSparkMax motor) {
+    this.motor = motor;
+  }
+
+  @Override
+  public void end(boolean forced) {
+    super.end(forced);
     motor.getPIDController().setReference(0, ControlType.kVelocity);
   }
 }
