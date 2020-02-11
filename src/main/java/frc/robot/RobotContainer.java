@@ -65,7 +65,9 @@ public class RobotContainer {
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     driveSystem.setDefaultCommand(new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get));
 
-    new JoystickButton(ControllerMap.driver, ControllerMap.RB).whenHeld(new ClimbCommand(climbSystem));
+    JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1), new ClimbCommand(climbSystem, -1), climb::get);
+    climbCommand.initialize();
 
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem).alongWith(new ConveyorCommand(conveyorSystem)));
 

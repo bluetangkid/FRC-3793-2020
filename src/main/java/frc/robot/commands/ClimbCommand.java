@@ -22,8 +22,10 @@ public class ClimbCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ClimbCommand(ClimbSystem C_system) {
+  int dir;
+  public ClimbCommand(ClimbSystem C_system, int dir) {
     this.C_system = C_system;
+    this.dir = dir;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
   }
@@ -31,7 +33,7 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        C_system.set(Constants.climbSpeed);
+    C_system.set(Constants.climbSpeed*dir);
   }
 
   @Override

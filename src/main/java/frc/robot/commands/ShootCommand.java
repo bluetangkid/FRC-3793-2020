@@ -17,7 +17,15 @@ import frc.robot.Constants;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class ShootCommand extends InstantCommand {
-  public ShootCommand(CANSparkMax motor, Double setpoint) {
+  CANSparkMax motor;
+  double setpoint;
+  public ShootCommand(CANSparkMax motor, double setpoint) {
+    this.motor = motor;
+    this.setpoint = setpoint;
+  }
+
+  public void execute() {
+    super.execute();
     motor.getPIDController().setP(Constants.kPShooter);
     motor.getPIDController().setI(Constants.kIShooter);
     motor.getPIDController().setD(Constants.kDShooter);

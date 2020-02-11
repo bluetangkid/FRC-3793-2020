@@ -8,9 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.HowitzerSystem;
 
-public class moveToHowitzer extends CommandBase {
+public class moveToHowitzer extends InstantCommand {
   /**
    * Creates a new moveToHowitzer.
    */
@@ -18,32 +19,13 @@ public class moveToHowitzer extends CommandBase {
    HowitzerSystem m_HowitzerSystem;
    double m_angle;
   public moveToHowitzer(HowitzerSystem howitzerSystem, double angle) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_HowitzerSystem = howitzerSystem;
     m_angle = angle;
-    addRequirements(howitzerSystem);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+    m_HowitzerSystem = howitzerSystem;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     m_HowitzerSystem.goToAngle(m_angle);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return m_HowitzerSystem.aimTalon.isMotionProfileFinished();
   }
 }//TODO change this to a instant command
