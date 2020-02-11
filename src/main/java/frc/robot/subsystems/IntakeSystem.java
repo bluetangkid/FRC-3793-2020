@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,6 +30,11 @@ public class IntakeSystem extends SubsystemBase {
 
   public VictorSPX getIntakeMotor() {
     return intakeMotor;
+  }
+
+  public IntakeSystem setMotor(double d){
+    intakeMotor.set(ControlMode.PercentOutput, d);
+    return this;
   }
 
 }

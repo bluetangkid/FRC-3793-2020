@@ -15,7 +15,7 @@ import frc.robot.subsystems.ConveyorSystem;
  */
 public class ConveyorCommand extends CommandBase {
   private ConveyorSystem C_system;
-
+  double speed;
   /**
    * Creates a new ExampleCommand.
    *
@@ -23,6 +23,7 @@ public class ConveyorCommand extends CommandBase {
    */
   public ConveyorCommand(ConveyorSystem C_system) {
     this.C_system = C_system;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
   }
@@ -30,7 +31,13 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      C_system.setVictor(.75);
+      C_system.setVictor(.8);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    C_system.setVictor(0);
   }
 
   // Returns true when the command should end.

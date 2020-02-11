@@ -36,4 +36,8 @@ public final class Constants {
     public final static double kPHow = 0;
     public final static double kIHow = 0;
     public final static double kDHow = 0;
+    public final static double kPShooter = .1;
+    public final static double kIShooter = .0015;
+    public final static double kDShooter = .0005;
+    public final static double shooterSpeed = 60;
 }

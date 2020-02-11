@@ -21,12 +21,8 @@ import frc.robot.subsystems.ShooterSystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootCommand extends InstantCommand {
-  public ShootCommand(CANSparkMax motor, Double setpoint) {
-    motor.getPIDController().setP(Constants.kPShooter);
-    motor.getPIDController().setI(Constants.kIShooter);
-    motor.getPIDController().setD(Constants.kDShooter);
-    motor.getPIDController().setReference(setpoint, ControlType.kVelocity);
-    motor.getPIDController().setFeedbackDevice(motor.getEncoder(EncoderType.kQuadrature, 8192));
+public class DisablePID extends InstantCommand {
+  public DisablePID(CANSparkMax motor) {
+    motor.getPIDController().setReference(0, ControlType.kVelocity);
   }
 }

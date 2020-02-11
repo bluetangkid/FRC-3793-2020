@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ConveyorCommand;
+import frc.robot.commands.DisablePID;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.moveHowitzer;
 import frc.robot.commands.moveToHowitzer;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.HowitzerSystem;
 import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -60,19 +62,22 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
+    driveSystem.setDefaultCommand(new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem));
-    new JoystickButton(ControllerMap.operator, ControllerMap.LB).whenHeld(new AimCommand(howitzerSystem, driveSystem));
-    new JoystickButton(ControllerMap.operator, ControllerMap.RB).whenHeld(new ConveyorCommand(conveyorSystem));
+    JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    climb.whenHeld(new ClimbCommand(climbSystem));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.B)
-        .whenHeld(new ShootCommand(shooterSystem, shooterSystem.topWheel(), .8));
-    new JoystickButton(ControllerMap.operator, ControllerMap.B)
-        .whenHeld(new ShootCommand(shooterSystem, shooterSystem.bottomWheel(), .8));
+    JoystickButton intake = new JoystickButton(ControllerMap.operator, ControllerMap.A);
+    intake.whenHeld(new IntakeCommand(intakeSystem).alongWith(new ConveyorCommand(conveyorSystem)));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));
+    JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
+    Command top = new ConditionalCommand(new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed), new DisablePID(shooterSystem.topWheel()), shooter::get);
+    Command bottom = new ConditionalCommand(new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed), new DisablePID(shooterSystem.bottomWheel()), shooter::get);
+    shooter.whenHeld(top.alongWith(bottom));//TODO Setpoint is in TPS, so .8 makes no sense. Also, it won't let disablePID run ever since false just canceles conditional command
+    
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));//these shouldn't move it, just add an offset to the target that aimcommand goes to
     new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveToHowitzer(howitzerSystem, -5));
-    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
   }
 
   /**

@@ -20,9 +20,6 @@ public class ArcadeDrive extends CommandBase {
    * Creates a new NormalDrive.
    */
   DriveSystem myDrive;
-  // double m_leftStick;
-  // double m_leftTrigger;
-  // double m_rightTrigger;
   XboxController controller;
 
   public ArcadeDrive(DriveSystem m_Drive, XboxController controller) {

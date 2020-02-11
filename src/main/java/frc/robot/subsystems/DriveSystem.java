@@ -41,8 +41,8 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.getPIDController().setP(Constants.kPRight);
     rightMotorOne.getPIDController().setI(Constants.kIRight);
     rightMotorOne.getPIDController().setD(Constants.kDRight);
-    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 1024));
-    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 1024));
+    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
+    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
     //remember to config the PIDs for all the motors or it won't work

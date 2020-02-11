@@ -30,6 +30,11 @@ public class IntakeCommand extends CommandBase {
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, .8);
   }
 
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
