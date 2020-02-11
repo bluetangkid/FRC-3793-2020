@@ -16,7 +16,7 @@ public class AimCommand extends CommandBase {
   /**
    * Creates a new AimCommand.
    */
-//TODO a single button can do this in parallel
+  //TODO a single button can do this in parallel
    HowitzerSystem m_HowitzerSystem;
    DriveSystem m_DriveSystem;
 

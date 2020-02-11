@@ -10,6 +10,7 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeCommand extends CommandBase {
@@ -25,9 +26,9 @@ public class IntakeCommand extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override//TODO motors will stay spinning, make doNothing set it to 0 or something
+  @Override
   public void execute() {
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, .8);
+    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, Constants.intakeSpeed);
   }
 
   public void end(boolean interrupted) {

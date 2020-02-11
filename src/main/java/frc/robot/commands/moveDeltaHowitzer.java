@@ -18,8 +18,6 @@ public class moveDeltaHowitzer extends CommandBase {
 
   double deltaDegrees;
 
-  
-
   public moveDeltaHowitzer(HowitzerSystem howitzerSystem, double degrees) {
     // Use addRequirements() here to declare subsystem dependencies.
 

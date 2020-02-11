@@ -72,7 +72,7 @@ public class RobotContainer {
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.topWheel()));
     Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.bottomWheel()));
-    shooter.whenHeld(top.alongWith(bottom));//TODO Setpoint is in TPS, so .8 makes no sense
+    shooter.whenHeld(top.alongWith(bottom));
     
     new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));//these shouldn't move it, just add an offset to the target that aimcommand goes to
     new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveToHowitzer(howitzerSystem, -5));

@@ -46,4 +46,4 @@ public class moveToHowitzer extends CommandBase {
   public boolean isFinished() {
     return m_HowitzerSystem.aimTalon.isMotionProfileFinished();
   }
-}
+}//TODO change this to a instant command

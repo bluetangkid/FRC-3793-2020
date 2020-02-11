@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class ColorWheelSystem extends SubsystemBase {
@@ -99,7 +100,7 @@ public class ColorWheelSystem extends SubsystemBase {
   public void goToColor(Color8Bit desiredColor) {
 
     if (!isColor(desiredColor)) {
-      colorWheel.set(ControlMode.PercentOutput, .8);
+      colorWheel.set(ControlMode.PercentOutput, Constants.colorWheelSpeed);
     } else {
       colorWheel.set(ControlMode.PercentOutput, 0);
     }
