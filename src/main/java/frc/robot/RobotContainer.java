@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.ColorWheelCommand;
 import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.IntakeCommand;
@@ -52,7 +54,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
   }
 
   /**
@@ -69,7 +70,9 @@ public class RobotContainer {
     ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1), new ClimbCommand(climbSystem, -1), climb::get);
     climbCommand.initialize();
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem).alongWith(new ConveyorCommand(conveyorSystem)));
+    new JoystickButton(ControllerMap.operator, ControllerMap.back).whenPressed(new ColorWheelCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
+
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem).alongWith(new ConveyorCommand(conveyorSystem, shooterSystem, ballStopperSystem)));
 
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.topWheel()));

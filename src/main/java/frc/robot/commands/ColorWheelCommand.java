@@ -37,15 +37,15 @@ public class ColorWheelCommand extends CommandBase {
         spinCount += .5;
       }
     }
-    if (spinCount >= 3.5) {
-      cw_System.setColorWheel(0);
-    } else cw_System.setColorWheel(.5);
+    if (spinCount < 3.5) {
+      cw_System.setColorWheel(.5);
+    }
     timer++;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return spinCount >= 3.5;
   }
 }
