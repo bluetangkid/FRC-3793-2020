@@ -8,9 +8,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 public class ShooterSystem extends SubsystemBase {
@@ -36,5 +38,9 @@ public class ShooterSystem extends SubsystemBase {
 
   public CANSparkMax bottomWheel() {
     return bottomWheel;
+  }
+
+  public boolean mayShoot() {
+    return topWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9*Constants.shooterSpeed && bottomWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9*Constants.shooterSpeed;
   }
 }

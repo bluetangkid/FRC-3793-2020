@@ -8,7 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ConveyorSystem;
+import frc.robot.subsystems.ShooterSystem;
 
 /**
  * An example command that uses an example subsystem.
@@ -20,8 +23,12 @@ public class ConveyorCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ConveyorCommand(ConveyorSystem C_system) {
+  ShooterSystem shooter;
+  BallStopperSystem B_system;
+  public ConveyorCommand(ConveyorSystem C_system, ShooterSystem shooter, BallStopperSystem B_system) {
     this.C_system = C_system;
+    this.shooter = shooter;
+    this.B_system = B_system;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
   }
@@ -29,7 +36,9 @@ public class ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      C_system.setVictor(.8);
+    B_system.setTalon(-1);
+    if(shooter.mayShoot())
+      C_system.setVictor(Constants.conveyorSpeed);
   }
 
   @Override

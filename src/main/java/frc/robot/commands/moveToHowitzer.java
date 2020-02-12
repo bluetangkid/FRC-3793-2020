@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.HowitzerSystem;
 
@@ -15,7 +14,6 @@ public class moveToHowitzer extends InstantCommand {
   /**
    * Creates a new moveToHowitzer.
    */
-
    HowitzerSystem m_HowitzerSystem;
    double m_angle;
   public moveToHowitzer(HowitzerSystem howitzerSystem, double angle) {
@@ -28,4 +26,4 @@ public class moveToHowitzer extends InstantCommand {
   public void execute() {
     m_HowitzerSystem.goToAngle(m_angle);
   }
-}//TODO change this to a instant command
+}
