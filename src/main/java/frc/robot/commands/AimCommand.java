@@ -42,6 +42,7 @@ public class AimCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    m_DriveSystem.setDefaultCommand();
     return true;
   }
 }

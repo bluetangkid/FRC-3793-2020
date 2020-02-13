@@ -7,14 +7,18 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelCommand;
 import frc.robot.commands.DisablePID;
+import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.moveToHowitzer;
@@ -63,8 +67,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    driveSystem.setDefaultCommand(new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get));
+    Command aimTarget = new FollowPath(driveSystem, FindPath.getTurn(angle));
+    new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get);
+    
+    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    Command getBall = new FollowPath(driveSystem, FindPath.generateTrajectory(start, end, new ArrayList<Translation2d>()));//TODO the FindPath won't dynamically update, use a doubleSupplier
+    new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get);
 
+    //TODO Can't do RB for driver check the diagram
     JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1), new ClimbCommand(climbSystem, -1), climb::get);
     climbCommand.initialize();
