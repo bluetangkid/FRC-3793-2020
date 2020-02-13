@@ -16,8 +16,9 @@ public class moveToHowitzer extends InstantCommand {
    * Creates a new moveToHowitzer.
    */
 
-   HowitzerSystem m_HowitzerSystem;
-   double m_angle;
+  HowitzerSystem m_HowitzerSystem;
+  double m_angle;
+
   public moveToHowitzer(HowitzerSystem howitzerSystem, double angle) {
     m_angle = angle;
     m_HowitzerSystem = howitzerSystem;
@@ -28,4 +29,4 @@ public class moveToHowitzer extends InstantCommand {
   public void execute() {
     m_HowitzerSystem.goToAngle(m_angle);
   }
-}//TODO change this to a instant command
+}// TODO change this to a instant command

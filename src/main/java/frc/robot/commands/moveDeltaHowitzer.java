@@ -29,13 +29,13 @@ public class moveDeltaHowitzer extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_HowitzerSystem.goToAngle(m_HowitzerSystem.howitzerAngle+deltaDegrees);
+    m_HowitzerSystem.goToAngle(m_HowitzerSystem.howitzerAngle + deltaDegrees);
   }
 
   // Called once the command ends or is interrupted.

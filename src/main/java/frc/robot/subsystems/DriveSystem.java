@@ -45,7 +45,7 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
-    //remember to config the PIDs for all the motors or it won't work
+    // remember to config the PIDs for all the motors or it won't work
   }
 
   @Override
@@ -73,9 +73,10 @@ public class DriveSystem extends SubsystemBase {
     return rightMotorTwo;
   }
 
-  public Pose2d getPose(){
+  public Pose2d getPose() {
     return pose;
   }
+
   public void setMotorVelocity(double left, double right) {
     leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity);
     rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity);
