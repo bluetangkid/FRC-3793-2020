@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -46,9 +45,7 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
     aimTalon.configAllowableClosedloopError(0, 50);
 
-    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-
-    horizontalOffset = limelightTable.getEntry("tx");
+    
   }
 
   @Override

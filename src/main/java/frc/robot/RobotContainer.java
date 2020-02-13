@@ -11,11 +11,14 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.BallHandler;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
@@ -50,6 +53,8 @@ public class RobotContainer {
   private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
+  private final BallHandler ballHandler = new BallHandler();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -57,7 +62,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
-//TODO enable current limits for all motors and make power budget
+
+  // TODO enable current limits for all motors and make power budget
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -65,21 +71,30 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    ballHandler.schedule();
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    Command aimTarget = new FollowPath(driveSystem, FindPath.getTurn(angle));
-    new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get);
-    
-    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    Command getBall = new FollowPath(driveSystem, FindPath.generateTrajectory(start, end, new ArrayList<Translation2d>()));//TODO the FindPath won't dynamically update, use a doubleSupplier
-    new ConditionalCommand(new AimCommand(howitzerSystem, driveSystem), new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get);
+    Command aimTarget = new FollowPath(driveSystem, FindPath.getTurn(Robot.horizontalOffset.getDouble(0)));
+    new ConditionalCommand(aimTarget,
+        new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get).schedule();
 
-    //TODO Can't do RB for driver check the diagram
+    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    Pose2d pose = driveSystem.getPose();
+    Double[] goodBall = ballHandler.getCloseBall();
+    Command getBall = new FollowPath(driveSystem,
+        FindPath.generateTrajectory(pose,
+            new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1])*goodBall[0], pose.getTranslation().getY()*Math.sin(goodBall[1])*goodBall[0], pose.getRotation()),
+            new ArrayList<Translation2d>()));// TODO the FindPath won't dynamically update, use a doubleSupplier
+    new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get);
+    getBall.schedule();
+
+    // TODO Can't do RB for driver check the diagram
     JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1),
         new ClimbCommand(climbSystem, -1), climb::get);
-    climbCommand.initialize();
+    climbCommand.schedule();
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.back).whenPressed(new ColorWheelCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
+    new JoystickButton(ControllerMap.operator, ControllerMap.back)
+        .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
     
