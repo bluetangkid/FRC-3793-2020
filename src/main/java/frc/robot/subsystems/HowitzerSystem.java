@@ -25,7 +25,7 @@ public class HowitzerSystem extends SubsystemBase {
 
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
-  public double xOffset;
+  private double yOffset = 0;
 
   double currentHowitzerPosition;
 
@@ -50,7 +50,6 @@ public class HowitzerSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    xOffset = horizontalOffset.getDouble(0);
     // This method will be called once per scheduler run
   }
 
@@ -59,7 +58,15 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.set(ControlMode.Position, setLength);
   }
 
-  void calculateAngle() {
+  public void calculateAngle() {
     howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
+  }
+
+  public double getYOffset() {
+    return yOffset;
+  }
+
+  public void setyOffset(double yOffset) {
+    this.yOffset = yOffset;
   }
 }
