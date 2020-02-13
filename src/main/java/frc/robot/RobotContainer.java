@@ -16,7 +16,6 @@ import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.ColorWheelCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
@@ -76,7 +75,8 @@ public class RobotContainer {
 
     //TODO Can't do RB for driver check the diagram
     JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1), new ClimbCommand(climbSystem, -1), climb::get);
+    ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1),
+        new ClimbCommand(climbSystem, -1), climb::get);
     climbCommand.initialize();
 
     new JoystickButton(ControllerMap.operator, ControllerMap.back).whenPressed(new ColorWheelCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
@@ -85,11 +85,15 @@ public class RobotContainer {
     
     //for shootcommand, gotta figure out how to move/not for conveyor since wheelspeed slow sometimes
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.topWheel()));
-    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.bottomWheel()));
+    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
+        .andThen(new DisablePID(shooterSystem.topWheel()));
+    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed)
+        .andThen(new DisablePID(shooterSystem.bottomWheel()));
     shooter.whenHeld(top.alongWith(bottom));
-    
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));//these shouldn't move it, just add an offset to the target that aimcommand goes to
+
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));
+    // these shouldn't move it, just add an offset to the target that aimcommand
+    // goes to
     new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveToHowitzer(howitzerSystem, -5));
   }
 

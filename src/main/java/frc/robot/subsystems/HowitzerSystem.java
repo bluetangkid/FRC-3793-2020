@@ -23,7 +23,7 @@ public class HowitzerSystem extends SubsystemBase {
    * Creates a new HowitzerSystem.
    */
   public TalonSRX aimTalon;
-  
+
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
   public double xOffset;
@@ -41,11 +41,11 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.config_kI(0, Constants.kIHow);
     aimTalon.config_kD(0, Constants.kDHow);
     aimTalon.configNominalOutputForward(0, Constants.timeoutMs);
-		aimTalon.configNominalOutputReverse(0, Constants.timeoutMs);
-		aimTalon.configPeakOutputForward(1, Constants.timeoutMs);
-		aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
+    aimTalon.configNominalOutputReverse(0, Constants.timeoutMs);
+    aimTalon.configPeakOutputForward(1, Constants.timeoutMs);
+    aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
     aimTalon.configAllowableClosedloopError(0, 50);
-    
+
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
     horizontalOffset = limelightTable.getEntry("tx");
@@ -57,12 +57,12 @@ public class HowitzerSystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
- public void goToAngle(double angle){
-    double setLength = Math.cos(Math.toRadians(angle))*lengthOfHowitzerIn;
+  public void goToAngle(double angle) {
+    double setLength = Math.cos(Math.toRadians(angle)) * lengthOfHowitzerIn;
     aimTalon.set(ControlMode.Position, setLength);
   }
 
-  void calculateAngle(){
-    howitzerAngle =Math.toDegrees(Math.acos(currentHowitzerPosition/lengthOfHowitzerIn));
+  void calculateAngle() {
+    howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
   }
 }

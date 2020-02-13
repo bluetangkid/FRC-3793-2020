@@ -33,65 +33,67 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
 
-  double dif;
-  double leftY = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
-  double m_leftStick = controller.getX();
+    double dif;
+    double leftY = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
+    double m_leftStick = controller.getX();
 
-  if (Math.abs(leftY) < .05)
-    dif = 0.0;
-  else {
-    dif = (leftY/ Math.abs(leftY))*(.4 + (Math.abs(leftY) * .6));
-  }
-  double lx = m_leftStick;
-  double lNum;
-  if (Math.abs(lx) > .25)
-    lNum = m_leftStick;
-  else
-    lNum = 0;
-  double leftMotorOutput;
-  double rightMotorOutput;
+    if (Math.abs(leftY) < .05)
+      dif = 0.0;
+    else {
+      dif = (leftY / Math.abs(leftY)) * (.4 + (Math.abs(leftY) * .6));
+    }
+    double lx = m_leftStick;
+    double lNum;
+    if (Math.abs(lx) > .25)
+      lNum = m_leftStick;
+    else
+      lNum = 0;
+    double leftMotorOutput;
+    double rightMotorOutput;
 
-  dif *= -Constants.throttleMax;
-  lNum *= Constants.turnMax;
+    dif *= -Constants.throttleMax;
+    lNum *= Constants.turnMax;
 
-  if (dif >= 0.0) {
+    if (dif >= 0.0) {
       // First quadrant, else second quadrant
       if (lNum >= 0.0) {
-          leftMotorOutput = 1;
-          rightMotorOutput = dif - lNum;
+        leftMotorOutput = 1;
+        rightMotorOutput = dif - lNum;
       } else {
-          leftMotorOutput = dif + lNum;
-          rightMotorOutput = 1;
+        leftMotorOutput = dif + lNum;
+        rightMotorOutput = 1;
       }
-  } else {
+    } else {
       // Third quadrant, else fourth quadrant
       if (lNum >= 0.0) {
-          leftMotorOutput = dif + lNum;
-          rightMotorOutput = 1;
+        leftMotorOutput = dif + lNum;
+        rightMotorOutput = 1;
       } else {
-          leftMotorOutput = 1;
-          rightMotorOutput = dif - lNum;
+        leftMotorOutput = 1;
+        rightMotorOutput = dif - lNum;
       }
+    }
+    // kF is 1/target speed(or 12 because voltage)
+    if (lNum == 0 && dif == 0) {
+      myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
+      myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
+    } else {
+      myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity / 60f,
+          ControlType.kVelocity);
+      myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity / 60f,
+          ControlType.kVelocity);
+    }
   }
-  //kF is 1/target speed(or 12 because voltage)
-  if(lNum == 0 && dif == 0) {
-    myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
-    myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
-  } else {
-    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput*Constants.maxVelocity/60f, ControlType.kVelocity);
-    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput*Constants.maxVelocity/60f, ControlType.kVelocity);
-  }
-}
 
   protected double applyDeadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
-        if (value > 0.0) {
-            return (value - deadband) / (1.0 - deadband);
-        } else {
-            return (value + deadband) / (1.0 - deadband);
-        }
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
     } else {
-        return 0.0;
+      return 0.0;
     }
   }
 
