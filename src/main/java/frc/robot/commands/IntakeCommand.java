@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.BallStopperSystem;
+import frc.robot.subsystems.ConveyorSystem;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakeCommand extends CommandBase {
@@ -21,9 +22,11 @@ public class IntakeCommand extends CommandBase {
 
   private IntakeSystem m_subsystem;
   private BallStopperSystem m_ballStopper;
-  public IntakeCommand(IntakeSystem I_System, BallStopperSystem B_system) {
+  private ConveyorSystem C_system;
+  public IntakeCommand(IntakeSystem I_System, BallStopperSystem B_system, ConveyorSystem C_system) {
     m_subsystem = I_System;
     this.m_ballStopper = B_system;
+    this.C_system = C_system;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(I_System);
   }
@@ -33,11 +36,13 @@ public class IntakeCommand extends CommandBase {
   public void execute() {
     m_ballStopper.setTalon(1);
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, Constants.intakeSpeed);
+    C_system.setVictor(Constants.conveyorSpeed);
   }
 
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
+    C_system.setVictor(0);
   }
 
   // Returns true when the command should end.

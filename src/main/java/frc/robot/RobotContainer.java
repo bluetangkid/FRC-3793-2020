@@ -14,7 +14,6 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelCommand;
-import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
@@ -72,8 +71,9 @@ public class RobotContainer {
 
     new JoystickButton(ControllerMap.operator, ControllerMap.back).whenPressed(new ColorWheelCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem).alongWith(new ConveyorCommand(conveyorSystem, shooterSystem, ballStopperSystem)));
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
     
+    //for shootcommand, gotta figure out how to move/not for conveyor since wheelspeed slow sometimes
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.topWheel()));
     Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed).andThen(new DisablePID(shooterSystem.bottomWheel()));
