@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.ConveyorCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
@@ -52,9 +52,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-
   }
-
+//TODO enable current limits for all motors and make power budget
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -71,9 +70,11 @@ public class RobotContainer {
         new ClimbCommand(climbSystem, -1), climb::get);
     climbCommand.initialize();
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A)
-        .whenHeld(new IntakeCommand(intakeSystem).alongWith(new ConveyorCommand(conveyorSystem)));
+    new JoystickButton(ControllerMap.operator, ControllerMap.back).whenPressed(new ColorWheelCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
+    
+    //for shootcommand, gotta figure out how to move/not for conveyor since wheelspeed slow sometimes
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
         .andThen(new DisablePID(shooterSystem.topWheel()));

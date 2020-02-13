@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorWheelSystem;
 
-public class CW_PositionCommand extends CommandBase {
+public class CW_ColorCommand extends CommandBase {
   /**
    * Creates a new CW_PositionCommand.
    */
@@ -21,7 +21,7 @@ public class CW_PositionCommand extends CommandBase {
   Color8Bit desiredColor;
 
   
-  public CW_PositionCommand(ColorWheelSystem CW_System) {
+  public CW_ColorCommand(ColorWheelSystem CW_System) {
     this.CW_System = CW_System;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(CW_System);
@@ -45,17 +45,20 @@ public class CW_PositionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(CW_System.isColor(desiredColor)) {
-      CW_System.setColorWheel(0);
-    }
-    else {
+    if(!CW_System.isColor(desiredColor)) {
       CW_System.setColorWheel(.2);
     }
+  }
+
+  @Override
+  public void end(boolean b) {
+    super.end(b);
+    CW_System.setColorWheel(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return CW_System.isColor(desiredColor);
   }
 }
