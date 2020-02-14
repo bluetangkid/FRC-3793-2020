@@ -26,7 +26,6 @@ public class HowitzerSystem extends SubsystemBase {
 
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
-  private double yOffset = 0;
 
   double currentHowitzerPosition;
 
