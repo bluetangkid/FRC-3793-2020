@@ -65,7 +65,7 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() {//TODO collision avoidance
     ballHandler.schedule();
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
