@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.util.ArrayList;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -21,8 +22,10 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.commands.DisablePID;
 import frc.robot.commands.FollowPath;
+import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TurnCommand;
 import frc.robot.commands.moveToHowitzer;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
@@ -73,32 +76,25 @@ public class RobotContainer {
   private void configureButtonBindings() {
     ballHandler.schedule();
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    Command aimTarget = new FollowPath(driveSystem, FindPath.getTurn(Robot.horizontalOffset.getDouble(0)));
+    Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
     new ConditionalCommand(aimTarget,
         new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get).schedule();
 
     JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    Pose2d pose = driveSystem.getPose();
-    Double[] goodBall = ballHandler.getCloseBall();
-    Command getBall = new FollowPath(driveSystem,
-        FindPath.generateTrajectory(pose,
-            new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1])*goodBall[0], pose.getTranslation().getY()*Math.sin(goodBall[1])*goodBall[0], pose.getRotation()),
-            new ArrayList<Translation2d>()));// TODO the FindPath won't dynamically update, use a doubleSupplier
-    new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get);
-    getBall.schedule();
+    Command getBall = new GetBall(driveSystem, ballHandler);
+    new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get).schedule();
 
     // TODO Can't do RB for driver check the diagram
     JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    ConditionalCommand climbCommand = new ConditionalCommand(new ClimbCommand(climbSystem, 1),
-        new ClimbCommand(climbSystem, -1), climb::get);
-    climbCommand.schedule();
+    new ConditionalCommand(new ClimbCommand(climbSystem, 1),
+        new ClimbCommand(climbSystem, -1), climb::get).schedule();
 
     new JoystickButton(ControllerMap.operator, ControllerMap.back)
         .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
     
-    //for shootcommand, gotta figure out how to move/not for conveyor since wheelspeed slow sometimes
+    //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
         .andThen(new DisablePID(shooterSystem.topWheel()));
