@@ -55,7 +55,7 @@ public class HowitzerSystem extends SubsystemBase {
   }
 
   public void goToAngle(double angle) {
-    double setLength = Math.cos(Math.toRadians(angle)) * lengthOfHowitzerIn;
+    double setLength = Math.cos(Math.toRadians(angle + aimOffset)) * lengthOfHowitzerIn;
     aimTalon.set(ControlMode.Position, setLength);
   }
 

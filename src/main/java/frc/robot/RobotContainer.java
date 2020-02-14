@@ -96,8 +96,6 @@ public class RobotContainer {
     shooter.whenHeld(top.alongWith(bottom));
 
     new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    // these shouldn't move it, just add an offset to the target that aimcommand
-    // goes to
     new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
   }
 
