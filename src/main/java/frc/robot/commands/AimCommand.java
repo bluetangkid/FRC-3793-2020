@@ -81,7 +81,7 @@ public class AimCommand extends CommandBase {
         y = 0;
       }
     }
-    m_HowitzerSystem.goToAngle(calculatedAngle);//TODO make it limit if we go under trench
+    m_HowitzerSystem.goToAngle(calculatedAngle);//TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
   }
 
   // Returns true when the command should end.

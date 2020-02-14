@@ -95,10 +95,10 @@ public class RobotContainer {
         .andThen(new DisablePID(shooterSystem.bottomWheel()));
     shooter.whenHeld(top.alongWith(bottom));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(new moveToHowitzer(howitzerSystem, 5));
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
     // these shouldn't move it, just add an offset to the target that aimcommand
     // goes to
-    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(new moveToHowitzer(howitzerSystem, -5));
+    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
   }
 
   /**

@@ -22,6 +22,7 @@ public class HowitzerSystem extends SubsystemBase {
    * Creates a new HowitzerSystem.
    */
   public TalonSRX aimTalon;
+  private double aimOffset;
 
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
@@ -62,11 +63,11 @@ public class HowitzerSystem extends SubsystemBase {
     howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
   }
 
-  public double getYOffset() {
-    return yOffset;
+  public void addOffset(){
+    aimOffset += .5;
   }
 
-  public void setyOffset(double yOffset) {
-    this.yOffset = yOffset;
+  public void subOffset(){
+    aimOffset -= .5;
   }
 }

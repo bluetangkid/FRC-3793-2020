@@ -30,6 +30,8 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax rightMotorTwo;
   private Pose2d pose;
 
+  private double turnOffset;
+
   public DriveSystem() {
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     leftMotorTwo = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
@@ -81,5 +83,11 @@ public class DriveSystem extends SubsystemBase {
     leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity);
     rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity);
   }
+  public void addOffset() {
+    turnOffset += 1;
+  }
 
+  public void subOffset() {
+    turnOffset -= 1;
+  }
 }
