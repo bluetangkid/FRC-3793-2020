@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class BallHandler extends CommandBase {
+    Double[] bestBall;
     /**
      * Creates a new ExampleCommand.
      *
@@ -34,13 +34,17 @@ public class BallHandler extends CommandBase {
             ballSeperated[i] = new Double[] { balls[i * 2], balls[i * 2 + 1] };
         }
         Arrays.sort(ballSeperated, (a, b) -> Double.compare(a[0], b[0]));
-        
+        bestBall = ballSeperated[0];
         // closest would be ballSeperated[0]
     }
 
     @Override
     public void end(final boolean interrupted) {
         super.end(interrupted);
+    }
+
+    public Double[] getCloseBall() {
+        return bestBall;
     }
 
     // Returns true when the command should end.

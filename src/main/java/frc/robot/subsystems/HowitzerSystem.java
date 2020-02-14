@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -23,10 +22,10 @@ public class HowitzerSystem extends SubsystemBase {
    * Creates a new HowitzerSystem.
    */
   public TalonSRX aimTalon;
+  private double aimOffset;
 
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
-  public double xOffset;
 
   double currentHowitzerPosition;
 
@@ -46,23 +45,28 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
     aimTalon.configAllowableClosedloopError(0, 50);
 
-    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-
-    horizontalOffset = limelightTable.getEntry("tx");
+    
   }
 
   @Override
   public void periodic() {
-    xOffset = horizontalOffset.getDouble(0);
     // This method will be called once per scheduler run
   }
 
   public void goToAngle(double angle) {
-    double setLength = Math.cos(Math.toRadians(angle)) * lengthOfHowitzerIn;
+    double setLength = Math.cos(Math.toRadians(angle + aimOffset)) * lengthOfHowitzerIn;
     aimTalon.set(ControlMode.Position, setLength);
   }
 
-  void calculateAngle() {
+  public void calculateAngle() {
     howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
+  }
+
+  public void addOffset(){
+    aimOffset += .5;
+  }
+
+  public void subOffset(){
+    aimOffset -= .5;
   }
 }
