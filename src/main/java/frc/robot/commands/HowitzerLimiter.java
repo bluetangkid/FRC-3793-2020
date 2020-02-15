@@ -30,7 +30,6 @@ public class HowitzerLimiter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
     
         //essentially we want motor to reverse if the limit switch is pressed
         if (forwardLimitSwitch.get()) { // If the forward limit switch is pressed
