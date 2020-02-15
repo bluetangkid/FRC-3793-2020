@@ -18,6 +18,7 @@ import frc.robot.commands.DisablePID;
 import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
@@ -39,16 +40,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
-  private final ClimbSystem climbSystem = new ClimbSystem();
-  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
-  private final ConveyorSystem conveyorSystem = new ConveyorSystem();
+  // private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
+  // private final ClimbSystem climbSystem = new ClimbSystem();
+  // private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
+  // private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
-  private final HowitzerSystem howitzerSystem = new HowitzerSystem();
-  private final IntakeSystem intakeSystem = new IntakeSystem();
+  // private final HowitzerSystem howitzerSystem = new HowitzerSystem();
+  // private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
-  private final BallHandler ballHandler = new BallHandler();
+  // private final BallHandler ballHandler = new BallHandler();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -66,36 +67,50 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {//TODO collision avoidance
-    ballHandler.schedule();
-    JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
-    new ConditionalCommand(aimTarget,
-        new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get).schedule();
+    // ballHandler.schedule();
+    // JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
+    // Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
+    // new ConditionalCommand(aimTarget,
+    //     new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get).schedule();
 
-    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    Command getBall = new GetBall(driveSystem, ballHandler);
-    new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get).schedule();
+    // JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    // Command getBall = new GetBall(driveSystem, ballHandler);
+    // new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get).schedule();
 
-    // TODO Can't do RB for driver check the diagram
-    JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    new ConditionalCommand(new ClimbCommand(climbSystem, 1),
-        new ClimbCommand(climbSystem, -1), climb::get).schedule();
+    // // TODO Can't do RB for driver check the diagram
+    // JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    // new ConditionalCommand(new ClimbCommand(climbSystem, 1),
+    //     new ClimbCommand(climbSystem, -1), climb::get).schedule();
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.back)
-        .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
+    // new JoystickButton(ControllerMap.operator, ControllerMap.back)
+    //     .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
+    // new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
     
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
-    JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
-        .andThen(new DisablePID(shooterSystem.topWheel()));
-    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed)
-        .andThen(new DisablePID(shooterSystem.bottomWheel()));
-    shooter.whenHeld(top.alongWith(bottom));
+    // JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
+    // Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed);
+    //     //.andThen(new DisablePID(shooterSystem.topWheel()));
+    // Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed);
+    //     //.andThen(new DisablePID(shooterSystem.bottomWheel()));
+    // shooter.whileActiveContinuous(top.alongWith(bottom));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+    
+
+
+    JoystickButton testMotors = new JoystickButton(ControllerMap.driver, ControllerMap.B);
+    Command move = new TestDriveMotorsCommand(shooterSystem.bottomWheel(), .5);
+    testMotors.whenHeld(move);
+
+    //left motor 1 forward = -1
+    // left motor 2 forward = -1
+    
+    
+
+    
+
+    // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
+    // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
   }
 
   /**

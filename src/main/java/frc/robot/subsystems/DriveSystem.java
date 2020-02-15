@@ -55,8 +55,8 @@ public class DriveSystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("leftWheel", leftMotorOne.getEncoder().getPosition());
     SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder().getPosition());
-    Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
-    pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
+    //Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
+    //pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
   }
 
   public CANSparkMax getLeftMotorOne() {
