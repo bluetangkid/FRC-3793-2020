@@ -30,18 +30,20 @@ public class HowitzerLimiter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
+
+    
+        //essentially we want motor to reverse if the limit switch is pressed
+        if (forwardLimitSwitch.get()) { // If the forward limit switch is pressed
+          H_System.aimTalon.set(ControlMode.Position, -2);} 
+      
+      if (reverseLimitSwitch.get()) { // If the reversed limit switch is pressed
+          H_System.aimTalon.set(ControlMode.Position, 2);}
+      } 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        // limit switches
-        
-    if (forwardLimitSwitch.get()) { // If the forward limit switch is pressed
-        H_System.aimTalon.set(ControlMode.PercentOutput, 0); 
-    } 
-    else if (reverseLimitSwitch.get()) { // If the reversed limit switch is pressed
-        H_System.aimTalon.set(ControlMode.PercentOutput, 0);}
-    }
+  } 
 
   // Called once the command ends or is interrupted.
   @Override
