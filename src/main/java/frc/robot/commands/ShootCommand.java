@@ -24,12 +24,18 @@ public class ShootCommand extends InstantCommand {
     this.setpoint = setpoint;
   }
 
-  public void execute() {
-    super.execute();
+  public void initialize(){
     motor.getPIDController().setP(Constants.kPShooter);
     motor.getPIDController().setI(Constants.kIShooter);
     motor.getPIDController().setD(Constants.kDShooter);
     motor.getPIDController().setReference(setpoint, ControlType.kVelocity);
     motor.getPIDController().setFeedbackDevice(motor.getEncoder(EncoderType.kQuadrature, 8192));
+    this.schedule();
+  }
+
+  public void execute() {
+    super.execute();
+    System.out.println("Execute");
+    
   }
 }
