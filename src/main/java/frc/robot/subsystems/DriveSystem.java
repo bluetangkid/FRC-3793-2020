@@ -37,14 +37,14 @@ public class DriveSystem extends SubsystemBase {
     leftMotorTwo = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
-    leftMotorOne.getPIDController().setP(Constants.kPLeft);
-    leftMotorOne.getPIDController().setI(Constants.kILeft);
-    leftMotorOne.getPIDController().setD(Constants.kDLeft);
-    rightMotorOne.getPIDController().setP(Constants.kPRight);
-    rightMotorOne.getPIDController().setI(Constants.kIRight);
-    rightMotorOne.getPIDController().setD(Constants.kDRight);
-    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
-    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
+    leftMotorOne.getPIDController().setP(Constants.kPdt);
+    leftMotorOne.getPIDController().setI(Constants.kIdt);
+    leftMotorOne.getPIDController().setD(Constants.kDdt);
+    rightMotorOne.getPIDController().setP(Constants.kPdt);
+    rightMotorOne.getPIDController().setI(Constants.kIdt);
+    rightMotorOne.getPIDController().setD(Constants.kDdt);
+    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
+    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
     // remember to config the PIDs for all the motors or it won't work

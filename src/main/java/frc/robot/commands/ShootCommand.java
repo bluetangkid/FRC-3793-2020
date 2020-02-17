@@ -29,7 +29,7 @@ public class ShootCommand extends InstantCommand {
     motor.getPIDController().setI(Constants.kIShooter);
     motor.getPIDController().setD(Constants.kDShooter);
     motor.getPIDController().setReference(setpoint, ControlType.kVelocity);
-    motor.getPIDController().setFeedbackDevice(motor.getEncoder(EncoderType.kHallSensor, 8192));
+    motor.getPIDController().setFeedbackDevice(motor.getEncoder(EncoderType.kHallSensor, 42));
     this.schedule();
   }
 
