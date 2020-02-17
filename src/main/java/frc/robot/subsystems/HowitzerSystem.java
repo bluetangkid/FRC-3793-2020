@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -24,6 +25,9 @@ public class HowitzerSystem extends SubsystemBase {
   public TalonSRX aimTalon;
   private double aimOffset;
 
+  public DigitalInput maxLimitSwitch;
+  public DigitalInput minLimitSwitch;
+
   NetworkTable limelightTable;
   NetworkTableEntry horizontalOffset;
 
@@ -34,6 +38,10 @@ public class HowitzerSystem extends SubsystemBase {
 
   public HowitzerSystem() {
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
+    maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
+    minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
+
+
     aimTalon.configFactoryDefault();
     aimTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     aimTalon.config_kP(0, Constants.kPHow);
@@ -68,5 +76,15 @@ public class HowitzerSystem extends SubsystemBase {
 
   public void subOffset(){
     aimOffset -= .5;
+  }
+
+  public void limitSwitch(){
+    //Values still TBD
+    if (!maxLimitSwitch.get()) { // If the forward limit switch is pressed
+      aimTalon.set(ControlMode.Position, -2);} 
+  
+  if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
+      aimTalon.set(ControlMode.Position, 2);}
+  } 
   }
 }

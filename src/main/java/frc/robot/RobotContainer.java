@@ -41,7 +41,7 @@ public class RobotContainer {
   // private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
   // private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
-  // private final HowitzerSystem howitzerSystem = new HowitzerSystem();
+  public final HowitzerSystem howitzerSystem = new HowitzerSystem();
   // private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
@@ -89,9 +89,6 @@ public class RobotContainer {
     Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed);
     shooter.whenPressed(top.alongWith(bottom));
     shooter.whenReleased(new DisablePID(shooterSystem.bottomWheel()).alongWith(new DisablePID(shooterSystem.topWheel())));
-
-    
-
 
     //JoystickButton testMotors = new JoystickButton(ControllerMap.driver, ControllerMap.B);
     //Command move = new TestDriveMotorsCommand(shooterSystem.bottomWheel(), .5);
