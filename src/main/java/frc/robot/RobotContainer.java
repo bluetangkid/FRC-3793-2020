@@ -85,10 +85,8 @@ public class RobotContainer {
     
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
-      .andThen(new DisablePID(shooterSystem.topWheel()));
-    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed)
-    Command bDandThen();
+    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed);
+    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed);
     shooter.whenPressed(top.alongWith(bottom));
     shooter.whenReleased(new DisablePID(shooterSystem.bottomWheel()).alongWith(new DisablePID(shooterSystem.topWheel())));
 
