@@ -14,10 +14,10 @@ import frc.robot.subsystems.HowitzerSystem;
 
 public class HowitzerLimiter extends CommandBase {
   // Creates a new HowitzerLimiter.
-  DigitalInput forwardLimitSwitch, reverseLimitSwitch;
+  public DigitalInput forwardLimitSwitch, reverseLimitSwitch;
 // instantiation
   HowitzerSystem H_System; 
-  DigitalInput forwardLimitSwitchInput, reverseLimitSwitchInput; //limit switches
+   //limit switches
   
 
   
