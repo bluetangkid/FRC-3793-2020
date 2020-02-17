@@ -11,15 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallHandler;
-import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.ColorWheelRotationCommand;
+import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.commands.DisablePID;
-import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TestDriveMotorsCommand;
-import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
@@ -88,19 +84,20 @@ public class RobotContainer {
     // new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
     
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
-    // JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    // Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed);
-    //     //.andThen(new DisablePID(shooterSystem.topWheel()));
-    // Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed);
-    //     //.andThen(new DisablePID(shooterSystem.bottomWheel()));
-    // shooter.whileActiveContinuous(top.alongWith(bottom));
+    JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
+    Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed)
+      .andThen(new DisablePID(shooterSystem.topWheel()));
+    Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed)
+    Command bDandThen();
+    shooter.whenPressed(top.alongWith(bottom));
+    shooter.whenReleased(new DisablePID(shooterSystem.bottomWheel()).alongWith(new DisablePID(shooterSystem.topWheel())));
 
     
 
 
-    JoystickButton testMotors = new JoystickButton(ControllerMap.driver, ControllerMap.B);
-    Command move = new TestDriveMotorsCommand(shooterSystem.bottomWheel(), .5);
-    testMotors.whenHeld(move);
+    //JoystickButton testMotors = new JoystickButton(ControllerMap.driver, ControllerMap.B);
+    //Command move = new TestDriveMotorsCommand(shooterSystem.bottomWheel(), .5);
+    //testMotors.whenHeld(move);
 
     //left motor 1 forward = -1
     // left motor 2 forward = -1
