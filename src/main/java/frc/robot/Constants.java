@@ -18,14 +18,15 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public final static double kVShooter = 0;
-    public final static double kSShooter = 0;
+    public final static double kVShooter = 0.127;
+    public final static double kSShooter = 0.093;
+    public final static double kAShooter = 0.0101;
     public final static double trackWidth = 0;
     public final static double b = .7;
     public final static double zeta = .5;
     public final static double turnMax = .7;
     public final static double throttleMax = 1;
-    public final static double maxVelocity = 27500;
+    public final static double maxVelocity = 40;
     public final static double kPdt = 1.92;
     public final static double kIdt = 0.0129;
     public final static double kDdt = 956;
@@ -33,9 +34,9 @@ public final class Constants {
     public final static double kPHow = 0;
     public final static double kIHow = 0;
     public final static double kDHow = 0;
-    public final static double kPShooter = 0.000383;
-    public final static double kIShooter = 0.0015;
-    public final static double kDShooter = 0.000189;
+    public final static double kPShooter = 9.29;
+    public final static double kIShooter = 0;
+    public final static double kDShooter = 0;
     public final static double shooterSpeed = 3600;
     public final static double intakeSpeed = .8;
     public final static double conveyorSpeed = .8;

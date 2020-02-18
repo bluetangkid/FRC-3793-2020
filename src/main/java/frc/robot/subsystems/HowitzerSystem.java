@@ -82,9 +82,7 @@ public class HowitzerSystem extends SubsystemBase {
     //Values still TBD
     if (!maxLimitSwitch.get()) { // If the forward limit switch is pressed
       aimTalon.set(ControlMode.Position, -2);} 
-  
-  if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
-      aimTalon.set(ControlMode.Position, 2);}
-  } 
+    if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
+        aimTalon.set(ControlMode.Position, 2);}
   }
 }
