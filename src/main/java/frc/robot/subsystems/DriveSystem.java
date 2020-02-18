@@ -47,6 +47,10 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
+    leftMotorOne.setSmartCurrentLimit(40);
+    leftMotorTwo.setSmartCurrentLimit(40);
+    rightMotorOne.setSmartCurrentLimit(40);
+    rightMotorTwo.setSmartCurrentLimit(40);
     // remember to config the PIDs for all the motors or it won't work
   }
 

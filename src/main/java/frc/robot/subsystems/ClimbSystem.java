@@ -29,4 +29,7 @@ public class ClimbSystem extends SubsystemBase {
   public void set(double d) {
     climbMotor.set(d);
   }
+  public CANSparkMax getClimbMotor(){
+return climbMotor;
+  }
 }

@@ -25,10 +25,10 @@ public final class Constants {
     public final static double zeta = .5;
     public final static double turnMax = .7;
     public final static double throttleMax = 1;
-    public final static double maxVelocity = 27500;
+    public final static double maxVelocity = 50;
     public final static double kPdt = 1.92;
     public final static double kIdt = 0.0129;
-    public final static double kDdt = 956;
+    public final static double kDdt = 9.56;
     public final static int timeoutMs = 500;
     public final static double kPHow = 0;
     public final static double kIHow = 0;

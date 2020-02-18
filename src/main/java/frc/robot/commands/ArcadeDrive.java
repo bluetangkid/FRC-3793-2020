@@ -11,6 +11,7 @@ import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSystem;
@@ -26,6 +27,7 @@ public class ArcadeDrive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     myDrive = m_Drive;
     this.controller = controller;
+    System.out.println(" gaming");
     addRequirements(myDrive);
   }
 
@@ -48,39 +50,42 @@ public class ArcadeDrive extends CommandBase {
       lNum = m_leftStick;
     else
       lNum = 0;
-    double leftMotorOutput;
-    double rightMotorOutput;
 
     dif *= -Constants.throttleMax;
     lNum *= Constants.turnMax;
+    double leftMotorOutput;
+    double rightMotorOutput;
 
-    if (dif >= 0.0) {
+    double maxInput = Math.copySign(Math.max(Math.abs(leftY), Math.abs(m_leftStick)), leftY);
+    if (leftY >= 0.0) {
       // First quadrant, else second quadrant
-      if (lNum >= 0.0) {
-        leftMotorOutput = 1;
-        rightMotorOutput = dif - lNum;
+      if (m_leftStick >= 0.0) {
+        leftMotorOutput = maxInput;
+        rightMotorOutput = leftY - m_leftStick;
       } else {
-        leftMotorOutput = dif + lNum;
-        rightMotorOutput = 1;
+        leftMotorOutput = leftY + m_leftStick;
+        rightMotorOutput = maxInput;
       }
     } else {
       // Third quadrant, else fourth quadrant
-      if (lNum >= 0.0) {
-        leftMotorOutput = dif + lNum;
-        rightMotorOutput = 1;
+      if (m_leftStick >= 0.0) {
+        leftMotorOutput = leftY + m_leftStick;
+        rightMotorOutput = maxInput;
       } else {
-        leftMotorOutput = 1;
-        rightMotorOutput = dif - lNum;
+        leftMotorOutput = maxInput;
+        rightMotorOutput = leftY - m_leftStick;
       }
     }
+
+    System.out.println(leftMotorOutput + "::" + rightMotorOutput);
     // kF is 1/target speed(or 12 because voltage)
-    if (lNum == 0 && dif == 0) {
+    if (leftMotorOutput == 0 && rightMotorOutput == 0) {
       myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
       myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
     } else {
-      myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity / 60f,
+      myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity,
           ControlType.kVelocity);
-      myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity / 60f,
+      myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity,
           ControlType.kVelocity);
     }
   }

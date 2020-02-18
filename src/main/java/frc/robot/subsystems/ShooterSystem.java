@@ -32,15 +32,17 @@ public class ShooterSystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public CANSparkMax topWheel() {
+  public CANSparkMax getTopWheel() {
     return topWheel;
   }
 
-  public CANSparkMax bottomWheel() {
+  public CANSparkMax getBottomWheel() {
     return bottomWheel;
   }
 
   public boolean mayShoot() {
     return topWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9*Constants.shooterSpeed && bottomWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9*Constants.shooterSpeed;
   }
+
+
 }
