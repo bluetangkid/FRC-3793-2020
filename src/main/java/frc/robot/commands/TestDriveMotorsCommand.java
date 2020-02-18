@@ -18,11 +18,11 @@ public class TestDriveMotorsCommand extends CommandBase {
    */
   CANSparkMax motor;
   double speed;
- 
+
   public TestDriveMotorsCommand(CANSparkMax theMotor, double theSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    motor=theMotor;
-    speed=theSpeed;
+    motor = theMotor;
+    speed = theSpeed;
   }
 
   // Called when the command is initially scheduled.

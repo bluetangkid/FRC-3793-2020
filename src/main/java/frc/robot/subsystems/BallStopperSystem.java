@@ -19,7 +19,7 @@ public class BallStopperSystem extends SubsystemBase {
    */
   TalonSRX ballStopperTalon;
   public BallStopperSystem() {
-  ballStopperTalon = new TalonSRX(RobotMap.BALL_STOPPER_MOTOR.getPin()); 
+    ballStopperTalon = new TalonSRX(RobotMap.BALL_STOPPER_MOTOR.getPin());
   }
 
   public void setTalon(double d) {

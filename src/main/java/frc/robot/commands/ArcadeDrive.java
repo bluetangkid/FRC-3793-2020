@@ -79,9 +79,9 @@ public class ArcadeDrive extends CommandBase {
       myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
     } else {
       myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity / 60f,
-          ControlType.kVelocity);
+        ControlType.kVelocity);
       myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity / 60f,
-          ControlType.kVelocity);
+        ControlType.kVelocity);
     }
   }
 

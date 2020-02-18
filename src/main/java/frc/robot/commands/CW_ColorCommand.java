@@ -20,7 +20,7 @@ public class CW_ColorCommand extends CommandBase {
   String specifiedColor = DriverStation.getInstance().getGameSpecificMessage();;
   Color8Bit desiredColor;
 
-  
+
   public CW_ColorCommand(ColorWheelSystem CW_System) {
     this.CW_System = CW_System;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,20 +32,20 @@ public class CW_ColorCommand extends CommandBase {
   public void initialize() {
     switch (specifiedColor) {
       case "R":
-      desiredColor = CW_System.RED;
+        desiredColor = CW_System.RED;
       case "B":
-      desiredColor = CW_System.BLUE;
+        desiredColor = CW_System.BLUE;
       case "G":
-      desiredColor = CW_System.GREEN;
+        desiredColor = CW_System.GREEN;
       case "Y":
-      desiredColor= CW_System.YELLOW;
+        desiredColor = CW_System.YELLOW;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!CW_System.isColor(desiredColor)) {
+    if (!CW_System.isColor(desiredColor)) {
       CW_System.setColorWheel(.2);
     }
   }

@@ -30,7 +30,7 @@ public class BallStopper extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-        B_system.setTalon(.75);
+    B_system.setTalon(.75);
   }
 
   @Override

@@ -33,7 +33,7 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    C_system.set(Constants.climbSpeed*dir);
+    C_system.set(Constants.climbSpeed * dir);
   }
 
   @Override

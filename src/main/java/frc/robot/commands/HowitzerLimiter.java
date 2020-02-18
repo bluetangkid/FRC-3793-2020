@@ -15,39 +15,39 @@ import frc.robot.subsystems.HowitzerSystem;
 public class HowitzerLimiter extends CommandBase {
   // Creates a new HowitzerLimiter.
   public DigitalInput forwardLimitSwitch, reverseLimitSwitch;
-// instantiation
-  HowitzerSystem H_System; 
-   //limit switches
-  
+  // instantiation
+  HowitzerSystem H_System;
+  //limit switches
 
-  
+
+
   public HowitzerLimiter(HowitzerSystem H_System) {
     // Use addRequirements() here to declare subsystem dependencies.
-  
+
     addRequirements(H_System);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-        //essentially we want motor to reverse if the limit switch is pressed
-        if (forwardLimitSwitch.get()) { // If the forward limit switch is pressed
-          H_System.aimTalon.set(ControlMode.Position, -2);} 
-      
-      if (reverseLimitSwitch.get()) { // If the reversed limit switch is pressed
-          H_System.aimTalon.set(ControlMode.Position, 2);}
-      } 
+
+    //essentially we want motor to reverse if the limit switch is pressed
+    if (forwardLimitSwitch.get()) { // If the forward limit switch is pressed
+      H_System.aimTalon.set(ControlMode.Position, -2);
+    }
+
+    if (reverseLimitSwitch.get()) { // If the reversed limit switch is pressed
+      H_System.aimTalon.set(ControlMode.Position, 2);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-  } 
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

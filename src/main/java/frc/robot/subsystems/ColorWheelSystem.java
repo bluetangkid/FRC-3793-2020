@@ -27,10 +27,10 @@ public class ColorWheelSystem extends SubsystemBase {
   ColorSensorV3 colorSensor;
   Color currentColor;
 
-  public Color8Bit YELLOW = new Color8Bit((int) (.32 * 255), (int) (.13 * 255), (int) (.56 * 255));
-  public Color8Bit RED = new Color8Bit((int) (.42 * 255), (int) (.4 * 255), (int) (.18 * 255));
-  public Color8Bit GREEN = new Color8Bit((int) (.2 * 255), (int) (.54 * 255), (int) (.26 * 255));
-  public Color8Bit BLUE = new Color8Bit((int) (.15 * 255), (int) (.44 * 255), (int) (.4 * 255));
+  public Color8Bit YELLOW = new Color8Bit((int)(.32 * 255), (int)(.13 * 255), (int)(.56 * 255));
+  public Color8Bit RED = new Color8Bit((int)(.42 * 255), (int)(.4 * 255), (int)(.18 * 255));
+  public Color8Bit GREEN = new Color8Bit((int)(.2 * 255), (int)(.54 * 255), (int)(.26 * 255));
+  public Color8Bit BLUE = new Color8Bit((int)(.15 * 255), (int)(.44 * 255), (int)(.4 * 255));
 
   private VictorSPX colorWheel;
   double VARY = .1;
@@ -58,8 +58,8 @@ public class ColorWheelSystem extends SubsystemBase {
     } else if (b < .2 && desiredColor == YELLOW && g > .5) {
       return true;
     } else {
-      return Math.abs(r - desiredColor.red) < VARY && Math.abs(g - desiredColor.green) < VARY
-          && Math.abs(b - desiredColor.blue) < VARY;
+      return Math.abs(r - desiredColor.red) < VARY && Math.abs(g - desiredColor.green) < VARY &&
+        Math.abs(b - desiredColor.blue) < VARY;
     }
   }
 

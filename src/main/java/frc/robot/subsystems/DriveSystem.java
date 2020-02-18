@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
@@ -30,7 +31,7 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax rightMotorTwo;
   private Pose2d pose;
 
-  private double turnOffset;//TODO still gotta use this tho
+  private double turnOffset; //TODO still gotta use this tho
 
   public DriveSystem() {
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
@@ -38,11 +39,11 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     leftMotorOne.getPIDController().setP(Constants.kPdt);
-    leftMotorOne.getPIDController().setI(Constants.kIdt);
-    leftMotorOne.getPIDController().setD(Constants.kDdt);
+    leftMotorOne.getPIDController().setI(0);
+    leftMotorOne.getPIDController().setD(0);
     rightMotorOne.getPIDController().setP(Constants.kPdt);
-    rightMotorOne.getPIDController().setI(Constants.kIdt);
-    rightMotorOne.getPIDController().setD(Constants.kDdt);
+    rightMotorOne.getPIDController().setI(0);
+    rightMotorOne.getPIDController().setD(0);
     leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     leftMotorTwo.follow(leftMotorOne);
