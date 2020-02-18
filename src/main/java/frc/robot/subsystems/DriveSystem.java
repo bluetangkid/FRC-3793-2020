@@ -13,6 +13,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -29,11 +30,13 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
+  private SimpleMotorFeedforward feedForward;
   private Pose2d pose;
 
   private double turnOffset; //TODO still gotta use this tho
 
   public DriveSystem() {
+    feedForward = new SimpleMotorFeedforward(Constants.kSdt, Constants.kVdt, Constants.kAdt);
     leftMotorOne = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     leftMotorTwo = new CANSparkMax(RobotMap.LEFT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
@@ -44,11 +47,11 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.getPIDController().setP(Constants.kPdt);
     rightMotorOne.getPIDController().setI(0);
     rightMotorOne.getPIDController().setD(0);
+    rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092).setInverted(true);//change these 3 lines to say kHallEffect if it doesn't work
     leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
-    // remember to config the PIDs for all the motors or it won't work
   }
 
   @Override
@@ -78,6 +81,10 @@ public class DriveSystem extends SubsystemBase {
 
   public Pose2d getPose() {
     return pose;
+  }
+
+  public SimpleMotorFeedforward getFF(){
+    return feedForward;
   }
 
   public void setMotorVelocity(double left, double right) {

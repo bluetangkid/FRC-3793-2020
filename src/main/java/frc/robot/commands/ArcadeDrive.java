@@ -32,69 +32,25 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double dif;
-    double leftY = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
-    double m_leftStick = controller.getX();
-
-    if (Math.abs(leftY) < .05)
-      dif = 0.0;
-    else {
-      dif = (leftY / Math.abs(leftY)) * (.4 + (Math.abs(leftY) * .6));
-    }
-    double lx = m_leftStick;
-    double lNum;
-    if (Math.abs(lx) > .25)
-      lNum = m_leftStick;
-    else
-      lNum = 0;
-    double leftMotorOutput;
-    double rightMotorOutput;
-
-    dif *= -Constants.throttleMax;
-    lNum *= Constants.turnMax;
-
-    if (dif >= 0.0) {
-      // First quadrant, else second quadrant
-      if (lNum >= 0.0) {
-        leftMotorOutput = 1;
-        rightMotorOutput = dif - lNum;
-      } else {
-        leftMotorOutput = dif + lNum;
-        rightMotorOutput = 1;
-      }
+    double turn = controller.getX();
+    double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
+    turn *= Constants.turnMax;
+    throttle *= Constants.throttleMax;
+    double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
+    if(magnitude < Constants.driveDeadzone) {
+      throttle = 0;
+      turn = 0;
     } else {
-      // Third quadrant, else fourth quadrant
-      if (lNum >= 0.0) {
-        leftMotorOutput = dif + lNum;
-        rightMotorOutput = 1;
-      } else {
-        leftMotorOutput = 1;
-        rightMotorOutput = dif - lNum;
-      }
+      throttle *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
+      turn *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
     }
-    // kF is 1/target speed(or 12 because voltage)
-    if (lNum == 0 && dif == 0) {
-      myDrive.getLeftMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
-      myDrive.getRightMotorOne().getPIDController().setReference(0, ControlType.kVelocity);
-    } else {
-      myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity / 60f,
-        ControlType.kVelocity);
-      myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity / 60f,
-        ControlType.kVelocity);
-    }
-  }
+    double leftMotorOutput = throttle - turn;
+    double rightMotorOutput = throttle + turn;
 
-  protected double applyDeadband(double value, double deadband) {
-    if (Math.abs(value) > deadband) {
-      if (value > 0.0) {
-        return (value - deadband) / (1.0 - deadband);
-      } else {
-        return (value + deadband) / (1.0 - deadband);
-      }
-    } else {
-      return 0.0;
-    }
+    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f,
+        ControlType.kVelocity);//try doing -leftMotorOutput if it doesn't work
+    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f,
+        ControlType.kVelocity/*, 0, myDrive.getFF().calculate(velocity)*/);//go to driveSystem constructor if that doesn't work either
   }
 
   // Returns true when the command should end.
