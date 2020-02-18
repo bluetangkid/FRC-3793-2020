@@ -32,7 +32,7 @@ public class IntakeSystem extends SubsystemBase {
     return intakeMotor;
   }
 
-  public IntakeSystem setMotor(double d){
+  public IntakeSystem setMotor(double d) {
     intakeMotor.set(ControlMode.PercentOutput, d);
     return this;
   }

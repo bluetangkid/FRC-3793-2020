@@ -20,18 +20,18 @@ public class GetBall extends CommandBase {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         Pose2d pose = d_system.getPose();
         Double[] goodBall = ball.getCloseBall();
         new FollowPath(d_system,
-        FindPath.generateTrajectory(pose,
-            new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1])*goodBall[0], pose.getTranslation().getY()*Math.sin(goodBall[1])*goodBall[0], pose.getRotation()),
-            new ArrayList<Translation2d>()));
-            command.schedule();
+            FindPath.generateTrajectory(pose,
+                new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1]) * goodBall[0], pose.getTranslation().getY() * Math.sin(goodBall[1]) * goodBall[0], pose.getRotation()),
+                new ArrayList < Translation2d > ()));
+        command.schedule();
     }
 
     @Override
-    public void end(boolean bool){
+    public void end(boolean bool) {
         command.end(bool);
         super.end(bool);
     }

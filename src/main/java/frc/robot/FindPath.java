@@ -20,7 +20,7 @@ public class FindPath {
         config.setKinematics(new DifferentialDriveKinematics(trackWidth));
     }
 
-    public static Trajectory generateTrajectory(Pose2d start, Pose2d end, List<Translation2d> interiorPoints) {
+    public static Trajectory generateTrajectory(Pose2d start, Pose2d end, List < Translation2d > interiorPoints) {
         return TrajectoryGenerator.generateTrajectory(start, interiorPoints, end, config);
     }
 
@@ -28,12 +28,12 @@ public class FindPath {
     // origin every time we start path for robot based
     public static Trajectory getTurn(double angle) {
         return generateTrajectory(new Pose2d(new Translation2d(), new Rotation2d()),
-                new Pose2d(new Translation2d(), new Rotation2d(angle * Math.PI / 180f)),
-                new ArrayList<Translation2d>());
+            new Pose2d(new Translation2d(), new Rotation2d(angle * Math.PI / 180f)),
+            new ArrayList <Translation2d>());
     }
 
     public static Trajectory getStraight(double dist) {
         return generateTrajectory(new Pose2d(new Translation2d(), new Rotation2d()),
-                new Pose2d(new Translation2d(0, dist), new Rotation2d()), new ArrayList<Translation2d>());
+            new Pose2d(new Translation2d(0, dist), new Rotation2d()), new ArrayList<Translation2d>());
     }
 }

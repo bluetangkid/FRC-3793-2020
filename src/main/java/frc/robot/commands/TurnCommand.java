@@ -21,13 +21,13 @@ public class TurnCommand extends CommandBase {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
         command.schedule();
     }
 
     @Override
-    public void end(boolean bool){
+    public void end(boolean bool) {
         command.end(bool);
         super.end(bool);
     }

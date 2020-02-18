@@ -22,8 +22,7 @@ public class BallHandler extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public BallHandler() {
-    }
+    public BallHandler() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -31,7 +30,9 @@ public class BallHandler extends CommandBase {
         Double[] balls = SmartDashboard.getNumberArray("Balls", new Double[0]);
         Double[][] ballSeperated = new Double[balls.length / 2][2];
         for (int i = 0; i < balls.length / 2 - 1; i++) {
-            ballSeperated[i] = new Double[] { balls[i * 2], balls[i * 2 + 1] };
+            ballSeperated[i] = new Double[] {
+                balls[i * 2], balls[i * 2 + 1]
+            };
         }
         Arrays.sort(ballSeperated, (a, b) -> Double.compare(a[0], b[0]));
         bestBall = ballSeperated[0];

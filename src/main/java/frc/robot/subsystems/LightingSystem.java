@@ -35,17 +35,17 @@ public class LightingSystem extends SubsystemBase {
     return LEDs;
   }
 
-  public void setColor(int d){
+  public void setColor(int d) {
     //gotta do presets and stuff manually. Gonna be a little time
-    for(int i = 0; i < length; i++) {
-        buffer.setHSV(i, d, 100, 100);
+    for (int i = 0; i < length; i++) {
+      buffer.setHSV(i, d, 100, 100);
     }
     LEDs.setData(buffer);
   }
-  public void setRandom(int min, int max){
+  public void setRandom(int min, int max) {
     //gotta do presets and stuff manually. Gonna be a little time
-    for(int i = 0; i < length; i++) {
-        buffer.setHSV(i, (int)(Math.random()*(max+min))+min, 100, 100);
+    for (int i = 0; i < length; i++) {
+      buffer.setHSV(i, (int)(Math.random() * (max + min)) + min, 100, 100);
     }
     LEDs.setData(buffer);
   }

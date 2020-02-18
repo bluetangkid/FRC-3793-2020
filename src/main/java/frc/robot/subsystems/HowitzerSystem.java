@@ -53,7 +53,7 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
     aimTalon.configAllowableClosedloopError(0, 50);
 
-    
+
   }
 
   @Override
@@ -70,21 +70,21 @@ public class HowitzerSystem extends SubsystemBase {
     howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
   }
 
-  public void addOffset(){
+  public void addOffset() {
     aimOffset += .5;
   }
 
-  public void subOffset(){
+  public void subOffset() {
     aimOffset -= .5;
   }
 
-  public void limitSwitch(){
+  public void limitSwitch() {
     //Values still TBD
     if (!maxLimitSwitch.get()) { // If the forward limit switch is pressed
-      aimTalon.set(ControlMode.Position, -2);} 
-  
-  if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
-      aimTalon.set(ControlMode.Position, 2);}
-  } 
+      aimTalon.set(ControlMode.Position, -2);
+    }
+    if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
+      aimTalon.set(ControlMode.Position, 2);
+    }
   }
-
+}

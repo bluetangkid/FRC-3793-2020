@@ -26,7 +26,7 @@ public class BallCountingSystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public AnalogInput getBallCounter(){
+  public AnalogInput getBallCounter() {
     return ballCounter;
   }
 }

@@ -64,7 +64,7 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {//TODO collision avoidance
+  private void configureButtonBindings() { //TODO collision avoidance
     // ballHandler.schedule();
     //JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     // Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
@@ -85,7 +85,7 @@ public class RobotContainer {
     //     .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
     // new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
-    
+
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     // JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     // Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed);
@@ -107,10 +107,10 @@ public class RobotContainer {
     testSticks.perpetually();
     //left motor 1 forward = -1
     // left motor 2 forward = -1
-    
-    
 
-    
+
+
+
 
     // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
     // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
