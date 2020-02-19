@@ -26,15 +26,11 @@ public class ShootCommand extends CommandBase {
     this.motor = motor;
     this.setpoint = setpoint;
     feedForward = new SimpleMotorFeedforward(Constants.kSShooter, Constants.kVShooter, Constants.kAShooter);
-  }
-
-  public void initialize() {
     motor.getPIDController().setP(Constants.kPShooter);
     motor.getPIDController().setI(0);
     motor.getPIDController().setD(0);
     motor.getPIDController().setReference(-setpoint, ControlType.kVelocity, 0, feedForward.calculate(0));
     motor.getPIDController().setFeedbackDevice(motor.getEncoder(EncoderType.kHallSensor, 42));
-    this.schedule();
   }
 
   public void execute() {
