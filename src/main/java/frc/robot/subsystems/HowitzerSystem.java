@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -35,37 +34,26 @@ public class HowitzerSystem extends SubsystemBase {
 
   final double lengthOfHowitzerIn = 40;
   public double howitzerAngle;
+  public double targetDistance;
 
   public HowitzerSystem() {
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
     maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
-
-    aimTalon.configFactoryDefault();
-    aimTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    aimTalon.config_kP(0, Constants.kPHow);
-    aimTalon.config_kI(0, Constants.kIHow);
-    aimTalon.config_kD(0, Constants.kDHow);
-    aimTalon.configNominalOutputForward(0, Constants.timeoutMs);
-    aimTalon.configNominalOutputReverse(0, Constants.timeoutMs);
-    aimTalon.configPeakOutputForward(1, Constants.timeoutMs);
-    aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
-    aimTalon.configAllowableClosedloopError(0, 20);
   }
 
   @Override
   public void periodic() {
-    double dist = aimTalon.getSelectedSensorPosition(0)*Constants.tickPerIn;//needs to be track len - tickperin thing + dist between end of track and pivot on x
+    double dist = aimTalon.getSelectedSensorPosition(0)*Constants.tickPerIn;//TODO needs to be track len - tickperin thing + dist between end of track and pivot on x
     howitzerAngle = Math.toDegrees(Math.acos((dist*dist + Constants.pivotLen*Constants.pivotLen - Constants.HowU*Constants.HowU)/(2*dist*Constants.pivotLen)) + Math.atan2(Constants.HowDy, dist));
+    if(maxLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, -.2);// the stuff following is a simple PF loop
+    else if (minLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, .2);
+    else if (targetDistance - dist > .1) aimTalon.set(ControlMode.PercentOutput, (targetDistance-dist)*.05 + Math.copySign(.15, targetDistance-dist));//just do a P loop for this
+    else aimTalon.set(ControlMode.PercentOutput, 0);
   }
 
   public void goToAngle(double angle) {
-    double setLength = Math.cos(Math.toRadians(angle + aimOffset)) * lengthOfHowitzerIn;
-    aimTalon.set(ControlMode.Position, setLength);
-  }
-
-  public void calculateAngle() {
-    howitzerAngle = Math.toDegrees(Math.acos(currentHowitzerPosition / lengthOfHowitzerIn));
+    targetDistance = 0 + aimOffset;//TODO Math for this using law of cosines
   }
 
   public void addOffset() {
@@ -74,15 +62,5 @@ public class HowitzerSystem extends SubsystemBase {
 
   public void subOffset() {
     aimOffset -= .5;
-  }
-
-  public void limitSwitch() {
-    //Values still TBD
-    if (!maxLimitSwitch.get()) { // If the forward limit switch is pressed
-      aimTalon.set(ControlMode.Position, -2);
-    }
-    if (!minLimitSwitch.get()) { // If the reversed limit switch is pressed
-      aimTalon.set(ControlMode.Position, 2);
-    }
   }
 }

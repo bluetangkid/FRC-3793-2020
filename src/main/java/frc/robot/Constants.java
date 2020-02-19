@@ -41,9 +41,7 @@ public final class Constants {
     * /            \  
     *              |
     *              | dy     */
-    public final static double kPHow = 0;
-    public final static double kIHow = 0;
-    public final static double kDHow = 0;
+    // angle = acos((d^2 + pivotLen^2 - pivotLen^2)/(2*d*pivotLen)) + atan2(dy, dist along lead screw to pivot)
     public final static double pivotLen = 5; // in "
     public final static double HowU = 5; //in "
     public final static double HowDy = 1; //in "
