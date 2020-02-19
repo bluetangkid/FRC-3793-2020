@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import com.revrobotics.ControlType;
+import com.revrobotics.EncoderType;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -27,7 +28,6 @@ public class ArcadeDrive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     myDrive = m_Drive;
     this.controller = controller;
-    System.out.println(" gaming");
     addRequirements(myDrive);
   }
 
@@ -46,13 +46,13 @@ public class ArcadeDrive extends CommandBase {
       throttle *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
       turn *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
     }
-    double leftMotorOutput = throttle - turn;
+    double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
 
     myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity);//try doing -leftMotorOutput if it doesn't work
+        ControlType.kVelocity, 0, myDrive.getFF().calculate(myDrive.getLeftMotorOne().getEncoder(EncoderType.kQuadrature, 4092).getVelocity()));
     myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity/*, 0, myDrive.getFF().calculate(velocity)*/);//go to driveSystem constructor if that doesn't work either
+        ControlType.kVelocity, 0, myDrive.getFF().calculate(myDrive.getRightMotorOne().getEncoder(EncoderType.kQuadrature, 4092).getVelocity()));
   }
 
   // Returns true when the command should end.
