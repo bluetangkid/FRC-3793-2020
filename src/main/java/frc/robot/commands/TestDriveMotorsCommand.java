@@ -43,7 +43,6 @@ public class TestDriveMotorsCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     motor.set(0);
-    speed = 0;
   }
 
   // Returns true when the command should end.
