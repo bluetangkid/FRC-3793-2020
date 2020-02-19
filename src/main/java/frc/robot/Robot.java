@@ -108,8 +108,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    System.out.println("Max Limit " + m_robotContainer.howitzerSystem.maxLimitSwitch.get());
-    System.out.println("Min Limit " + m_robotContainer.howitzerSystem.minLimitSwitch.get());
+    //System.out.println("Max Limit " + m_robotContainer.howitzerSystem.maxLimitSwitch.get());
+    //System.out.println("Min Limit " + m_robotContainer.howitzerSystem.minLimitSwitch.get());
   }
 
   @Override
