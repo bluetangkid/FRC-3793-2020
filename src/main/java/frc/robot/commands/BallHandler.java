@@ -27,16 +27,18 @@ public class BallHandler extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        Double[] balls = SmartDashboard.getNumberArray("Balls", new Double[0]);
-        Double[][] ballSeperated = new Double[balls.length / 2][2];
-        for (int i = 0; i < balls.length / 2 - 1; i++) {
-            ballSeperated[i] = new Double[] {
-                balls[i * 2], balls[i * 2 + 1]
-            };
+            Double[] balls = SmartDashboard.getNumberArray("Balls", new Double[0]);
+            if(balls.length > 0) {
+            Double[][] ballSeperated = new Double[balls.length / 2][2];
+            for (int i = 0; i < balls.length / 2 - 1; i++) {
+                ballSeperated[i] = new Double[] {
+                    balls[i * 2], balls[i * 2 + 1]
+                };
+            }
+            Arrays.sort(ballSeperated, (a, b) -> Double.compare(a[0], b[0]));
+            
+            bestBall = ballSeperated[0];
         }
-        Arrays.sort(ballSeperated, (a, b) -> Double.compare(a[0], b[0]));
-        bestBall = ballSeperated[0];
-        // closest would be ballSeperated[0]
     }
 
     @Override
