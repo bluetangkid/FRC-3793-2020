@@ -30,7 +30,7 @@ public class DriveSystem extends SubsystemBase {
   private SimpleMotorFeedforward feedForward;
   private Pose2d pose;
 
-  private double turnOffset; //TODO still gotta use this tho
+  private double turnOffset;
 
   public DriveSystem() {
     feedForward = new SimpleMotorFeedforward(Constants.kSdt, Constants.kVdt, Constants.kAdt);
@@ -44,9 +44,8 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.getPIDController().setP(Constants.kPdt);
     rightMotorOne.getPIDController().setI(0);
     rightMotorOne.getPIDController().setD(0);
-    rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092).setInverted(true);//change these 3 lines to say kHallEffect if it doesn't work
-    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
-    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 4092));
+    leftMotorOne.getPIDController().setFeedbackDevice(leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
+    rightMotorOne.getPIDController().setFeedbackDevice(rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192));
     leftMotorTwo.follow(leftMotorOne);
     rightMotorTwo.follow(rightMotorOne);
     leftMotorOne.setSmartCurrentLimit(40);
@@ -59,8 +58,8 @@ public class DriveSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("leftWheel", leftMotorOne.getEncoder().getPosition());
-    SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder().getPosition());
+    SmartDashboard.putNumber("leftWheel", leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192).getPosition());
+    SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192).getPosition());
     //Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
     //pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
   }
@@ -90,8 +89,8 @@ public class DriveSystem extends SubsystemBase {
   }
 
   public void setMotorVelocity(double left, double right) {
-    leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity);
-    rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity);
+    leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity, 0, feedForward.calculate(leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192).getVelocity()));
+    rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity, 0, feedForward.calculate(rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192).getVelocity()));
   }
   public void addOffset() {
     turnOffset += 1;

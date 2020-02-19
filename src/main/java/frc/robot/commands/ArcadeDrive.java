@@ -48,10 +48,7 @@ public class ArcadeDrive extends CommandBase {
     double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
 
-    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity, 0, myDrive.getFF().calculate(myDrive.getLeftMotorOne().getEncoder(EncoderType.kQuadrature, 4092).getVelocity()));
-    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity, 0, myDrive.getFF().calculate(myDrive.getRightMotorOne().getEncoder(EncoderType.kQuadrature, 4092).getVelocity()));
+    myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
   }
 
   // Returns true when the command should end.
