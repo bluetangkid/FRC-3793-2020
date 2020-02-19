@@ -32,11 +32,11 @@ public class AimCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void execute() {
     double ax, ay;
     double t = 0;
-    double Us = 0.007;
-    double Um = 0.0; //.007148, wrong
+    double Us = 0.007148;
+    double Um = 0.016; //adjust this to match our trajectory
     double dt = .0087;
     double angle;
     double xDist = 7; // straight-line distance to the target
@@ -71,6 +71,10 @@ public class AimCommand extends CommandBase {
         } else if (y > 2.44) {
           angle -= .2;
         } else angle += .2; // Porportional thing might be faster(PID)
+        if(angle > 45) {
+          finished = true;
+          angle = 45;
+        }
         V = 27;
         Vx = Math.cos(angle * Math.PI / 180) * V;
         Vy = Math.sin(angle * Math.PI / 180) * V;
