@@ -41,7 +41,6 @@ public class HowitzerSystem extends SubsystemBase {
     maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
 
-
     aimTalon.configFactoryDefault();
     aimTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     aimTalon.config_kP(0, Constants.kPHow);
@@ -51,14 +50,13 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configNominalOutputReverse(0, Constants.timeoutMs);
     aimTalon.configPeakOutputForward(1, Constants.timeoutMs);
     aimTalon.configPeakOutputReverse(-1, Constants.timeoutMs);
-    aimTalon.configAllowableClosedloopError(0, 50);
-
-
+    aimTalon.configAllowableClosedloopError(0, 20);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    double dist = aimTalon.getSelectedSensorPosition(0)*Constants.tickPerIn;//needs to be track len - tickperin thing + dist between end of track and pivot on x
+    howitzerAngle = Math.toDegrees(Math.acos((dist*dist + Constants.pivotLen*Constants.pivotLen - Constants.HowU*Constants.HowU)/(2*dist*Constants.pivotLen)) + Math.atan2(Constants.HowDy, dist));
   }
 
   public void goToAngle(double angle) {
