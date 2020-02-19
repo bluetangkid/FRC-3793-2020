@@ -9,12 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallHandler;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.TurnCommand;
-import frc.robot.commands.DisablePID;
 import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
@@ -56,7 +56,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  // TODO enable current limits for all motors and make power budget
+  // TODO make power budget
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -72,7 +72,6 @@ public class RobotContainer {
     new ConditionalCommand(new ConditionalCommand(aimTarget, getBall, aim::get),
         new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
 
-    // TODO Keep this disabled until it is first pressed so it doesn't break
     new JoystickButton(ControllerMap.operator, ControllerMap.RB).whileHeld(new ClimbCommand(climbSystem, -1));
     new JoystickButton(ControllerMap.operator, ControllerMap.LB).whileHeld(new ClimbCommand(climbSystem, 1));
 
@@ -83,14 +82,16 @@ public class RobotContainer {
 
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command top = new ShootCommand(shooterSystem.getTopWheel(), Constants.shooterSpeed);
-    Command bottom = new ShootCommand(shooterSystem.getBottomWheel(), -Constants.shooterSpeed);
-    shooter.whileHeld(top.alongWith(bottom));
-    shooter.whenReleased(new DisablePID(shooterSystem.getBottomWheel()).alongWith(new DisablePID(shooterSystem.getTopWheel())));
+    Command shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooterSystem, conveyorSystem);
+    shooter.whileHeld(shoot);
 
+    new AimCommand(howitzerSystem, driveSystem).perpetually();
     // just use lambdas to do the howitzer angle stuff like below
-    // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
+    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() -> driveSystem.subOffset());
+    new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() -> driveSystem.addOffset());
   }
 
   public boolean doubleButton(JoystickButton a, JoystickButton b) {
