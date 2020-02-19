@@ -18,9 +18,7 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public final static double kVShooter = 0.127;
-    public final static double kSShooter = 0.093;
-    public final static double kAShooter = 0.0101;
+    //Drivetrain
     public final static double trackWidth = 0;
     public final static double b = .7;
     public final static double zeta = .5;
@@ -28,16 +26,40 @@ public final class Constants {
     public final static double throttleMax = 1;
     public final static double maxVelocity = 40;
     public final static double driveDeadzone = .1f;
-    public final static double kPdt = 0.955;
+    public final static double kPdt = 0.001;
     public final static double kSdt = 0.155;
     public final static double kVdt = 0.0805;
     public final static double kAdt = 0.0129;
-    public final static int timeoutMs = 500;
+
+    //Howitzer
+    /*       \
+    *         \
+    *         /\
+    *   u   /   \
+    *     /      \  pivotLen
+    *   /         \
+    * /            \  
+    *              |
+    *              | dy     */
     public final static double kPHow = 0;
     public final static double kIHow = 0;
     public final static double kDHow = 0;
+    public final static double pivotLen = 5; // in "
+    public final static double HowU = 5; //in "
+    public final static double HowDy = 1; //in "
+    public final static double tickPerIn = 2;
+    public final static double howMin = .25; //in "
+    public final static double howMax = 5;
+
+    //Shooter
+    public final static double kVShooter = 0.127;
+    public final static double kSShooter = 0.093;
+    public final static double kAShooter = 0.0101;
     public final static double kPShooter = 9.29;
-    public final static double shooterSpeed = 3600;
+    public final static double shooterSpeed = 80;
+
+    //Misc
+    public final static int timeoutMs = 500;
     public final static double intakeSpeed = .8;
     public final static double conveyorSpeed = .8;
     public final static double colorWheelSpeed = .8;
