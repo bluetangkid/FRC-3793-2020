@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
 
