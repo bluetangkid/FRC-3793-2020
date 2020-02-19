@@ -56,7 +56,8 @@ public final class Constants {
     public final static double kSShooter = 0.093;
     public final static double kAShooter = 0.0101;
     public final static double kPShooter = 9.29;
-    public final static double shooterSpeed = 80;
+    public final static double shooterSpeedT = 80;
+    public final static double shooterSpeedB = 60;
 
     //Misc
     public final static int timeoutMs = 500;
