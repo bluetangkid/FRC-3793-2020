@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimbSystem;
@@ -22,10 +23,13 @@ public class ClimbCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
+  Timer timer;
   int dir;
   public ClimbCommand(ClimbSystem C_system, int dir) {
     this.C_system = C_system;
     this.dir = dir;
+    this.timer = new Timer();
+    timer.start();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(C_system);
   }
@@ -33,7 +37,7 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    C_system.set(Constants.climbSpeed * dir);
+    if(timer.hasPeriodPassed(.75)) C_system.set(Constants.climbSpeed * dir);
   }
 
   @Override

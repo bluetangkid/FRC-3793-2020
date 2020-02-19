@@ -7,13 +7,11 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.ControlType;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.ControllerMap;
 import frc.robot.subsystems.DriveSystem;
 
 public class ArcadeDrive extends CommandBase {
@@ -27,14 +25,13 @@ public class ArcadeDrive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     myDrive = m_Drive;
     this.controller = controller;
-    System.out.println(" gaming");
     addRequirements(myDrive);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turn = controller.getX();
+    double turn = controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
     turn *= Constants.turnMax;
     throttle *= Constants.throttleMax;
@@ -46,13 +43,10 @@ public class ArcadeDrive extends CommandBase {
       throttle *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
       turn *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
     }
-    double leftMotorOutput = throttle - turn;
+    double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
 
-    myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity);//try doing -leftMotorOutput if it doesn't work
-    myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f,
-        ControlType.kVelocity/*, 0, myDrive.getFF().calculate(velocity)*/);//go to driveSystem constructor if that doesn't work either
+    myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
   }
 
   // Returns true when the command should end.

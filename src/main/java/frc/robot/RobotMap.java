@@ -30,7 +30,6 @@ public enum RobotMap {
 
         TOP_SHOOTER(34), BOTTOM_SHOOTER(35),
 
-        TOP_ENCODER_A(0), TOP_ENCODER_B(1), BOTTOM_ENCODER_A(2), BOTTOM_ENCODER_B(3),
         MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1); //might not be using this?
 
     int pin;

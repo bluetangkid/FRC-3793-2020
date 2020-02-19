@@ -41,6 +41,6 @@ public class ShooterSystem extends SubsystemBase {
   }
 
   public boolean mayShoot() {
-    return topWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9 * Constants.shooterSpeed && bottomWheel.getEncoder(EncoderType.kQuadrature, 8092).getVelocity() > .9 * Constants.shooterSpeed;
+    return topWheel.getEncoder(EncoderType.kHallSensor, 42).getVelocity() > .95 * Constants.shooterSpeedT && bottomWheel.getEncoder(EncoderType.kHallSensor, 42).getVelocity() > .95 * Constants.shooterSpeedB;
   }
 }

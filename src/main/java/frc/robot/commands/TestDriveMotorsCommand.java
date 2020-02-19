@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -43,7 +41,6 @@ public class TestDriveMotorsCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     motor.set(0);
-    speed = 0;
   }
 
   // Returns true when the command should end.

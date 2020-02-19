@@ -17,7 +17,7 @@ public class TurnCommand extends CommandBase {
     public TurnCommand(DriveSystem d_system, DoubleSupplier getAngle) {
         super();
         this.d_system = d_system;
-        this.getAngle = getAngle;
+        this.getAngle = new AngleSupplier(getAngle, d_system.getAngOffset());
     }
 
     @Override
@@ -30,5 +30,18 @@ public class TurnCommand extends CommandBase {
     public void end(boolean bool) {
         command.end(bool);
         super.end(bool);
+    }
+}
+
+class AngleSupplier implements DoubleSupplier {
+    DoubleSupplier supp;
+    double offset;
+    AngleSupplier(DoubleSupplier supp, double offset){
+        this.supp = supp;
+        this.offset = offset;
+    }
+    @Override
+    public double getAsDouble() {
+        return supp.getAsDouble() + offset;
     }
 }

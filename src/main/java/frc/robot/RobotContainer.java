@@ -8,23 +8,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallHandler;
+import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.TestDriveMotorsCommand;
-import frc.robot.commands.DisablePID;
-import frc.robot.commands.HowitzerOverride;
+import frc.robot.commands.TurnCommand;
+import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.subsystems.BallStopperSystem;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
 import frc.robot.subsystems.IntakeSystem;
+import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -38,16 +38,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // private final BallStopperSystem ballStopperSystem = new BallStopperSystem();
-   private final ClimbSystem climbSystem = new ClimbSystem();
-  // private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
-  // private final ConveyorSystem conveyorSystem = new ConveyorSystem();
+  private final ClimbSystem climbSystem = new ClimbSystem();
+  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
+  private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
   public final HowitzerSystem howitzerSystem = new HowitzerSystem();
-  // private final IntakeSystem intakeSystem = new IntakeSystem();
+  private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
-  // private final BallHandler ballHandler = new BallHandler();
+  private final BallHandler ballHandler = new BallHandler();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,7 +56,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  // TODO enable current limits for all motors and make power budget
+  // TODO make power budget
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -65,55 +64,38 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { //TODO collision avoidance
-    // ballHandler.schedule();
-    //JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    // Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
-    // new ConditionalCommand(aimTarget,
-    //     new ArcadeDrive(driveSystem, ControllerMap.driver), aim::get).schedule();
-    //driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
+    ballHandler.perpetually();
+    JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
+    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
+    Command getBall = new GetBall(driveSystem, ballHandler);
+    new ConditionalCommand(new ConditionalCommand(aimTarget, getBall, aim::get),
+        new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
 
-    // JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    // Command getBall = new GetBall(driveSystem, ballHandler);
-    // new ConditionalCommand(getBall, new ArcadeDrive(driveSystem, ControllerMap.driver), ball::get).schedule();
+    new JoystickButton(ControllerMap.operator, ControllerMap.RB).whileHeld(new ClimbCommand(climbSystem, -1));
+    new JoystickButton(ControllerMap.operator, ControllerMap.LB).whileHeld(new ClimbCommand(climbSystem, 1));
 
-    // // TODO Can't do RB for driver check the diagram
-    // JoystickButton climb = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    // new ConditionalCommand(new ClimbCommand(climbSystem, 1),
-    //     new ClimbCommand(climbSystem, -1), climb::get).schedule();
+    new JoystickButton(ControllerMap.operator, ControllerMap.back)
+        .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
-    // new JoystickButton(ControllerMap.operator, ControllerMap.back)
-    //     .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
-
-    // new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, ballStopperSystem, conveyorSystem));
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whileHeld(new IntakeCommand(intakeSystem, conveyorSystem));
 
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
-    // JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    // Command top = new ShootCommand(shooterSystem.topWheel(), Constants.shooterSpeed);
-    // Command bottom = new ShootCommand(shooterSystem.bottomWheel(), Constants.shooterSpeed);
-    // shooter.whenPressed(top.alongWith(bottom));
-    // shooter.whenReleased(new DisablePID(shooterSystem.bottomWheel()).alongWith(new DisablePID(shooterSystem.topWheel())));
+    JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
+    Command shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooterSystem, conveyorSystem);
+    shooter.whileHeld(shoot);
 
-    JoystickButton testMotorsUp = new JoystickButton(ControllerMap.driver, ControllerMap.B);
-    Command moveUp = new TestDriveMotorsCommand( shooterSystem.getBottomWheel(), .5);
-    testMotorsUp.whenHeld(moveUp);
+    new AimCommand(howitzerSystem, driveSystem).perpetually();
+    // just use lambdas to do the howitzer angle stuff like below
+    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
+    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
 
-    JoystickButton testMotorsDown = new JoystickButton(ControllerMap.driver, ControllerMap.A);
-    Command moveDown = new TestDriveMotorsCommand(shooterSystem.getTopWheel(), .5);
-    testMotorsDown.whenHeld(moveDown);
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() -> driveSystem.subOffset());
+    new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() -> driveSystem.addOffset());
+  }
 
-    
-    
-    Command testSticks = new HowitzerOverride(ControllerMap.driver);
-    testSticks.perpetually();
-    //left motor 1 forward = -1
-    // left motor 2 forward = -1
-
-
-
-
-
-    // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+  public boolean doubleButton(JoystickButton a, JoystickButton b) {
+    return a.get() || b.get();
   }
 
   /**
