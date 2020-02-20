@@ -45,7 +45,7 @@ public class RobotContainer {
   //private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
   private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
-  public final HowitzerSystem howitzerSystem = new HowitzerSystem();
+  public HowitzerSystem howitzerSystem;
   private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
 
@@ -67,12 +67,13 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { //TODO collision avoidance
+    howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X), new JoystickButton(ControllerMap.operator, ControllerMap.Y));
     //ballHandler.perpetually();
     //JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     //JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     //Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
     //Command getBall = new GetBall(driveSystem, ballHandler);
-    //driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
+    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
     // new ConditionalCommand(new ConditionalCommand(aimTarget, getBall, aim::get),
     //     new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
 
@@ -90,7 +91,7 @@ public class RobotContainer {
     //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooterSystem, conveyorSystem);
-     shooter.whileHeld(shoot);
+    shooter.whileHeld(shoot);
 
     //new AimCommand(howitzerSystem, driveSystem).perpetually();
     // just use lambdas to do the howitzer angle stuff like below

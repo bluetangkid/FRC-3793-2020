@@ -28,7 +28,7 @@ public enum RobotMap {
 
         TOP_SHOOTER(34), BOTTOM_SHOOTER(35),
 
-        MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1); //might not be using this?
+        MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1);
 
     int pin;
 

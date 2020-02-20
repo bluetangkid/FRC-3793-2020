@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -35,8 +36,11 @@ public class HowitzerSystem extends SubsystemBase {
   final double lengthOfHowitzerIn = 40;
   public double howitzerAngle;
   public double targetDistance;
+  JoystickButton in, out;
 
-  public HowitzerSystem() {
+  public HowitzerSystem(JoystickButton in, JoystickButton out) {
+    this.in = in;
+    this.out = out;
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
     maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
@@ -46,9 +50,11 @@ public class HowitzerSystem extends SubsystemBase {
   public void periodic() {
     double dist = aimTalon.getSelectedSensorPosition(0)*Constants.tickPerIn;//TODO needs to be track len - tickperin thing + dist between end of track and pivot on x
     howitzerAngle = Math.toDegrees(Math.acos((dist*dist + Constants.pivotLen*Constants.pivotLen - Constants.HowU*Constants.HowU)/(2*dist*Constants.pivotLen)) + Math.atan2(Constants.HowDy, dist));
-    if(maxLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, -.2);// the stuff following is a simple PF loop
-    else if (minLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, .2);
-    else if (targetDistance - dist > .1) aimTalon.set(ControlMode.PercentOutput, (targetDistance-dist)*.05 + Math.copySign(.15, targetDistance-dist));//just do a P loop for this
+    if(!maxLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, .2);// the stuff following is a simple PF loop
+    else if (!minLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, -.2);
+    else if(in.get()) aimTalon.set(ControlMode.PercentOutput, -.5);
+    else if(out.get()) aimTalon.set(ControlMode.PercentOutput, .5);
+    //else if (targetDistance - dist > .1) aimTalon.set(ControlMode.PercentOutput, (targetDistance-dist)*.05 + Math.copySign(.15, targetDistance-dist));//just do a P loop for this
     else aimTalon.set(ControlMode.PercentOutput, 0);
   }
 

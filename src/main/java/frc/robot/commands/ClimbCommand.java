@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.subsystems.ClimbSystem;
 
 /**
@@ -37,7 +38,8 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(timer.hasPeriodPassed(.75)) C_system.set(Constants.climbSpeed * dir);
+    if(timer.hasPeriodPassed(.75) /*&& Robot.gameTime.get() > Constants.climbWaitTime*/)
+      C_system.set(Constants.climbSpeed * dir);
   }
 
   @Override
