@@ -46,7 +46,11 @@ public class ArcadeDrive extends CommandBase {
     double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
 
-    myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
+    if(leftMotorOutput < .01 && rightMotorOutput < .01) {
+      myDrive.getLeftMotorOne().disable(); 
+      myDrive.getRightMotorOne().disable();
+    } else
+      myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
   }
 
   // Returns true when the command should end.
