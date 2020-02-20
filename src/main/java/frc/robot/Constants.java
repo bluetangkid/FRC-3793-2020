@@ -19,17 +19,17 @@ package frc.robot;
  */
 public final class Constants {
     //Drivetrain
-    public final static double trackWidth = 0;
+    public final static double trackWidth = 1.888;
     public final static double b = .7;
     public final static double zeta = .5;
     public final static double turnMax = .7;
     public final static double throttleMax = 1;
     public final static double maxVelocity = 40;
     public final static double driveDeadzone = .1f;
-    public final static double kPdt = 0.001;
-    public final static double kSdt = 0.155;
-    public final static double kVdt = 0.0805;
-    public final static double kAdt = 0.0129;
+    public final static double kPdt = 3.32;
+    public final static double kSdt = 0.138;
+    public final static double kVdt = 0.817;
+    public final static double kAdt = 0.118;
 
     //Howitzer
     /*       \
@@ -50,17 +50,17 @@ public final class Constants {
     public final static double howMax = 5;
 
     //Shooter
-    public final static double kVShooter = 0.127;
-    public final static double kSShooter = 0.093;
-    public final static double kAShooter = 0.0101;
-    public final static double kPShooter = 9.29;
-    public final static double shooterSpeedT = 80;
-    public final static double shooterSpeedB = 60;
+    public final static double kVShooter = 0.129;
+    public final static double kSShooter = 0.0497;
+    public final static double kAShooter = 0.0154;
+    public final static double kPShooter = 1.17;
+    public final static double shooterSpeedT = 100;
+    public final static double shooterSpeedB = -120;
 
     //Misc
     public final static int timeoutMs = 500;
     public final static double intakeSpeed = .8;
-    public final static double conveyorSpeed = .8;
+    public final static double conveyorSpeed = .5;
     public final static double colorWheelSpeed = .8;
     public final static double climbSpeed = 1;
 }
