@@ -20,8 +20,6 @@ public enum RobotMap {
 
         AIM_TALON(8),
 
-        BALL_STOPPER_MOTOR(0),
-
         LED_LIGHTS(0),
 
         BALL_COUNTER(0),
