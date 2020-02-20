@@ -28,12 +28,14 @@ public class TestTalonCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    myMotor.set(ControlMode.PercentOutput, speed);
+    myMotor.set(ControlMode.PercentOutput, 0);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    myMotor.set(ControlMode.PercentOutput, speed);
   }
 
   // Called once the command ends or is interrupted.
