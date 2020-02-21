@@ -31,6 +31,10 @@ public class TurnCommand extends CommandBase {
         command.end(bool);
         super.end(bool);
     }
+
+    public boolean isFinished() {
+        return command.isFinished();
+    }
 }
 
 class AngleSupplier implements DoubleSupplier {
