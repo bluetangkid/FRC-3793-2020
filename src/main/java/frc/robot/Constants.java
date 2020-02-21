@@ -49,13 +49,13 @@ public final class Constants {
     public final static double kSShooter = 0.0497;
     public final static double kAShooter = 0.0154;
     public final static double kPShooter = 1.17;
-    public final static double shooterSpeedT = -60;
+    public final static double shooterSpeedT = 60;
     public final static double shooterSpeedB = -80;
 
     // Misc
     public final static int timeoutMs = 500;
-    public final static double intakeSpeed = .8;
-    public final static double conveyorSpeed = .5;
+    public final static double intakeSpeed = 1;
+    public final static double conveyorSpeed = .65;
     public final static double colorWheelSpeed = .8;
     public final static double climbSpeed = 1;
     public final static double climbWaitTime = 1; // number of seconds we wait to climb after start of teleop

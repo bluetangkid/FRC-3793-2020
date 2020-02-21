@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
   static NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-  static NetworkTableEntry horizontalOffset = limelightTable.getEntry("tx");
+  public static NetworkTableEntry horizontalOffset = limelightTable.getEntry("tx");
 
   public static Timer gameTime;
 
