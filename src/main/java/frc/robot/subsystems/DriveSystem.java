@@ -91,6 +91,7 @@ public class DriveSystem extends SubsystemBase {
   public void setMotorVelocity(double left, double right) {
     leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity/*, 0, feedForward.calculate(leftMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
     rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity/*, 0, feedForward.calculate(rightMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
+    System.out.println("ok buddy");
   }
   public void addOffset() {
     turnOffset += 1;

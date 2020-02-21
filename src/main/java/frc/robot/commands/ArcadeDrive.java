@@ -47,10 +47,10 @@ public class ArcadeDrive extends CommandBase {
     double rightMotorOutput = throttle + turn;
 
     if(Math.abs(leftMotorOutput) < .01 && Math.abs(rightMotorOutput) < .01) {
-      myDrive.getLeftMotorOne().disable();
-      myDrive.getRightMotorOne().disable();
+      myDrive.getLeftMotorOne().set(0);
+      myDrive.getRightMotorOne().set(0);
     } else {
-      System.out.println("schmoovin");
+      System.out.println(leftMotorOutput * Constants.maxVelocity * 60f);
       myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
     }
   }
