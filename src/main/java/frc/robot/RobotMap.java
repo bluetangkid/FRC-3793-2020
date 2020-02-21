@@ -24,6 +24,8 @@ public enum RobotMap {
 
         BALL_COUNTER(0),
 
+        SONAR_TRIG(2), SONAR_ECHO(3),
+
         CONVEYOR_VICTOR(5), COLOR_VICTOR(7), INTAKE_VICTOR(9),
 
         TOP_SHOOTER(34), BOTTOM_SHOOTER(35),
