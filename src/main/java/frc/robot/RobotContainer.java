@@ -7,30 +7,20 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallHandler;
-import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.TurnCommand;
-import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TestTalonCommand;
 import frc.robot.subsystems.ClimbSystem;
-import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
 import frc.robot.subsystems.IntakeSystem;
-import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -68,7 +58,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() { //TODO collision avoidance
     howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X), new JoystickButton(ControllerMap.operator, ControllerMap.Y));
-    //ballHandler.perpetually();
+    ballHandler.perpetually();
     //JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     //JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     //Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
