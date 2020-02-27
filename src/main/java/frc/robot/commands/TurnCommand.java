@@ -22,7 +22,7 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
+        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getAngle, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
         command.schedule();
     }
 

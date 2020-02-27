@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -18,16 +19,23 @@ public class ConveyorSystem extends SubsystemBase {
   /**
    * Creates a new ConveyorSystem.
    */
-  private VictorSPX conveyorVictor;
+  private TalonSRX conveyor;
   private Ultrasonic sonar;
 
   public ConveyorSystem() {
-    sonar = new Ultrasonic(RobotMap.SONAR_TRIG.getPin(), RobotMap.SONAR_TRIG.getPin());
-    conveyorVictor = new VictorSPX(RobotMap.CONVEYOR_VICTOR.getPin());
+    sonar = new Ultrasonic(RobotMap.SONAR_TRIG.getPin(), RobotMap.SONAR_ECHO.getPin());
+    sonar.setAutomaticMode(true);
+    conveyor = new TalonSRX(RobotMap.CONVEYOR_VICTOR.getPin());
+
+    conveyor.configContinuousCurrentLimit(40);
+    conveyor.enableCurrentLimit(true);
+
+    
   }
 
-  public void setVictor(double speed) {
-    if(sonar.getRangeInches() < 3)
-      conveyorVictor.set(ControlMode.PercentOutput, speed);
+  public void setVictor(double speed, boolean override) {
+    if(sonar.getRangeInches() < 8 || override)
+      conveyor.set(ControlMode.PercentOutput, speed);
+    else conveyor.set(ControlMode.PercentOutput, 0);
   }
 }

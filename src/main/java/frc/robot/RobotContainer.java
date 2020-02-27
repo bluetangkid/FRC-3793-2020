@@ -7,14 +7,23 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallHandler;
+import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.ColorWheelRotationCommand;
+import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.subsystems.ClimbSystem;
+import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
@@ -32,7 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   private final ClimbSystem climbSystem = new ClimbSystem();
-  //private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
+  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
   private final ConveyorSystem conveyorSystem = new ConveyorSystem();
   private final DriveSystem driveSystem = new DriveSystem();
   public HowitzerSystem howitzerSystem;
@@ -56,40 +65,41 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() { //TODO collision avoidance
-    howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X), new JoystickButton(ControllerMap.operator, ControllerMap.Y));
-    ballHandler.perpetually();
-    //JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
-    //JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    //Command aimTarget = new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0));
-    //Command getBall = new GetBall(driveSystem, ballHandler);
+  private void configureButtonBindings() { // TODO collision avoidance
+    howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X),
+        new JoystickButton(ControllerMap.operator, ControllerMap.Y));
+    //ballHandler.perpetually();
+    // JoystickButton aim = new JoystickButton(ControllerMap.driver,
+    // ControllerMap.LB);
+    // JoystickButton ball = new JoystickButton(ControllerMap.driver,
+    // ControllerMap.RB);
+    // Command aimTarget = new TurnCommand(driveSystem, () ->
+    // Command getBall = new GetBall(driveSystem, ballHandler);
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
-    // new ConditionalCommand(new ConditionalCommand(aimTarget, getBall, aim::get),
-    //     new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
+    // new ConditionalCommand(new ConditionalComm 1and(aimTarget, getBall, aim::get),
+    //    new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
 
     new JoystickButton(ControllerMap.operator, ControllerMap.RB).whileHeld(new ClimbCommand(climbSystem, -1));
     new JoystickButton(ControllerMap.operator, ControllerMap.LB).whileHeld(new ClimbCommand(climbSystem, 1));
-    //new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.aimTalon.set(ControlMode.PercentOutput, 1));
-    //new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.aimTalon.set(ControlMode.PercentOutput, -1));
-    //new JoystickButton(ControllerMap.operator, ControllerMap.A).whenPressed(() -> howitzerSystem.aimTalon.set(ControlMode.PercentOutput, 0));
 
     //new JoystickButton(ControllerMap.operator, ControllerMap.back)
     //    .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
 
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));
 
-    //for shootcommand, gotta figure out how to move/not for conveyor to prevent from shooting at low RPM
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     Command shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooterSystem, conveyorSystem);
     shooter.whileHeld(shoot);
 
-    //new AimCommand(howitzerSystem, driveSystem).perpetually();
-    // just use lambdas to do the howitzer angle stuff like below
-    new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+    new AimCommand(howitzerSystem, driveSystem).perpetually();
 
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() -> driveSystem.subOffset());
-    new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() -> driveSystem.addOffset());
+    new JoystickButton(ControllerMap.operator, ControllerMap.start).whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
+    // just use lambdas to do the howitzer angle stuff like below
+    //new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
+    //new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+
+    //new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() -> driveSystem.subOffset());
+    //new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() -> driveSystem.addOffset());
   }
 
   public boolean doubleButton(JoystickButton a, JoystickButton b) {
@@ -102,6 +112,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    //FindPath.config(3, .5f, 0, 1.88797f);
+    //return new FollowPath(driveSystem, FindPath.getStraight(2));
     return null;
     // An ExampleCommand will run in autonomous
   }

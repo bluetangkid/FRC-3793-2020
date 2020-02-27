@@ -12,6 +12,7 @@ import com.revrobotics.EncoderType;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ConveyorSystem;
@@ -35,7 +36,6 @@ public class ShootCommand extends CommandBase {
     system.getTopWheel().getPIDController().setD(0);
     system.getTopWheel().getEncoder(EncoderType.kHallSensor, 42);
     system.getTopWheel().getPIDController().setFeedbackDevice(system.getTopWheel().getEncoder(EncoderType.kHallSensor, 42));
-    system.getTopWheel().setInverted(true);
 
     system.getBottomWheel().getPIDController().setP(Constants.kPShooter);
     system.getBottomWheel().getPIDController().setI(0);
@@ -55,21 +55,25 @@ public class ShootCommand extends CommandBase {
     super.execute();
     if(!system.mayShoot() && phase == 2) {
       phase --;
-      conveyor.setVictor(0);
+      conveyor.setVictor(0, false);
     }
     if(phase == 2) {
-      system.getBottomWheel().getPIDController().setReference(setpointB, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()));
-      system.getTopWheel().getPIDController().setReference(setpointT, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()));
-      conveyor.setVictor(Constants.conveyorSpeed);
+      system.getBottomWheel().getPIDController().setReference(setpointB*60, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()/60));
+      system.getTopWheel().getPIDController().setReference(setpointT*60, ControlType.kVelocity, 0, feedForward.calculate(system.getTopWheel().getEncoder().getVelocity()/60));
+      conveyor.setVictor(Constants.conveyorSpeed, true);
+      System.out.println("aa");
     } else if(phase == 1) {
-      system.getBottomWheel().getPIDController().setReference(setpointB, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()));
-      system.getTopWheel().getPIDController().setReference(setpointT, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()));
-      conveyor.setVictor(0);
+      system.getBottomWheel().getPIDController().setReference(setpointB*60, ControlType.kVelocity, 0, feedForward.calculate(system.getBottomWheel().getEncoder().getVelocity()/60));
+      system.getTopWheel().getPIDController().setReference(setpointT*60, ControlType.kVelocity, 0, feedForward.calculate(system.getTopWheel().getEncoder().getVelocity()/60));
+      System.out.println("a");
+      conveyor.setVictor(0, false);
       if(system.mayShoot()) phase++;
     } else {
-      conveyor.setVictor(-1);
+      conveyor.setVictor(-1, true);
       if(timer.hasPeriodPassed(.05)) phase++;
     }
+    SmartDashboard.putNumber("b", system.getBottomWheel().getEncoder().getVelocity()/60f);
+    SmartDashboard.putNumber("t", system.getTopWheel().getEncoder().getVelocity()/60f);
   }
 
   @Override
@@ -78,6 +82,6 @@ public class ShootCommand extends CommandBase {
     system.getTopWheel().getPIDController().setReference(0, ControlType.kVelocity);
     system.getTopWheel().disable();
     system.getBottomWheel().disable();
-    conveyor.setVictor(0);
+    conveyor.setVictor(0, false);
   }
 }

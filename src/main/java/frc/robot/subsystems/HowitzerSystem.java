@@ -37,6 +37,7 @@ public class HowitzerSystem extends SubsystemBase {
   public double howitzerAngle;
   public double targetDistance;
   JoystickButton in, out;
+  public int zero;
 
   public HowitzerSystem(JoystickButton in, JoystickButton out) {
     this.in = in;
@@ -44,22 +45,35 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
     maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
+
+    aimTalon.configContinuousCurrentLimit(40);
+    zero = -aimTalon.getSelectedSensorPosition(0);
+    targetDistance = zero+aimTalon.getSelectedSensorPosition(0);
+    
   }
 
   @Override
   public void periodic() {
-    double dist = aimTalon.getSelectedSensorPosition(0)*Constants.tickPerIn;//TODO needs to be track len - tickperin thing + dist between end of track and pivot on x
-    howitzerAngle = Math.toDegrees(Math.acos((dist*dist + Constants.pivotLen*Constants.pivotLen - Constants.HowU*Constants.HowU)/(2*dist*Constants.pivotLen)) + Math.atan2(Constants.HowDy, dist));
-    if(!maxLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, .2);// the stuff following is a simple PF loop
-    else if (!minLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, -.2);
-    else if(in.get()) aimTalon.set(ControlMode.PercentOutput, -.5);
+    double dist = ((aimTalon.getSelectedSensorPosition(0)+zero)*Constants.rotPerIn)/((25d*(36d/24d))/4096d);//TODO needs to be track len - tickperin thing + dist between end of track and pivot on x
+    if(!maxLimitSwitch.get()) {
+      aimTalon.set(ControlMode.PercentOutput, 0.2);// the stuff following is a simple PF loop
+      zero = -aimTalon.getSelectedSensorPosition(0);
+    }
+    else if (!minLimitSwitch.get()) {
+      aimTalon.set(ControlMode.PercentOutput, -.2);
+    }
+    else if(in.get()) {
+      aimTalon.set(ControlMode.PercentOutput, -.5);
+    }
     else if(out.get()) aimTalon.set(ControlMode.PercentOutput, .5);
     //else if (targetDistance - dist > .1) aimTalon.set(ControlMode.PercentOutput, (targetDistance-dist)*.05 + Math.copySign(.15, targetDistance-dist));//just do a P loop for this
     else aimTalon.set(ControlMode.PercentOutput, 0);
+    System.out.println(dist + ":" + targetDistance);
   }
 
   public void goToAngle(double angle) {
-    targetDistance = 0 + aimOffset;//TODO Math for this using law of cosines
+    double angie = Math.PI - (Math.cos((Constants.HowU/Constants.pivotLen)*Math.sin(Math.toRadians(angle)))+Math.toRadians(angle));
+    targetDistance = (228.5-212.5*Math.cos(angie + aimOffset));
   }
 
   public void addOffset() {

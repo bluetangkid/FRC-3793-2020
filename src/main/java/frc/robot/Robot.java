@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   static NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+  public static NetworkTableEntry zDist = limelightTable.getEntry("camtran");
 
   public static NetworkTableEntry horizontalOffset = limelightTable.getEntry("tx");
 

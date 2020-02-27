@@ -32,13 +32,13 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, Constants.intakeSpeed);
-    C_system.setVictor(Constants.conveyorSpeed);
+    C_system.setVictor(Constants.conveyorSpeed, false);
   }
 
   public void end(boolean interrupted) {
     super.end(interrupted);
     m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
-    C_system.setVictor(0);
+    C_system.setVictor(0, false);
   }
 
   // Returns true when the command should end.

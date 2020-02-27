@@ -30,9 +30,8 @@ public class CW_ColorCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    desiredColor = CW_System.RED;
     switch (specifiedColor) {
-      case "R":
-        desiredColor = CW_System.RED;
       case "B":
         desiredColor = CW_System.BLUE;
       case "G":

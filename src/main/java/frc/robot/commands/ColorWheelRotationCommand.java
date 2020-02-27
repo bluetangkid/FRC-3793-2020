@@ -16,11 +16,12 @@ public class ColorWheelRotationCommand extends CommandBase {
    */
   ColorWheelSystem cw_System;
   int timer = 0;
-  int starterColor = cw_System.showColor();
+  int starterColor;
   double spinCount = 0;
 
   public ColorWheelRotationCommand(ColorWheelSystem cw_System) {
     this.cw_System = cw_System;
+    starterColor = cw_System.showColor();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cw_System);
   }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
 
@@ -26,7 +27,7 @@ public class AimCommand extends CommandBase {
     m_HowitzerSystem = howitzerSystem;
     m_DriveSystem = driveSystem;
 
-    addRequirements(m_HowitzerSystem, m_DriveSystem);
+    //addRequirements(m_HowitzerSystem, m_DriveSystem);
 
   }
 
@@ -36,10 +37,10 @@ public class AimCommand extends CommandBase {
     double ax, ay;
     double t = 0;
     double Us = 0.007148;
-    double Um = 0.016; //adjust this to match our trajectory
+    double Um = 0; //adjust this to match our trajectory
     double dt = .0087;
     double angle;
-    double xDist = 7; // straight-line distance to the target
+    double xDist = -0.0254*Robot.zDist.getDoubleArray(new Double[6])[2]; // straight-line distance to the target
     boolean finished = false;
     double Vx, Vy;
     double V = 27; // linear wheelspeed of b a l l
@@ -85,7 +86,8 @@ public class AimCommand extends CommandBase {
         y = 0;
       }
     }
-    m_HowitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
+    if(xDist == 0) m_HowitzerSystem.goToAngle(30);
+    else m_HowitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
   }
 
   // Returns true when the command should end.

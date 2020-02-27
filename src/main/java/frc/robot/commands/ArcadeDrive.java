@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.ControlType;
+import com.revrobotics.EncoderType;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,20 +31,27 @@ public class ArcadeDrive extends CommandBase {
     addRequirements(myDrive);
   }
 
+  @Override
+  public void initialize() {
+  }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turn = controller.getRawAxis(ControllerMap.leftX);
+    double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
     turn *= Constants.turnMax;
     throttle *= Constants.throttleMax;
     double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
-    if(magnitude < Constants.driveDeadzone) {
-      throttle = 0;
+    if(turn < Constants.driveDeadzone || throttle < Constants.driveDeadzone) {
+      if(Math.abs(throttle) < Constants.driveDeadzone)
+        throttle = 0;
+      if(Math.abs(turn) < Constants.driveDeadzone)
       turn = 0;
     } else {
       throttle *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
       turn *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
+      turn = Math.signum(turn)*turn*turn;
     }
     double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
@@ -51,7 +61,10 @@ public class ArcadeDrive extends CommandBase {
       myDrive.getRightMotorOne().set(0);
     } else {
       System.out.println(leftMotorOutput * Constants.maxVelocity * 60f);
-      myDrive.setMotorVelocity(leftMotorOutput * Constants.maxVelocity * 60f, rightMotorOutput * Constants.maxVelocity * 60f);
+      myDrive.getLeftMotorOne().set(leftMotorOutput);
+      myDrive.getRightMotorOne().set(rightMotorOutput);
+      //myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f, ControlType.kVelocity, 0 /*feedForward.calculate(leftMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
+      //myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f, ControlType.kVelocity, 0 /*feedForward.calculate(rightMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
     }
   }
 
