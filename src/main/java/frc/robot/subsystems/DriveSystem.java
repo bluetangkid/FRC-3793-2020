@@ -7,10 +7,12 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -30,6 +32,7 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
+  private CANPIDController left, right;
   private SimpleMotorFeedforward feedForward;
   private Pose2d pose;
   private AHRS navx;
@@ -43,24 +46,29 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin(), MotorType.kBrushless);
     rightMotorTwo = new CANSparkMax(RobotMap.RIGHT_DRIVE_MOTOR_TWO.getPin(), MotorType.kBrushless);
     leftMotorOne.restoreFactoryDefaults();
-    leftMotorTwo.restoreFactoryDefaults();
     rightMotorOne.restoreFactoryDefaults();
+    leftMotorTwo.restoreFactoryDefaults();
     rightMotorTwo.restoreFactoryDefaults();
-    getLeftMotorOne().getPIDController().setP(Constants.kPdt);
-    getLeftMotorOne().getPIDController().setI(0);
-    getLeftMotorOne().getPIDController().setD(0);
-    getRightMotorOne().getPIDController().setP(Constants.kPdt);
-    getRightMotorOne().getPIDController().setI(0);
-    getRightMotorOne().getPIDController().setD(0);
-    getLeftMotorOne().getPIDController().setFeedbackDevice(getLeftMotorOne().getEncoder(EncoderType.kHallSensor, 42));
-    getRightMotorOne().getPIDController().setFeedbackDevice(getRightMotorOne().getEncoder(EncoderType.kHallSensor, 42));
-    getLeftMotorTwo().follow(getLeftMotorOne());
-    getRightMotorTwo().follow(getRightMotorOne());
-    getLeftMotorOne().setSmartCurrentLimit(40);
-    getLeftMotorTwo().setSmartCurrentLimit(40);
-    getRightMotorOne().setSmartCurrentLimit(40);
-    getRightMotorTwo().setSmartCurrentLimit(40);
-    navx = new AHRS(Port.kMXP);
+
+    left = leftMotorOne.getPIDController();
+    right = rightMotorOne.getPIDController();
+
+    left.setP(Constants.kPdt);
+    left.setI(0);
+    left.setD(0);
+    right.setP(Constants.kPdt);
+    right.setI(0);
+    right.setD(0);
+    leftMotorTwo.follow(leftMotorOne);
+    rightMotorTwo.follow(rightMotorOne);
+    leftMotorOne.setIdleMode(IdleMode.kBrake);
+    leftMotorTwo.setIdleMode(IdleMode.kBrake);
+    rightMotorTwo.setIdleMode(IdleMode.kBrake);
+    rightMotorTwo.setIdleMode(IdleMode.kBrake);
+    leftMotorOne.setSmartCurrentLimit(40);
+    leftMotorTwo.setSmartCurrentLimit(40);
+    rightMotorOne.setSmartCurrentLimit(40);
+    rightMotorTwo.setSmartCurrentLimit(40);
   }
 
   @Override
@@ -101,8 +109,8 @@ public class DriveSystem extends SubsystemBase {
   }
 
   public void setMotorVelocity(double left, double right) {
-    leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity/*, 0, feedForward.calculate(leftMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
-    rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity/*, 0, feedForward.calculate(rightMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
+    leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity, 0, feedForward.calculate(left));//might need to divide by (60f*Constants.maxVelocity)
+    rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity, 0, feedForward.calculate(right));
   }
   public void addOffset() {
     turnOffset += 1;
