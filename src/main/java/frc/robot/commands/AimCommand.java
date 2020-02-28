@@ -90,6 +90,13 @@ public class AimCommand extends CommandBase {
     else m_HowitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
   }
 
+  public Double[] getLinearDist(){
+    Double[] arr = Robot.zDist.getDoubleArray(new Double[3]);
+    if(arr[0] == 0) {
+      return new Double[3];// TODO jetson stuff
+    } else return arr;
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
