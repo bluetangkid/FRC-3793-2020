@@ -66,10 +66,10 @@ public class DriveSystem extends SubsystemBase {
     leftMotorTwo.setIdleMode(IdleMode.kBrake);
     rightMotorTwo.setIdleMode(IdleMode.kBrake);
     rightMotorTwo.setIdleMode(IdleMode.kBrake);
-    leftMotorOne.setSmartCurrentLimit(40);
-    leftMotorTwo.setSmartCurrentLimit(40);
-    rightMotorOne.setSmartCurrentLimit(40);
-    rightMotorTwo.setSmartCurrentLimit(40);
+    leftMotorOne.setSmartCurrentLimit(80);
+    leftMotorTwo.setSmartCurrentLimit(80);
+    rightMotorOne.setSmartCurrentLimit(80);
+    rightMotorTwo.setSmartCurrentLimit(80);
   }
 
   @Override

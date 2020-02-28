@@ -40,8 +40,6 @@ public class ArcadeDrive extends CommandBase {
   public void execute() {
     double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
-    turn *= Constants.turnMax;
-    throttle *= Constants.throttleMax;
     double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
     if(turn < Constants.driveDeadzone || throttle < Constants.driveDeadzone) {
       if(Math.abs(throttle) < Constants.driveDeadzone)
@@ -49,23 +47,22 @@ public class ArcadeDrive extends CommandBase {
       if(Math.abs(turn) < Constants.driveDeadzone)
       turn = 0;
     } else {
-      throttle *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
-      turn *= ((magnitude - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
+      throttle *= ((magnitude - Constants.driveDeadzone) / (Constants.throttleMax - Constants.driveDeadzone));
+      turn *= ((magnitude - Constants.driveDeadzone) / (Constants.turnMax - Constants.driveDeadzone));
       turn = Math.signum(turn)*turn*turn;
     }
     double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
-
-    if(Math.abs(leftMotorOutput) < .01 && Math.abs(rightMotorOutput) < .01) {
-      myDrive.getLeftMotorOne().set(0);
-      myDrive.getRightMotorOne().set(0);
-    } else {
-      System.out.println(leftMotorOutput * Constants.maxVelocity * 60f);
+    
+    if(leftMotorOutput == 0) {
       myDrive.getLeftMotorOne().set(leftMotorOutput);
       myDrive.getRightMotorOne().set(rightMotorOutput);
+    } else {
+      myDrive.getLeftMotorOne().set(leftMotorOutput);
+      myDrive.getRightMotorOne().set(rightMotorOutput);
+    }
       //myDrive.getLeftMotorOne().getPIDController().setReference(leftMotorOutput * Constants.maxVelocity * 60f, ControlType.kVelocity, 0 /*feedForward.calculate(leftMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
       //myDrive.getRightMotorOne().getPIDController().setReference(rightMotorOutput * Constants.maxVelocity * 60f, ControlType.kVelocity, 0 /*feedForward.calculate(rightMotorOne.getEncoder(EncoderType.kHallSensor, 42).getVelocity())*/);
-    }
   }
 
   // Returns true when the command should end.

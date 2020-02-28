@@ -25,7 +25,7 @@ public final class Constants {
     public final static double turnMax = .3;
     public final static double throttleMax = 1;
     public final static double maxVelocity = 15;
-    public final static double driveDeadzone = .15f;
+    public final static double driveDeadzone = .12f;
     public final static double kPdt = 3.05;
     public final static double kSdt = 0.138;
     public final static double kVdt = 0.817;
