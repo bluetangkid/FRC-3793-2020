@@ -22,6 +22,7 @@ import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TestDriveMotorsCommand;
+import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
@@ -112,9 +113,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //FindPath.config(3, .5f, 0, 1.88797f);
+    FindPath.config(3, .5f, 0, 1.88797f);
     //return new FollowPath(driveSystem, FindPath.getStraight(2));
-    return null;
+    return new TurnCommand(driveSystem, () -> 90);
     // An ExampleCommand will run in autonomous
   }
 }
