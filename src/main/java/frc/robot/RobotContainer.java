@@ -88,7 +88,7 @@ public class RobotContainer {
     new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));
 
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooterSystem, conveyorSystem);
+    Command shoot = new ShootCommand(shooterSystem, conveyorSystem);
     shooter.whileHeld(shoot);
 
     new AimCommand(howitzerSystem, driveSystem).perpetually();

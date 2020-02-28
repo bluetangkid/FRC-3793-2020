@@ -45,11 +45,14 @@ public final class Constants {
     public final static double howMax = 10.25;
 
     // Shooter
-    public final static double kVShooter = 0.0287;
-    public final static double kSShooter = 1.5;
-    public final static double kAShooter = 0.000654;
-    public final static double kPShooter = 0.0533;
-    public final static double shooterSpeedT = 80;
+    public final static double kVShooter = 0.126;
+    public final static double kSShooter = 0.111;
+    public final static double kAShooter = 0.0168;
+    public final static double kVShooterB = 0.127;
+    public final static double kSShooterB = 0.109;
+    public final static double kAShooterB = 0.0167;
+    public final static double kPShooter = 0.000000000001;
+    public final static double shooterSpeedT = 60;
     public final static double shooterSpeedB = 87;
 
     // Misc

@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -26,13 +27,16 @@ public class ShooterSystem extends SubsystemBase {
   CANSparkMax topWheel;
   CANSparkMax bottomWheel;
   CANPIDController top, bottom;
-  CANEncoder topE, botE;
-  SimpleMotorFeedforward feedForward;
+  public CANEncoder topE, botE;
+  SimpleMotorFeedforward feedForward, feedforward2;
 
   public ShooterSystem() {
     topWheel = new CANSparkMax(RobotMap.TOP_SHOOTER.getPin(), MotorType.kBrushless);
     bottomWheel = new CANSparkMax(RobotMap.BOTTOM_SHOOTER.getPin(), MotorType.kBrushless);
+    topWheel.restoreFactoryDefaults();
+    bottomWheel.restoreFactoryDefaults();
     feedForward = new SimpleMotorFeedforward(Constants.kSShooter, Constants.kVShooter, Constants.kAShooter);
+    feedforward2 = new SimpleMotorFeedforward(Constants.kSShooterB, Constants.kVShooterB, Constants.kAShooterB);
     top = topWheel.getPIDController();
     bottom = bottomWheel.getPIDController();
     topE = topWheel.getEncoder();
@@ -63,12 +67,11 @@ public class ShooterSystem extends SubsystemBase {
   }
 
   public void setSpeed(double t, double b){
-    bottom.setReference(b, ControlType.kVelocity, 0, feedForward.calculate(b));
-    top.setReference(t, ControlType.kVelocity, 0, feedForward.calculate(t));
+    bottom.setReference(b*60f, ControlType.kVelocity, 0, feedforward2.calculate(b));
+    top.setReference(t*60f, ControlType.kVelocity, 0, feedForward.calculate(t));
   }
 
   public boolean mayShoot() {
-    System.out.println(topE.getVelocity());
     return Math.abs(topE.getVelocity()/60f) > .95 * Math.abs(Constants.shooterSpeedT) && Math.abs(botE.getVelocity()/60f) > .95 * Math.abs(Constants.shooterSpeedB);
   }
 }

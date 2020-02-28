@@ -68,7 +68,6 @@ public class HowitzerSystem extends SubsystemBase {
     else if(out.get()) aimTalon.set(ControlMode.PercentOutput, .5);
     //else if (targetDistance - dist > .1) aimTalon.set(ControlMode.PercentOutput, (targetDistance-dist)*.05 + Math.copySign(.15, targetDistance-dist));//just do a P loop for this
     else aimTalon.set(ControlMode.PercentOutput, 0);
-    System.out.println(dist + ":" + targetDistance);
   }
 
   public void goToAngle(double angle) {

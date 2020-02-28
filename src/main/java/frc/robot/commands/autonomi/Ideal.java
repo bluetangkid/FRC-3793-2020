@@ -26,7 +26,7 @@ class Ideal extends CommandBase {
     DriveSystem drive;
 
     Ideal(ShooterSystem shooter, IntakeSystem intakey, ConveyorSystem conveyey, DriveSystem drive, HowitzerSystem how){
-        shoot = new ShootCommand(Constants.shooterSpeedT, Constants.shooterSpeedB, shooter, conveyey);
+        shoot = new ShootCommand(shooter, conveyey);
         intake = new IntakeCommand(intakey, conveyey);
         turn = new TurnCommand(drive, () -> Robot.horizontalOffset.getDouble(0));
         followers = new FollowPath[2];
