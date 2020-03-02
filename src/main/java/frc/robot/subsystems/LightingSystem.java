@@ -16,8 +16,8 @@ public class LightingSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystem.
    */
-  private AddressableLED LEDs;
-  private AddressableLEDBuffer buffer;
+  public AddressableLED LEDs;
+  public AddressableLEDBuffer buffer;
   private int length;
 
   public LightingSystem(int length) {

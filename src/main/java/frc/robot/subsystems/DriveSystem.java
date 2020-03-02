@@ -109,9 +109,9 @@ public class DriveSystem extends SubsystemBase {
     return feedForward;
   }
 
-  public void setMotorVelocity(double left, double right) {
-    leftMotorOne.getPIDController().setReference(left, ControlType.kVelocity, 0, feedForward.calculate(left));//might need to divide by (60f*Constants.maxVelocity)
-    rightMotorOne.getPIDController().setReference(right, ControlType.kVelocity, 0, feedForward.calculate(right));
+  public void setMotorVelocity(double leftV, double rightV) {
+    left.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
+    right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
   }
   public void addOffset() {
     turnOffset += 1;
