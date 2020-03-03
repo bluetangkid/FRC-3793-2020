@@ -34,6 +34,7 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
   private CANPIDController left, right;
+  //private CANEncoder encL, encR;
   private SimpleMotorFeedforward feedForward;
   private Pose2d pose;
   private AHRS navx;
@@ -53,6 +54,10 @@ public class DriveSystem extends SubsystemBase {
 
     left = leftMotorOne.getPIDController();
     right = rightMotorOne.getPIDController();
+    //encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    //encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    //left.setFeedbackDevice(encL);
+    //right.setFeedbackDevice(encR);
 
     left.setP(Constants.kPdt);
     left.setI(0);

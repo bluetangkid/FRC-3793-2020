@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -18,9 +19,11 @@ public class IntakeSystem extends SubsystemBase {
    * Creates a new IntakeSystem.
    */
   private VictorSPX intakeMotor;
+  private Spark pivotMotor;
 
   public IntakeSystem() {
     intakeMotor = new VictorSPX(RobotMap.INTAKE_VICTOR.getPin());
+    pivotMotor = new Spark(RobotMap.INTAKE_PIVOT_SPARK.getPin());
   }
 
   @Override
@@ -36,6 +39,10 @@ public class IntakeSystem extends SubsystemBase {
   public IntakeSystem setMotor(double d) {
     intakeMotor.set(ControlMode.PercentOutput, d);
     return this;
+  }
+
+  public Spark getSpark(){
+    return pivotMotor;
   }
 
 }

@@ -40,4 +40,8 @@ public class ConveyorSystem extends SubsystemBase {
     if(System.currentTimeMillis() %10 ==0)
     System.out.println("sonar: " + sonar.getRangeInches());
   }
+
+  public TalonSRX getTalon(){
+    return conveyor;
+  }
 }

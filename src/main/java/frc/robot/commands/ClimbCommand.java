@@ -8,8 +8,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.ControllerMap;
 import frc.robot.subsystems.ClimbSystem;
 
 /**
@@ -24,10 +26,11 @@ public class ClimbCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   Timer timer;
-  int dir;
-  public ClimbCommand(ClimbSystem C_system, int dir) {
+  double dir = 0;
+  XboxController controller;
+  public ClimbCommand(ClimbSystem C_system, XboxController controller) {
     this.C_system = C_system;
-    this.dir = dir;
+    this.controller = controller;
     this.timer = new Timer();
     timer.start();
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,6 +40,7 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    dir = controller.getRawAxis(ControllerMap.rightY);
     C_system.set(Constants.climbSpeed * dir);
   }
 

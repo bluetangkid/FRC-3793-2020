@@ -9,11 +9,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -26,7 +28,7 @@ public class HowitzerSystem extends SubsystemBase {
    */
   public TalonSRX aimTalon;
   private double aimOffset;
-  private AHRS gyro;
+  private PigeonIMU gyro;
 
   public DigitalInput maxLimitSwitch;
   public DigitalInput minLimitSwitch;
@@ -40,10 +42,10 @@ public class HowitzerSystem extends SubsystemBase {
   public double howitzerAngle;
   public double targetAngle;
   JoystickButton in, out;
-
+  XboxController operatorController;
   final double Kp = .1;
 
-  public HowitzerSystem(JoystickButton in, JoystickButton out) {
+  public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
     this.out = out;
     aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
@@ -51,21 +53,41 @@ public class HowitzerSystem extends SubsystemBase {
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
 
     aimTalon.configContinuousCurrentLimit(40);
-    gyro = new AHRS(Port.kUSB);
+    gyro = new PigeonIMU(s.getTalon());
+  }
+
+  public HowitzerSystem(XboxController operatorController, ConveyorSystem s) {
+    this.operatorController = operatorController;
+    aimTalon = new TalonSRX(RobotMap.AIM_TALON.getPin());
+    maxLimitSwitch = new DigitalInput(RobotMap.MAX_LIMIT_SWITCH.getPin());
+    minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
+
+    aimTalon.configContinuousCurrentLimit(40);
+    gyro = new PigeonIMU(s.getTalon());
   }
 
   @Override
   public void periodic() {
-    howitzerAngle = gyro.getPitch();
-    if(System.currentTimeMillis() %10 ==0)
-    System.out.println("gyro: " + howitzerAngle);
-    
-    if(!maxLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, 0.2);// the stuff following is a simple PF loop
-    else if (!minLimitSwitch.get()) aimTalon.set(ControlMode.PercentOutput, -.2);
-    else if(in.get()) aimTalon.set(ControlMode.PercentOutput, -.5);
-    else if(out.get()) aimTalon.set(ControlMode.PercentOutput, .5);
-    //else if (targetAngle - howitzerAngle > .1) aimTalon.set(ControlMode.PercentOutput, Kp*(targetAngle - howitzerAngle));//just do a P loop for this
-    else aimTalon.set(ControlMode.PercentOutput, 0);
+    double[] ypr = new double[3];
+    gyro.getYawPitchRoll(ypr);
+    howitzerAngle = ypr[1];
+    if (System.currentTimeMillis() % 3 == 0)
+      System.out.println("gyro: " + gyro.getFusedHeading() + ":" + ypr[0] + ":" + ypr[1] + ":" + ypr[2]);
+
+    if (!maxLimitSwitch.get())
+      aimTalon.set(ControlMode.PercentOutput, 0.2);
+    else if (!minLimitSwitch.get())
+      aimTalon.set(ControlMode.PercentOutput, -.2);
+    else if (operatorController != null && operatorController.getPOV() == 180)
+      aimTalon.set(ControlMode.PercentOutput, -.5);
+    else if (operatorController != null && operatorController.getPOV() == 0)
+      aimTalon.set(ControlMode.PercentOutput, .5);
+    // else if (targetAngle - howitzerAngle > .1)
+    // aimTalon.set(ControlMode.PercentOutput, Kp*(targetAngle -
+    // howitzerAngle));//just do a P loop for this
+    else {
+      aimTalon.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   public void goToAngle(double angle) {

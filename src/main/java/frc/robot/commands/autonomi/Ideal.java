@@ -26,7 +26,7 @@ class Ideal extends CommandBase {
     DriveSystem drive;
 
     Ideal(ShooterSystem shooter, IntakeSystem intakey, ConveyorSystem conveyey, DriveSystem drive, HowitzerSystem how){
-        shoot = new ShootCommand(shooter, conveyey);
+        shoot = new ShootCommand(shooter, conveyey, Constants.shooterSpeedT, Constants.shooterSpeedB);
         intake = new IntakeCommand(intakey, conveyey);
         turn = new TurnCommand(drive, () -> Robot.horizontalOffset.getDouble(0));
         followers = new FollowPath[2];
@@ -43,7 +43,7 @@ class Ideal extends CommandBase {
     public void execute () {
         switch(phase) {
             case(0):
-                if(timer.hasPeriodPassed(1.5)) {
+                if(timer.hasPeriodPassed(2.5)) {
                     phase++;
                     timer.stop();
                     timer.reset();

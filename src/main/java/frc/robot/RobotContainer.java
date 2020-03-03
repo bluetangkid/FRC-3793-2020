@@ -20,7 +20,9 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.commands.FollowPath;
 import frc.robot.commands.GetBall;
+import frc.robot.commands.IntakeBackward;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.commands.TurnCommand;
@@ -50,7 +52,7 @@ public class RobotContainer {
   public HowitzerSystem howitzerSystem;
   private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
-  private final PowerMonitor powerMonitor = new PowerMonitor();
+  //private final PowerMonitor powerMonitor = new PowerMonitor();
 
   private final BallHandler ballHandler = new BallHandler();
 
@@ -74,37 +76,47 @@ public class RobotContainer {
 
     // ---------- DRIVER ----------
     ballHandler.perpetually();
-    JoystickButton aim = new JoystickButton(ControllerMap.driver,
-     ControllerMap.LB);
+    JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     aim.whileHeld(new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0)));
-    JoystickButton ball = new JoystickButton(ControllerMap.driver,
-     ControllerMap.RB);
+    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     ball.whileHeld(new GetBall(driveSystem, ballHandler));
 
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
 
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));//TODO automate intake anyway
+    new JoystickButton(ControllerMap.driver, ControllerMap.X).whileHeld(new IntakePivotCommand(intakeSystem, -.5));
 
+    // automate
+    // intake
+    // anyway
+
+    // ---------- IN FLUX -----------
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));// TODO
+    JoystickButton intakeBackwad = new JoystickButton(ControllerMap.driver, ControllerMap.B);
+    intakeBackwad.whileHeld(new IntakeBackward(conveyorSystem, shooterSystem, intakeSystem));
     // ---------- OPERATOR ----------
 
-    howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X),
-        new JoystickButton(ControllerMap.operator, ControllerMap.Y));
-    
-    new JoystickButton(ControllerMap.operator, ControllerMap.RB).whileHeld(new ClimbCommand(climbSystem, -1));
-    new JoystickButton(ControllerMap.operator, ControllerMap.LB).whileHeld(new ClimbCommand(climbSystem, 1));
+    howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
 
-    JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    shooter.whileHeld(new ShootCommand(shooterSystem, conveyorSystem));
+    new JoystickButton(ControllerMap.operator, ControllerMap.RB)
+        .whileHeld(new ClimbCommand(climbSystem, ControllerMap.operator));
+
+    JoystickButton shooterForward = new JoystickButton(ControllerMap.operator, ControllerMap.B);
+    shooterForward.whileHeld(new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
 
     new AimCommand(howitzerSystem, driveSystem).perpetually();
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.start).whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
+    new JoystickButton(ControllerMap.operator, ControllerMap.start)
+        .whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
     // just use lambdas to do the howitzer angle stuff like below
-    //new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() -> howitzerSystem.addOffset());
-    //new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() -> howitzerSystem.subOffset());
+    // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() ->
+    // howitzerSystem.addOffset());
+    // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() ->
+    // howitzerSystem.subOffset());
 
-    //new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() -> driveSystem.subOffset());
-    //new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() -> driveSystem.addOffset());
+    // new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() ->
+    // driveSystem.subOffset());
+    // new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() ->
+    // driveSystem.addOffset());
   }
 
   public boolean doubleButton(JoystickButton a, JoystickButton b) {
@@ -117,7 +129,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new FollowPath(driveSystem, FindPath.getStraight(2)); //straight don't work don't even thing about it whore
+    // return new FollowPath(driveSystem, FindPath.getStraight(2)); //straight don't
+    // work don't even thing about it whore
     return new TurnCommand(driveSystem, () -> 90);
     // An ExampleCommand will run in autonomous
   }

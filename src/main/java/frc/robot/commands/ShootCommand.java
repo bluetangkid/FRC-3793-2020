@@ -18,9 +18,12 @@ public class ShootCommand extends CommandBase {
   int phase;
   ShooterSystem system;
   ConveyorSystem conveyor;
-  public ShootCommand(ShooterSystem system, ConveyorSystem conveyor) {
+  double top, bottom;
+  public ShootCommand(ShooterSystem system, ConveyorSystem conveyor, double top, double bottom) {
     this.system = system;
     this.conveyor = conveyor;
+    this.top = top;
+    this.bottom = bottom;
     timer = new Timer();
   }
 
@@ -39,10 +42,10 @@ public class ShootCommand extends CommandBase {
       conveyor.setVictor(0, false);
     }
     if(phase == 2) {
-      system.setSpeed(Constants.shooterSpeedT, Constants.shooterSpeedB);
+      system.setSpeed(top, bottom);
       conveyor.setVictor(Constants.conveyorSpeed, true);
     } else if(phase == 1) {
-      system.setSpeed(Constants.shooterSpeedT, Constants.shooterSpeedB);
+      system.setSpeed(top, bottom);
       conveyor.setVictor(0, false);
       if(system.mayShoot()) phase++;
     } else {

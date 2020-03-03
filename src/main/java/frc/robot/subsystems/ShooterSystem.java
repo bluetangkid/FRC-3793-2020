@@ -37,6 +37,8 @@ public class ShooterSystem extends SubsystemBase {
     bottomWheel.restoreFactoryDefaults();
     feedForward = new SimpleMotorFeedforward(Constants.kSShooter, Constants.kVShooter, Constants.kAShooter);
     feedforward2 = new SimpleMotorFeedforward(Constants.kSShooterB, Constants.kVShooterB, Constants.kAShooterB);
+    topWheel.setInverted(false);
+    bottomWheel.setInverted(true);
     top = topWheel.getPIDController();
     bottom = bottomWheel.getPIDController();
     topE = topWheel.getEncoder();
@@ -45,7 +47,6 @@ public class ShooterSystem extends SubsystemBase {
     top.setI(0);
     top.setD(0);
     bottomWheel.setIdleMode(IdleMode.kCoast);
-    topWheel.setInverted(true);
 
     bottom.setP(Constants.kPShooter);
     bottom.setI(0);
@@ -67,8 +68,8 @@ public class ShooterSystem extends SubsystemBase {
   }
 
   public void setSpeed(double t, double b){
-    bottom.setReference(b*60f, ControlType.kVelocity, 0, feedforward2.calculate(b));
-    top.setReference(t*60f, ControlType.kVelocity, 0, feedForward.calculate(t));
+    bottom.setReference(b*60f, ControlType.kVelocity, 0, feedforward2.calculate(b*60));
+    top.setReference(t*60f, ControlType.kVelocity, 0, feedForward.calculate(t*60));
   }
 
   public boolean mayShoot() {
