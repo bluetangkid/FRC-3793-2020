@@ -19,6 +19,7 @@ import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.commands.FollowPath;
+import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TestDriveMotorsCommand;
@@ -29,6 +30,7 @@ import frc.robot.subsystems.ConveyorSystem;
 import frc.robot.subsystems.DriveSystem;
 import frc.robot.subsystems.HowitzerSystem;
 import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.PowerMonitor;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -48,6 +50,7 @@ public class RobotContainer {
   public HowitzerSystem howitzerSystem;
   private final IntakeSystem intakeSystem = new IntakeSystem();
   private final ShooterSystem shooterSystem = new ShooterSystem();
+  private final PowerMonitor powerMonitor = new PowerMonitor();
 
   private final BallHandler ballHandler = new BallHandler();
 
@@ -67,31 +70,31 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { // TODO collision avoidance
+    FindPath.config(3, .5f, 0, 1.88797f);
+
+    // ---------- DRIVER ----------
+    ballHandler.perpetually();
+    JoystickButton aim = new JoystickButton(ControllerMap.driver,
+     ControllerMap.LB);
+    aim.whileHeld(new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0)));
+    JoystickButton ball = new JoystickButton(ControllerMap.driver,
+     ControllerMap.RB);
+    ball.whileHeld(new GetBall(driveSystem, ballHandler));
+
+    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
+
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));//TODO automate intake anyway
+
+    // ---------- OPERATOR ----------
+
     howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X),
         new JoystickButton(ControllerMap.operator, ControllerMap.Y));
-    //ur gonna have to write a turnTo limemight thing whore <3
-    //ballHandler.perpetually();
-    // JoystickButton aim = new JoystickButton(ControllerMap.driver,
-    // ControllerMap.LB);
-    // JoystickButton ball = new JoystickButton(ControllerMap.driver,
-    // ControllerMap.RB);
-    // Command aimTarget = new TurnCommand(driveSystem, () ->
-    // Command getBall = new GetBall(driveSystem, ballHandler);
-    driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
-    // new ConditionalCommand(new ConditionalComm 1and(aimTarget, getBall, aim::get),
-    //    new ArcadeDrive(driveSystem, ControllerMap.driver), () -> doubleButton(aim, ball)).perpetually();
-
+    
     new JoystickButton(ControllerMap.operator, ControllerMap.RB).whileHeld(new ClimbCommand(climbSystem, -1));
     new JoystickButton(ControllerMap.operator, ControllerMap.LB).whileHeld(new ClimbCommand(climbSystem, 1));
 
-    //new JoystickButton(ControllerMap.operator, ControllerMap.back)
-    //    .whenPressed(new ColorWheelRotationCommand(colorWheelSystem).andThen(new CW_ColorCommand(colorWheelSystem)));
-
-    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));
-
     JoystickButton shooter = new JoystickButton(ControllerMap.operator, ControllerMap.B);
-    Command shoot = new ShootCommand(shooterSystem, conveyorSystem);
-    shooter.whileHeld(shoot);
+    shooter.whileHeld(new ShootCommand(shooterSystem, conveyorSystem));
 
     new AimCommand(howitzerSystem, driveSystem).perpetually();
 
@@ -114,7 +117,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    FindPath.config(3, .5f, 0, 1.88797f);
     //return new FollowPath(driveSystem, FindPath.getStraight(2)); //straight don't work don't even thing about it whore
     return new TurnCommand(driveSystem, () -> 90);
     // An ExampleCommand will run in autonomous

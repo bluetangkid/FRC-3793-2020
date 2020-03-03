@@ -30,7 +30,9 @@ public enum RobotMap {
 
         TOP_SHOOTER(34), BOTTOM_SHOOTER(35),
 
-        MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1);
+        MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1),
+
+        PDP_ID(1);//TODO enter the PDP CAN ID
 
     int pin;
 

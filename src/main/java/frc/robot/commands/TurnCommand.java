@@ -18,6 +18,7 @@ public class TurnCommand extends CommandBase {
         super();
         this.d_system = d_system;
         this.getAngle = new AngleSupplier(getAngle, d_system.getAngOffset());
+        addRequirements(d_system);
     }
 
     @Override
