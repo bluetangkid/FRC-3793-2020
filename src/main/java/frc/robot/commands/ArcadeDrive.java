@@ -58,7 +58,7 @@ public class ArcadeDrive extends CommandBase {
       myDrive.getLeftMotorOne().set(0);
       myDrive.getRightMotorOne().set(0);
     } else {
-      myDrive.setMotorVelocity(leftMotorOutput*60f*Constants.maxVelocity, rightMotorOutput*60f*Constants.maxVelocity);
+      myDrive.setMotorVelocity(leftMotorOutput*60f*Constants.maxVelocity, rightMotorOutput*60f*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
     }
   }
 

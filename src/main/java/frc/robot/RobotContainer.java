@@ -69,6 +69,7 @@ public class RobotContainer {
   private void configureButtonBindings() { // TODO collision avoidance
     howitzerSystem = new HowitzerSystem(new JoystickButton(ControllerMap.operator, ControllerMap.X),
         new JoystickButton(ControllerMap.operator, ControllerMap.Y));
+    //ur gonna have to write a turnTo limemight thing whore <3
     //ballHandler.perpetually();
     // JoystickButton aim = new JoystickButton(ControllerMap.driver,
     // ControllerMap.LB);
@@ -114,7 +115,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     FindPath.config(3, .5f, 0, 1.88797f);
-    //return new FollowPath(driveSystem, FindPath.getStraight(2));
+    //return new FollowPath(driveSystem, FindPath.getStraight(2)); //straight don't work don't even thing about it whore
     return new TurnCommand(driveSystem, () -> 90);
     // An ExampleCommand will run in autonomous
   }
