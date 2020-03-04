@@ -23,7 +23,7 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getAngle, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
+        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
         command.schedule();//if it moves too slow you gotta go to driveSystem setVelocity and multiply by something idk
         //if he too fast just decrease P a little vro
     }
