@@ -45,13 +45,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final ClimbSystem climbSystem = new ClimbSystem();
-  private final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
-  private final ConveyorSystem conveyorSystem = new ConveyorSystem();
-  private final DriveSystem driveSystem = new DriveSystem();
+  public final ClimbSystem climbSystem = new ClimbSystem();
+  public final ColorWheelSystem colorWheelSystem = new ColorWheelSystem();
+  public final ConveyorSystem conveyorSystem = new ConveyorSystem();
+  public final DriveSystem driveSystem = new DriveSystem();
   public HowitzerSystem howitzerSystem;
-  private final IntakeSystem intakeSystem = new IntakeSystem();
-  private final ShooterSystem shooterSystem = new ShooterSystem();
+  public final IntakeSystem intakeSystem = new IntakeSystem();
+  public final ShooterSystem shooterSystem = new ShooterSystem();
   //private final PowerMonitor powerMonitor = new PowerMonitor();
 
   private final BallHandler ballHandler = new BallHandler();

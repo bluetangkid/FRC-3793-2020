@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.CameraServerJNI;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -45,6 +47,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -66,6 +69,12 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    if(ControllerMap.driver.getRawButton(ControllerMap.back)){
+      shootDumb();
+    }else{
+      m_robotContainer.shooterSystem.getTopWheel().set(0);
+      m_robotContainer.shooterSystem.getBottomWheel().set(0);
+    }
   }
 
   /**
@@ -129,4 +138,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {}
+
+  public void shootDumb(){
+    m_robotContainer.shooterSystem.getTopWheel().set(.85);
+    m_robotContainer.shooterSystem.getBottomWheel().set(.95);
+  }
 }
