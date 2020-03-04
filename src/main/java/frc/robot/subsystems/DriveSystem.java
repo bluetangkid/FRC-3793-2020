@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -34,8 +36,9 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
   private CANPIDController left, right;
-  //private CANEncoder encL, encR;
+  private CANEncoder encL, encR;
   private SimpleMotorFeedforward feedForward;
+  private DifferentialDriveOdometry odometry;
   private Pose2d pose;
   private AHRS navx;
 
@@ -54,6 +57,8 @@ public class DriveSystem extends SubsystemBase {
 
     left = leftMotorOne.getPIDController();
     right = rightMotorOne.getPIDController();
+    encL = leftMotorOne.getEncoder();
+    encR = rightMotorOne.getEncoder();
     //encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
     //encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
     //left.setFeedbackDevice(encL);
@@ -71,10 +76,12 @@ public class DriveSystem extends SubsystemBase {
     leftMotorTwo.setIdleMode(IdleMode.kBrake);
     rightMotorTwo.setIdleMode(IdleMode.kBrake);
     rightMotorTwo.setIdleMode(IdleMode.kBrake);
-    leftMotorOne.setSmartCurrentLimit(80);
-    leftMotorTwo.setSmartCurrentLimit(80);
-    rightMotorOne.setSmartCurrentLimit(80);
-    rightMotorTwo.setSmartCurrentLimit(80);
+    leftMotorOne.setSmartCurrentLimit(50);
+    leftMotorTwo.setSmartCurrentLimit(50);
+    rightMotorOne.setSmartCurrentLimit(50);
+    rightMotorTwo.setSmartCurrentLimit(50);
+
+    odometry = new DifferentialDriveOdometry(new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   @Override
@@ -84,6 +91,7 @@ public class DriveSystem extends SubsystemBase {
     //SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder(EncoderType.kQuadrature, 2048).getPosition());
     //Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
     //pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
+    odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
   }
 
   public CANSparkMax getLeftMotorOne() {
@@ -102,8 +110,8 @@ public class DriveSystem extends SubsystemBase {
     return rightMotorTwo;
   }
 
-  public Pose2d getPose() {
-    return pose;
+  public Pose2d getPose() {//TODO if it disagrees with the t265 by .25m, reset pose to t265
+    return odometry.getPoseMeters();
   }
 
   public Pose2d getAngle(){

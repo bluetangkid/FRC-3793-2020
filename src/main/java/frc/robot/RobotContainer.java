@@ -85,14 +85,10 @@ public class RobotContainer {
 
     new JoystickButton(ControllerMap.driver, ControllerMap.X).whileHeld(new IntakePivotCommand(intakeSystem, -.5));
 
-    // automate
-    // intake
-    // anyway
-
     // ---------- IN FLUX -----------
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));// TODO
-    JoystickButton intakeBackwad = new JoystickButton(ControllerMap.driver, ControllerMap.B);
-    intakeBackwad.whileHeld(new IntakeBackward(conveyorSystem, shooterSystem, intakeSystem));
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));//TODO automate intake
+    JoystickButton intakeBackward = new JoystickButton(ControllerMap.driver, ControllerMap.B);
+    intakeBackward.whileHeld(new IntakeBackward(conveyorSystem, shooterSystem, intakeSystem));
     // ---------- OPERATOR ----------
 
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
@@ -107,16 +103,16 @@ public class RobotContainer {
 
     new JoystickButton(ControllerMap.operator, ControllerMap.start)
         .whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
-    // just use lambdas to do the howitzer angle stuff like below
-    // new JoystickButton(ControllerMap.operator, ControllerMap.X).whenPressed(() ->
-    // howitzerSystem.addOffset());
-    // new JoystickButton(ControllerMap.operator, ControllerMap.Y).whenPressed(() ->
-    // howitzerSystem.subOffset());
+    
+    new DPad(ControllerMap.operator, DPad.Direction.UP).whenPressed(() ->
+        howitzerSystem.addOffset());
+    new DPad(ControllerMap.operator, DPad.Direction.DOWN).whenPressed(() ->
+        howitzerSystem.subOffset());
 
-    // new JoystickButton(ControllerMap.driver, ControllerMap.A).whenPressed(() ->
-    // driveSystem.subOffset());
-    // new JoystickButton(ControllerMap.driver, ControllerMap.B).whenPressed(() ->
-    // driveSystem.addOffset());
+    new DPad(ControllerMap.operator, DPad.Direction.RIGHT).whenPressed(() ->
+        driveSystem.addOffset());
+    new DPad(ControllerMap.operator, DPad.Direction.LEFT).whenPressed(() ->
+        driveSystem.subOffset());
   }
 
   public boolean doubleButton(JoystickButton a, JoystickButton b) {
@@ -129,8 +125,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return new FollowPath(driveSystem, FindPath.getStraight(2)); //straight don't
-    // work don't even thing about it whore
+    // return new FollowPath(driveSystem, FindPath.getStraight(2));
+    FindPath.config(3, 3, 0, (float)Constants.trackWidth);
     return new TurnCommand(driveSystem, () -> 90);
     // An ExampleCommand will run in autonomous
   }
