@@ -7,38 +7,36 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ConveyorSystem;
-import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.ClimbSystem;
 
-public class IntakeCommand extends CommandBase {
+public class Winch extends CommandBase {
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new Winch.
    */
-
-  private IntakeSystem m_subsystem;
-  private ConveyorSystem C_system;
-  public IntakeCommand(IntakeSystem I_System, ConveyorSystem C_system) {
-    m_subsystem = I_System;
-    this.C_system = C_system;
+  ClimbSystem mySystem;
+  public Winch(ClimbSystem c) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(I_System);
+    mySystem = c;
+    addRequirements(mySystem);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, -Constants.intakeSpeed);
-    C_system.setVictor(Constants.conveyorSpeed, false);
+  mySystem.getWinch().set(Constants.winchSpeed);
   }
 
+  // Called once the command ends or is interrupted.
+  @Override
   public void end(boolean interrupted) {
-    super.end(interrupted);
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
-    C_system.setVictor(0, false);
+    mySystem.getWinch().set(0);
   }
 
   // Returns true when the command should end.

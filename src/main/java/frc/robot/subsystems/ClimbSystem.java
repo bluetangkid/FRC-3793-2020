@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -17,9 +18,12 @@ public class ClimbSystem extends SubsystemBase {
   /**
    * Creates a new ClimbSystem.
    */
+  Spark winch;
   CANSparkMax climbMotor;
   public ClimbSystem() {
     climbMotor = new CANSparkMax(RobotMap.CLIMB_MOTOR.getPin(), MotorType.kBrushless);
+    winch = new Spark(RobotMap.WINCH.getPin());
+
   }
 
   @Override
@@ -31,5 +35,8 @@ public class ClimbSystem extends SubsystemBase {
   }
   public CANSparkMax getClimbMotor(){
 return climbMotor;
+  }
+  public Spark getWinch(){
+    return winch;
   }
 }

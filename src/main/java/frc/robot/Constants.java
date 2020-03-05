@@ -22,11 +22,11 @@ public final class Constants {
     public final static double trackWidth = 1.88797;
     public final static double b = .7;
     public final static double zeta = .5;
-    public final static double turnMax = .3;
+    public final static double turnMax = .1;
     public final static double throttleMax = 1;
-    public final static double maxVelocity = 15;
+    public final static double maxVelocity = 30;
     public final static double driveDeadzone = .12f;
-    public final static double kPdt = 3.05;
+    public final static double kPdt = 0.0001;
     public final static double kSdt = 0.138;
     public final static double kVdt = 0.817;
     public final static double kAdt = 0.118;
@@ -52,8 +52,8 @@ public final class Constants {
     public final static double kSShooterB = 0.109;
     public final static double kAShooterB = 0.0167;
     public final static double kPShooter = 0.000000000001;
-    public final static double shooterSpeedT = 87;
-    public final static double shooterSpeedB = 60;
+    public final static double shooterSpeedT = -87;
+    public final static double shooterSpeedB = -60;
 
     // Misc
     public final static int timeoutMs = 500;
@@ -62,5 +62,6 @@ public final class Constants {
     public final static double colorWheelSpeed = .8;
     public final static double climbSpeed = 1;
     public final static double climbWaitTime = 1; // number of seconds we wait to climb after start of teleop
+    public final static double winchSpeed = .85;
 
 }

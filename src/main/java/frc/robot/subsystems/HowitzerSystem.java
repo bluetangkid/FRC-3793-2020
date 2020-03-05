@@ -15,6 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,7 +45,7 @@ public class HowitzerSystem extends SubsystemBase {
   JoystickButton in, out;
   XboxController operatorController;
   final double Kp = .1;
-
+  Spark winch;
   public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
     this.out = out;
@@ -70,10 +71,8 @@ public class HowitzerSystem extends SubsystemBase {
   public void periodic() {
     double[] ypr = new double[3];
     gyro.getYawPitchRoll(ypr);
-    howitzerAngle = ypr[1];
-    if (System.currentTimeMillis() % 3 == 0)
-      System.out.println("gyro: " + gyro.getFusedHeading() + ":" + ypr[0] + ":" + ypr[1] + ":" + ypr[2]);
-
+    howitzerAngle = ypr[2];
+    System.out.println(howitzerAngle);
     if (!maxLimitSwitch.get())
       aimTalon.set(ControlMode.PercentOutput, 0.2);
     else if (!minLimitSwitch.get())

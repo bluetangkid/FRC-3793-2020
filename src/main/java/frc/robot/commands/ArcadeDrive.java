@@ -10,6 +10,7 @@ package frc.robot.commands;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,12 +24,14 @@ public class ArcadeDrive extends CommandBase {
    */
   DriveSystem myDrive;
   XboxController controller;
+  Timer t;
 
   public ArcadeDrive(DriveSystem m_Drive, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     myDrive = m_Drive;
     this.controller = controller;
     addRequirements(myDrive);
+    t = new Timer();
   }
 
   @Override
@@ -38,6 +41,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //t.start();
     double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
     double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
@@ -58,8 +62,14 @@ public class ArcadeDrive extends CommandBase {
       myDrive.getLeftMotorOne().set(0);
       myDrive.getRightMotorOne().set(0);
     } else {
-      myDrive.setMotorVelocity(leftMotorOutput*60f*Constants.maxVelocity, rightMotorOutput*60f*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
+      //myDrive.getLeftMotorOne().set(leftMotorOutput);
+      //myDrive.getRightMotorOne().set(rightMotorOutput);
+      myDrive.setMotorVelocity(leftMotorOutput*Constants.maxVelocity, rightMotorOutput*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
     }
+    //t.stop();
+    //System.out.println(t.get());
+    //t.reset();
+    //t.start();
   }
 
   // Returns true when the command should end.

@@ -16,6 +16,7 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -70,18 +71,19 @@ public class DriveSystem extends SubsystemBase {
     right.setP(Constants.kPdt);
     right.setI(0);
     right.setD(0);
-    leftMotorTwo.follow(leftMotorOne);
-    rightMotorTwo.follow(rightMotorOne);
-    leftMotorOne.setIdleMode(IdleMode.kBrake);
-    leftMotorTwo.setIdleMode(IdleMode.kBrake);
-    rightMotorTwo.setIdleMode(IdleMode.kBrake);
-    rightMotorTwo.setIdleMode(IdleMode.kBrake);
+    //leftMotorTwo.follow(leftMotorOne);
+    //rightMotorTwo.follow(rightMotorOne);
+    leftMotorOne.setIdleMode(IdleMode.kCoast);
+    leftMotorTwo.setIdleMode(IdleMode.kCoast);
+    rightMotorOne.setIdleMode(IdleMode.kCoast);
+    rightMotorTwo.setIdleMode(IdleMode.kCoast);
     leftMotorOne.setSmartCurrentLimit(50);
     leftMotorTwo.setSmartCurrentLimit(50);
     rightMotorOne.setSmartCurrentLimit(50);
     rightMotorTwo.setSmartCurrentLimit(50);
 
     odometry = new DifferentialDriveOdometry(new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
+    navx = new AHRS(SPI.Port.kMXP);
   }
 
   @Override
@@ -91,7 +93,7 @@ public class DriveSystem extends SubsystemBase {
     //SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder(EncoderType.kQuadrature, 2048).getPosition());
     //Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
     //pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
-    odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
+    //odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
   }
 
   public CANSparkMax getLeftMotorOne() {

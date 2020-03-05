@@ -41,7 +41,9 @@ public class ClimbCommand extends CommandBase {
   @Override
   public void execute() {
     dir = controller.getRawAxis(ControllerMap.rightY);
+    if(Math.abs(dir) > .1)
     C_system.set(Constants.climbSpeed * dir);
+    else C_system.set(0);
   }
 
   @Override

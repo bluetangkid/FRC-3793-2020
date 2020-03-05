@@ -26,6 +26,7 @@ import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.commands.TurnCommand;
+import frc.robot.commands.Winch;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
@@ -54,7 +55,7 @@ public class RobotContainer {
   public final ShooterSystem shooterSystem = new ShooterSystem();
   //private final PowerMonitor powerMonitor = new PowerMonitor();
 
-  private final BallHandler ballHandler = new BallHandler();
+  //private final BallHandler ballHandler = new BallHandler();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,26 +76,29 @@ public class RobotContainer {
     FindPath.config(3, .5f, 0, 1.88797f);
 
     // ---------- DRIVER ----------
-    ballHandler.perpetually();
+    //ballHandler.perpetually();
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     aim.whileHeld(new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0)));
-    JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
-    ball.whileHeld(new GetBall(driveSystem, ballHandler));
+    //JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
+    //ball.whileHeld(new GetBall(driveSystem, ballHandler));
 
     driveSystem.setDefaultCommand(new ArcadeDrive(driveSystem, ControllerMap.driver).perpetually());
 
-    new JoystickButton(ControllerMap.driver, ControllerMap.X).whileHeld(new IntakePivotCommand(intakeSystem, -.5));
-
     // ---------- IN FLUX -----------
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));//TODO automate intake
+    new JoystickButton(ControllerMap.operator, ControllerMap.A).whenHeld(new IntakeCommand(intakeSystem, conveyorSystem));//TODO automate intake
     JoystickButton intakeBackward = new JoystickButton(ControllerMap.driver, ControllerMap.B);
     intakeBackward.whileHeld(new IntakeBackward(conveyorSystem, shooterSystem, intakeSystem));
     // ---------- OPERATOR ----------
 
+    //new IntakePivotCommand(intakeSystem, ControllerMap.operator).perpetually().schedule();
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.getSpark().set(-.5));
+    new JoystickButton(ControllerMap.driver, ControllerMap.X).whileHeld(() -> intakeSystem.getSpark().set(.8));
+
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.RB)
-        .whileHeld(new ClimbCommand(climbSystem, ControllerMap.operator));
+    climbSystem.setDefaultCommand(new ClimbCommand(climbSystem, ControllerMap.operator).perpetually());
+    
+    new JoystickButton(ControllerMap.operator, ControllerMap.back).whileHeld(new Winch(climbSystem));
 
     JoystickButton shooterForward = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     shooterForward.whileHeld(new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));

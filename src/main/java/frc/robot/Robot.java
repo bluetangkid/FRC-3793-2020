@@ -69,12 +69,6 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    if(ControllerMap.driver.getRawButton(ControllerMap.back)){
-      shootDumb();
-    }else{
-      m_robotContainer.shooterSystem.getTopWheel().set(0);
-      m_robotContainer.shooterSystem.getBottomWheel().set(0);
-    }
   }
 
   /**
@@ -125,6 +119,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     //System.out.println("Max Limit " + m_robotContainer.howitzerSystem.maxLimitSwitch.get());
     //System.out.println("Min Limit " + m_robotContainer.howitzerSystem.minLimitSwitch.get());
+    if(ControllerMap.driver.getRawButton(ControllerMap.back)){
+      shootDumb();
+    }else{
+      //m_robotContainer.shooterSystem.getTopWheel().set(0);
+      //m_robotContainer.shooterSystem.getBottomWheel().set(0);
+    }
   }
 
   @Override

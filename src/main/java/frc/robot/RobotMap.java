@@ -30,6 +30,8 @@ public enum RobotMap {
 
         INTAKE_PIVOT_SPARK(4),
 
+        WINCH(5),
+
         TOP_SHOOTER(34), BOTTOM_SHOOTER(35),
 
         MAX_LIMIT_SWITCH(0), MIN_LIMIT_SWITCH(1),

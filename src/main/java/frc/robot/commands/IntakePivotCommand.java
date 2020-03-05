@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.ControllerMap;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakePivotCommand extends CommandBase {
@@ -16,9 +18,11 @@ public class IntakePivotCommand extends CommandBase {
    */
   IntakeSystem m_IntakeSystem;
   double Speed;
-  public IntakePivotCommand(IntakeSystem i, double s) {
+  XboxController controller;
+
+  public IntakePivotCommand(IntakeSystem i, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
-    Speed = s;
+    this.controller = controller;
     m_IntakeSystem = i;
 
     addRequirements(i);
@@ -27,18 +31,20 @@ public class IntakePivotCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_IntakeSystem.getSpark().set(Speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  }
+    // if(Math.abs(controller.getRawAxis(ControllerMap.leftY)) > .2 ){
+    m_IntakeSystem.getSpark().set(-.3);
+  //}
+}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_IntakeSystem.getSpark().set(0);
+    //m_IntakeSystem.getSpark().set(0);
   }
 
   // Returns true when the command should end.

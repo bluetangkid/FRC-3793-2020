@@ -36,7 +36,7 @@ public class IntakeBackward extends CommandBase {
   @Override
   public void execute() {
     cSystem.setVictor(-Constants.conveyorSpeed, true);
-    iSystem.setMotor(-Constants.intakeSpeed);
+    iSystem.setMotor(Constants.intakeSpeed);
     sSystem.setSpeed(-1000, -1000);
   }
 
