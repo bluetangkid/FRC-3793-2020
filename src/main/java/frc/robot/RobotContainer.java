@@ -7,26 +7,20 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.BallHandler;
 import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ColorWheelRotationCommand;
-import frc.robot.commands.FollowPath;
-import frc.robot.commands.GetBall;
 import frc.robot.commands.IntakeBackward;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakePivotCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TestDriveMotorsCommand;
 import frc.robot.commands.TurnCommand;
 import frc.robot.commands.Winch;
+import frc.robot.commands.autonomi.Ideal;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
@@ -36,6 +30,7 @@ import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.PowerMonitor;
 import frc.robot.subsystems.ShooterSystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -57,6 +52,8 @@ public class RobotContainer {
 
   //private final BallHandler ballHandler = new BallHandler();
 
+  public static SendableChooser<CommandBase> autoSelector;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -73,7 +70,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { // TODO collision avoidance
+    autoSelector = new SendableChooser<CommandBase>();
     FindPath.config(3, .5f, 0, 1.88797f);
+
+    autoSelector.addOption("Ideal", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, false));
+    autoSelector.addOption("Ideal Offset", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, true));
 
     // ---------- DRIVER ----------
     //ballHandler.perpetually();
@@ -102,8 +103,6 @@ public class RobotContainer {
 
     JoystickButton shooterForward = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     shooterForward.whileHeld(new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
-
-    new AimCommand(howitzerSystem, driveSystem).perpetually();
 
     new JoystickButton(ControllerMap.operator, ControllerMap.start)
         .whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));

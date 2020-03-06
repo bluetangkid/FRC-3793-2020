@@ -37,8 +37,6 @@ public class Robot extends TimedRobot {
 
   public static Timer gameTime;
 
-  public static SendableChooser<CommandBase> autoSelector;
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.

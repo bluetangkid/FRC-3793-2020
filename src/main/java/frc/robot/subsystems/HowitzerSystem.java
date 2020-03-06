@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.commands.AimCommand;
 
 public class HowitzerSystem extends SubsystemBase {
   /**
@@ -36,14 +37,15 @@ public class HowitzerSystem extends SubsystemBase {
   NetworkTableEntry horizontalOffset;
 
   double currentHowitzerPosition;
-
-  final double lengthOfHowitzerIn = 40;
   public double howitzerAngle;
   public double targetAngle;
+  double presetAngle;
   JoystickButton in, out;
   XboxController operatorController;
   int targetPreset = 0;
   Spark winch;
+  AimCommand aim;
+  int debounce;
   public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
     this.out = out;
@@ -53,6 +55,7 @@ public class HowitzerSystem extends SubsystemBase {
 
     aimTalon.configContinuousCurrentLimit(40);
     gyro = new PigeonIMU(s.getTalon());
+    aim.perpetually().schedule();
   }
 
   public HowitzerSystem(XboxController operatorController, ConveyorSystem s) {
@@ -66,7 +69,8 @@ public class HowitzerSystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
+  public void periodic() {//TODO autoaim toggle instead
+    debounce++;
     double[] ypr = new double[3];
     gyro.getYawPitchRoll(ypr);
     howitzerAngle = ypr[2];
@@ -84,27 +88,31 @@ public class HowitzerSystem extends SubsystemBase {
       Constants.howP*error + .12);
     else aimTalon.set(ControlMode.PercentOutput, 0);
 
-    if (operatorController != null && operatorController.getPOV() == 180)
+    if (operatorController != null && operatorController.getPOV() == 180 && targetPreset > -1 && debounce > 20) {//TODO Better debounce
+      debounce = 0;
       targetPreset -= 1;
-    else if (operatorController != null && operatorController.getPOV() == 0)
-      targetPreset += 1;
-
-    if(Math.abs(targetPreset - 1) <= 1) {
-      switch(targetPreset){
-        case 0:
-          targetAngle = 26;// this one is all the way down, not sure on angle
-          break;
-        case 1:
-          targetAngle = 30.1;
-          break;
-        case 2:
-          targetAngle = 38.5;
-          break;
-        default:
-          //autoaim
-          break;
-      }
     }
+    else if (operatorController != null && operatorController.getPOV() == 0 && targetPreset < 3 && debounce > 20) {
+      debounce = 0;
+      targetPreset += 1;
+    }
+
+    switch(targetPreset){
+      case 0:
+        presetAngle = 26;// this one is all the way down, not sure on angle
+        break;
+      case 1:
+        presetAngle = 30.1;
+        break;
+      case 2:
+        presetAngle = 38.5;
+        break;
+      default:
+        break;
+    }
+    if(targetPreset < 0 || targetPreset > 2) {
+      targetAngle = aim.getAngle();
+    } else targetAngle = presetAngle;
   }
 
   public void goToAngle(double angle) {

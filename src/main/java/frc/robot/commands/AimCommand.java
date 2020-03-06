@@ -19,8 +19,7 @@ public class AimCommand extends CommandBase {
   HowitzerSystem howitzerSystem;
   DriveSystem driveSystem;
 
-  double calculatedAngle;
-
+  double calculatedAngle = 28;
 
   public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,7 +27,6 @@ public class AimCommand extends CommandBase {
     this.driveSystem = driveSystem;
 
     //addRequirements(m_HowitzerSystem, m_DriveSystem);
-
   }
 
   // Called when the command is initially scheduled.
@@ -86,6 +84,7 @@ public class AimCommand extends CommandBase {
         y = 0;
       }
     }
+    if(angle < 45 && angle > 28) calculatedAngle = angle;
     if(xDist == 0) howitzerSystem.goToAngle(30.1);
     else howitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
   }
@@ -95,6 +94,10 @@ public class AimCommand extends CommandBase {
     if(arr[0] == 0) {
       return new Double[3];// TODO jetson stuff
     } else return arr;
+  }
+
+  public double getAngle(){
+    return calculatedAngle;
   }
 
   // Returns true when the command should end.
