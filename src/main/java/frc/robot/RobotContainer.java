@@ -129,8 +129,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // return new FollowPath(driveSystem, FindPath.getStraight(2));
-    FindPath.config(3, 3, 0, (float)Constants.trackWidth);
-    return new TurnCommand(driveSystem, () -> 90);
+    //FindPath.config(3, 3, 0, (float)Constants.trackWidth);
+    return autoSelector.getSelected();
     // An ExampleCommand will run in autonomous
   }
 }
