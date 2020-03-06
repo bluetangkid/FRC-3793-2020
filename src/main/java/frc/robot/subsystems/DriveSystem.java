@@ -17,13 +17,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -60,8 +57,8 @@ public class DriveSystem extends SubsystemBase {
     right = rightMotorOne.getPIDController();
     encL = leftMotorOne.getEncoder();
     encR = rightMotorOne.getEncoder();
-    //encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
-    //encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
     //left.setFeedbackDevice(encL);
     //right.setFeedbackDevice(encR);
 
@@ -93,7 +90,7 @@ public class DriveSystem extends SubsystemBase {
     //SmartDashboard.putNumber("rightWheel", rightMotorOne.getEncoder(EncoderType.kQuadrature, 2048).getPosition());
     //Double[] s = SmartDashboard.getNumberArray("Pose", new Double[3]);
     //pose = new Pose2d(new Translation2d(s[0], s[1]), new Rotation2d(s[2]));
-    //odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
+    odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
   }
 
   public CANSparkMax getLeftMotorOne() {

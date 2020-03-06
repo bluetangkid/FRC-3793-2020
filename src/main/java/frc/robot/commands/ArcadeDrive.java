@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.ControlType;
-import com.revrobotics.EncoderType;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -26,9 +23,9 @@ public class ArcadeDrive extends CommandBase {
   XboxController controller;
   Timer t;
 
-  public ArcadeDrive(DriveSystem m_Drive, XboxController controller) {
+  public ArcadeDrive(DriveSystem drive, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
-    myDrive = m_Drive;
+    myDrive = drive;
     this.controller = controller;
     addRequirements(myDrive);
     t = new Timer();

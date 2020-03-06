@@ -14,16 +14,16 @@ public class ColorWheelRotationCommand extends CommandBase {
   /**
    * Creates a new ColorWheelCommand.
    */
-  ColorWheelSystem cw_System;
+  ColorWheelSystem cwSystem;
   int timer = 0;
   int starterColor;
   double spinCount = 0;
 
-  public ColorWheelRotationCommand(ColorWheelSystem cw_System) {
-    this.cw_System = cw_System;
-    starterColor = cw_System.showColor();
+  public ColorWheelRotationCommand(ColorWheelSystem cwSystem) {
+    this.cwSystem = cwSystem;
+    starterColor = cwSystem.showColor();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(cw_System);
+    addRequirements(cwSystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,14 +34,14 @@ public class ColorWheelRotationCommand extends CommandBase {
     }
 
     if (timer == 0 && spinCount < 3.5) {
-      if (cw_System.showColor() == starterColor) {
+      if (cwSystem.showColor() == starterColor) {
         spinCount += .5;
       }
     }
     if (spinCount >= 3.5) {
-      cw_System.setColorWheel(0);
+      cwSystem.setColorWheel(0);
     } else
-      cw_System.setColorWheel(.5);
+      cwSystem.setColorWheel(.5);
     timer++;
   }
 

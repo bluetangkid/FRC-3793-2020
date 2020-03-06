@@ -18,7 +18,7 @@ import frc.robot.subsystems.ClimbSystem;
  * An example command that uses an example subsystem.
  */
 public class ClimbCommand extends CommandBase {
-  private ClimbSystem C_system;
+  private ClimbSystem climbSystem;
 
   /**
    * Creates a new ExampleCommand.
@@ -28,13 +28,13 @@ public class ClimbCommand extends CommandBase {
   Timer timer;
   double dir = 0;
   XboxController controller;
-  public ClimbCommand(ClimbSystem C_system, XboxController controller) {
-    this.C_system = C_system;
+  public ClimbCommand(ClimbSystem climbSystem, XboxController controller) {
+    this.climbSystem = climbSystem;
     this.controller = controller;
     this.timer = new Timer();
     timer.start();
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(C_system);
+    addRequirements(climbSystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,14 +42,14 @@ public class ClimbCommand extends CommandBase {
   public void execute() {
     dir = controller.getRawAxis(ControllerMap.rightY);
     if(Math.abs(dir) > .1)
-    C_system.set(Constants.climbSpeed * dir);
-    else C_system.set(0);
+    climbSystem.set(Constants.climbSpeed * dir);
+    else climbSystem.set(0);
   }
 
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);
-    C_system.set(0);
+    climbSystem.set(0);
   }
 
   // Returns true when the command should end.

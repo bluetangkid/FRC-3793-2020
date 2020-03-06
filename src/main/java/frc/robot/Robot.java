@@ -7,14 +7,15 @@
 
 package frc.robot;
 
-import edu.wpi.cscore.CameraServerJNI;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -35,6 +36,8 @@ public class Robot extends TimedRobot {
   public static NetworkTableEntry horizontalOffset = limelightTable.getEntry("tx");
 
   public static Timer gameTime;
+
+  public static SendableChooser<CommandBase> autoSelector;
 
   /**
    * This function is run when the robot is first started up and should be used

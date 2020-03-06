@@ -10,14 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
@@ -44,7 +42,7 @@ public class HowitzerSystem extends SubsystemBase {
   public double targetAngle;
   JoystickButton in, out;
   XboxController operatorController;
-  final double Kp = .1;
+  int targetPreset = 0;
   Spark winch;
   public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
@@ -73,19 +71,39 @@ public class HowitzerSystem extends SubsystemBase {
     gyro.getYawPitchRoll(ypr);
     howitzerAngle = ypr[2];
     System.out.println(howitzerAngle);
+    double error = targetAngle + aimOffset - howitzerAngle;
     if (!maxLimitSwitch.get())
       aimTalon.set(ControlMode.PercentOutput, 0.2);
     else if (!minLimitSwitch.get())
       aimTalon.set(ControlMode.PercentOutput, -.2);
-    else if (operatorController != null && operatorController.getPOV() == 180)
-      aimTalon.set(ControlMode.PercentOutput, -.5);
+    //else if (operatorController != null && operatorController.getPOV() == 180)
+      //aimTalon.set(ControlMode.PercentOutput, -.5);
+    //else if (operatorController != null && operatorController.getPOV() == 0)
+      //aimTalon.set(ControlMode.PercentOutput, .5);
+    else if (error > .1) aimTalon.set(ControlMode.PercentOutput, 
+      Constants.howP*error + .12);
+    else aimTalon.set(ControlMode.PercentOutput, 0);
+
+    if (operatorController != null && operatorController.getPOV() == 180)
+      targetPreset -= 1;
     else if (operatorController != null && operatorController.getPOV() == 0)
-      aimTalon.set(ControlMode.PercentOutput, .5);
-    // else if (targetAngle - howitzerAngle > .1)
-    // aimTalon.set(ControlMode.PercentOutput, Kp*(targetAngle -
-    // howitzerAngle));//just do a P loop for this
-    else {
-      aimTalon.set(ControlMode.PercentOutput, 0);
+      targetPreset += 1;
+
+    if(Math.abs(targetPreset - 1) <= 1) {
+      switch(targetPreset){
+        case 0:
+          targetAngle = 26;// this one is all the way down, not sure on angle
+          break;
+        case 1:
+          targetAngle = 30.1;
+          break;
+        case 2:
+          targetAngle = 38.5;
+          break;
+        default:
+          //autoaim
+          break;
+      }
     }
   }
 

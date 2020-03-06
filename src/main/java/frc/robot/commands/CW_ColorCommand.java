@@ -16,48 +16,48 @@ public class CW_ColorCommand extends CommandBase {
   /**
    * Creates a new CW_PositionCommand.
    */
-  ColorWheelSystem CW_System;
+  ColorWheelSystem cwSystem;
   String specifiedColor = DriverStation.getInstance().getGameSpecificMessage();;
   Color8Bit desiredColor;
 
 
-  public CW_ColorCommand(ColorWheelSystem CW_System) {
-    this.CW_System = CW_System;
+  public CW_ColorCommand(ColorWheelSystem cwSystem) {
+    this.cwSystem = cwSystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(CW_System);
+    addRequirements(cwSystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    desiredColor = CW_System.RED;
+    desiredColor = cwSystem.RED;
     switch (specifiedColor) {
       case "B":
-        desiredColor = CW_System.BLUE;
+        desiredColor = cwSystem.BLUE;
       case "G":
-        desiredColor = CW_System.GREEN;
+        desiredColor = cwSystem.GREEN;
       case "Y":
-        desiredColor = CW_System.YELLOW;
+        desiredColor = cwSystem.YELLOW;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!CW_System.isColor(desiredColor)) {
-      CW_System.setColorWheel(.2);
+    if (!cwSystem.isColor(desiredColor)) {
+      cwSystem.setColorWheel(.2);
     }
   }
 
   @Override
   public void end(boolean b) {
     super.end(b);
-    CW_System.setColorWheel(0);
+    cwSystem.setColorWheel(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return CW_System.isColor(desiredColor);
+    return cwSystem.isColor(desiredColor);
   }
 }

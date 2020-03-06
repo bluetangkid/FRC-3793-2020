@@ -9,21 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.ControllerMap;
 import frc.robot.subsystems.IntakeSystem;
 
 public class IntakePivotCommand extends CommandBase {
   /**
    * Creates a new IntakePivotCommand.
    */
-  IntakeSystem m_IntakeSystem;
+  IntakeSystem intakeSystem;
   double Speed;
   XboxController controller;
 
   public IntakePivotCommand(IntakeSystem i, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.controller = controller;
-    m_IntakeSystem = i;
+    intakeSystem = i;
 
     addRequirements(i);
   }
@@ -37,7 +36,7 @@ public class IntakePivotCommand extends CommandBase {
   @Override
   public void execute() {
     // if(Math.abs(controller.getRawAxis(ControllerMap.leftY)) > .2 ){
-    m_IntakeSystem.getSpark().set(-.3);
+    intakeSystem.getSpark().set(-.3);
   //}
 }
 
