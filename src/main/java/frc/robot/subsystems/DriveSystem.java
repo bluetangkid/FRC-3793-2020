@@ -71,12 +71,12 @@ public class DriveSystem extends SubsystemBase {
     right.setP(Constants.kPdt);
     right.setI(0);
     right.setD(0);
-    //leftMotorTwo.follow(leftMotorOne);
-    //rightMotorTwo.follow(rightMotorOne);
-    leftMotorOne.setIdleMode(IdleMode.kCoast);
-    leftMotorTwo.setIdleMode(IdleMode.kCoast);
-    rightMotorOne.setIdleMode(IdleMode.kCoast);
-    rightMotorTwo.setIdleMode(IdleMode.kCoast);
+    leftMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin());
+    rightMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin());
+    leftMotorOne.setIdleMode(IdleMode.kBrake);
+    leftMotorTwo.setIdleMode(IdleMode.kBrake);
+    rightMotorOne.setIdleMode(IdleMode.kBrake);
+    rightMotorTwo.setIdleMode(IdleMode.kBrake);
     leftMotorOne.setSmartCurrentLimit(50);
     leftMotorTwo.setSmartCurrentLimit(50);
     rightMotorOne.setSmartCurrentLimit(50);

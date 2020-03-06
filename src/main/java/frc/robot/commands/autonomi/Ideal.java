@@ -43,7 +43,7 @@ class Ideal extends CommandBase {
     public void execute () {
         switch(phase) {
             case(0):
-                if(timer.hasPeriodPassed(2.5)) {
+                if(timer.hasPeriodPassed(2)) {
                     phase++;
                     timer.stop();
                     timer.reset();
