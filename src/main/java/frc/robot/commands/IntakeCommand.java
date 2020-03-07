@@ -19,26 +19,26 @@ public class IntakeCommand extends CommandBase {
    * Creates a new IntakeCommand.
    */
 
-  private IntakeSystem m_subsystem;
-  private ConveyorSystem C_system;
-  public IntakeCommand(IntakeSystem I_System, ConveyorSystem C_system) {
-    m_subsystem = I_System;
-    this.C_system = C_system;
+  private IntakeSystem intakeSystem;
+  private ConveyorSystem conveyorSystem;
+  public IntakeCommand(IntakeSystem intakeSystem, ConveyorSystem conveyorSystem) {
+    this.intakeSystem = intakeSystem;
+    this.conveyorSystem = conveyorSystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(I_System);
+    addRequirements(intakeSystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, -Constants.intakeSpeed);
-    C_system.setVictor(Constants.conveyorSpeed, false);
+    intakeSystem.getIntakeMotor().set(ControlMode.PercentOutput, -Constants.intakeSpeed);
+    conveyorSystem.setVictor(Constants.conveyorSpeed, false);
   }
 
   public void end(boolean interrupted) {
     super.end(interrupted);
-    m_subsystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
-    C_system.setVictor(0, false);
+    intakeSystem.getIntakeMotor().set(ControlMode.PercentOutput, 0);
+    conveyorSystem.setVictor(0, false);
   }
 
   // Returns true when the command should end.

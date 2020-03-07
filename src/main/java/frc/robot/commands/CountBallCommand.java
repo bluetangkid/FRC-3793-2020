@@ -14,12 +14,12 @@ public class CountBallCommand extends CommandBase {
   /**
    * Creates a new CountBallCommand.
    */
-  BallCountingSystem mySystem;
+  BallCountingSystem ballCounter;
   private double lowestVoltage = 10;
 
   public CountBallCommand(BallCountingSystem system) {
     // Use addRequirements() here to declare subsystem dependencies.
-    mySystem = system;
+    ballCounter = system;
     addRequirements(system);
   }
 
@@ -30,7 +30,7 @@ public class CountBallCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double voltage = mySystem.getBallCounter().getVoltage();
+    double voltage = ballCounter.getBallCounter().getVoltage();
     if (voltage < lowestVoltage) {
       lowestVoltage = voltage;
     }

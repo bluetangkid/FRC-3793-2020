@@ -12,18 +12,18 @@ import frc.robot.subsystems.DriveSystem;
 
 public class TurnCommand extends CommandBase {
     DoubleSupplier getAngle;
-    DriveSystem d_system;
+    DriveSystem driveSystem;
     RamseteCommand command;
-    public TurnCommand(DriveSystem d_system, DoubleSupplier getAngle) {
+    public TurnCommand(DriveSystem driveSystem, DoubleSupplier getAngle) {
         super();
-        this.d_system = d_system;
-        this.getAngle = new AngleSupplier(getAngle, d_system.getAngOffset());
-        addRequirements(d_system);
+        this.driveSystem = driveSystem;
+        this.getAngle = new AngleSupplier(getAngle, driveSystem.getAngOffset());
+        addRequirements(driveSystem);
     }
 
     @Override
     public void initialize() {
-        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble()), d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
+        command = new RamseteCommand(FindPath.getTurn(getAngle.getAsDouble(), driveSystem), driveSystem::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), driveSystem::setMotorVelocity, driveSystem);
         command.schedule();//if it moves too slow you gotta go to driveSystem setVelocity and multiply by something idk
         //if he too fast just decrease P a little vro
     }

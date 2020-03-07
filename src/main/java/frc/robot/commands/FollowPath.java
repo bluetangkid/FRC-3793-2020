@@ -8,8 +8,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveSystem;
 
 public class FollowPath extends RamseteCommand {
-    DriveSystem d_system;
-    public FollowPath(DriveSystem d_system, Trajectory trajectory) {
-        super(trajectory, d_system::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), d_system::setMotorVelocity, d_system);
+    public FollowPath(DriveSystem dSystem, Trajectory trajectory) {
+        super(trajectory, dSystem::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), dSystem::setMotorVelocity, dSystem);
     }
 }

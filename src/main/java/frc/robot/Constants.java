@@ -26,7 +26,7 @@ public final class Constants {
     public final static double throttleMax = 1;
     public final static double maxVelocity = 30;
     public final static double driveDeadzone = .12f;
-    public final static double kPdt = 0.0001;
+    public final static double kPdt = 0.00002;
     public final static double kSdt = 0.138;
     public final static double kVdt = 0.817;
     public final static double kAdt = 0.118;
@@ -43,6 +43,7 @@ public final class Constants {
     public final static double rotPerIn = 8;
     public final static double howMin = .25; // in "
     public final static double howMax = 10.25;
+    public final static double howP = .1;
 
     // Shooter
     public final static double kVShooter = 0.126;

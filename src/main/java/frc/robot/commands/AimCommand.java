@@ -16,19 +16,17 @@ public class AimCommand extends CommandBase {
   /**
    * Creates a new AimCommand.
    */
-  HowitzerSystem m_HowitzerSystem;
-  DriveSystem m_DriveSystem;
+  HowitzerSystem howitzerSystem;
+  DriveSystem driveSystem;
 
-  double calculatedAngle;
-
+  double calculatedAngle = 28;
 
   public AimCommand(HowitzerSystem howitzerSystem, DriveSystem driveSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_HowitzerSystem = howitzerSystem;
-    m_DriveSystem = driveSystem;
+    this.howitzerSystem = howitzerSystem;
+    this.driveSystem = driveSystem;
 
     //addRequirements(m_HowitzerSystem, m_DriveSystem);
-
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +35,7 @@ public class AimCommand extends CommandBase {
     double ax, ay;
     double t = 0;
     double Us = 0.007148;
-    double Um = 0; //adjust this to match our trajectory
+    double Um = -0.0054; //adjust this to match our trajectory
     double dt = .0087;
     double angle;
     double xDist = -0.0254*Robot.zDist.getDoubleArray(new Double[6])[2]; // straight-line distance to the target
@@ -86,8 +84,9 @@ public class AimCommand extends CommandBase {
         y = 0;
       }
     }
-    if(xDist == 0) m_HowitzerSystem.goToAngle(30);
-    else m_HowitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
+    if(angle < 45 && angle > 28) calculatedAngle = angle;
+    if(xDist == 0) howitzerSystem.goToAngle(30.1);
+    else howitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
   }
 
   public Double[] getLinearDist(){
@@ -95,6 +94,10 @@ public class AimCommand extends CommandBase {
     if(arr[0] == 0) {
       return new Double[3];// TODO jetson stuff
     } else return arr;
+  }
+
+  public double getAngle(){
+    return calculatedAngle;
   }
 
   // Returns true when the command should end.

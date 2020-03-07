@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,8 +28,6 @@ public class ConveyorSystem extends SubsystemBase {
 
     conveyor.configContinuousCurrentLimit(40);
     conveyor.enableCurrentLimit(true);
-
-    
   }
 
   public void setVictor(double speed, boolean override) {

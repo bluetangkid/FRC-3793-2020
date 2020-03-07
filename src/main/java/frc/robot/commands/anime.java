@@ -14,7 +14,7 @@ public class anime extends CommandBase {
   /**
    * Creates a new anime.
    */
-  LightingSystem m_LightingSystem;
+  LightingSystem lightingSystem;
   int start;
   int end;
 
@@ -22,7 +22,7 @@ public class anime extends CommandBase {
 
   public anime( LightingSystem lightingSystem, int s, int e) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_LightingSystem = lightingSystem;
+    this.lightingSystem = lightingSystem;
     start = s;
     end = e;
     cur = start;
@@ -41,12 +41,12 @@ public class anime extends CommandBase {
     for(int i = start; i<start+end;i++){
       
       if(i != cur){
-        m_LightingSystem.buffer.setHSV(i, 100, 100, 100);
+        lightingSystem.buffer.setHSV(i, 100, 100, 100);
       }else{
-        m_LightingSystem.buffer.setHSV(i, 50, 100, 100);
+        lightingSystem.buffer.setHSV(i, 50, 100, 100);
       }
     }
-    m_LightingSystem.LEDs.setData(m_LightingSystem.buffer);
+    lightingSystem.LEDs.setData(lightingSystem.buffer);
 
     if(cur == end){
       cur = start;

@@ -7,9 +7,6 @@
 
 package frc.robot.commands;
 
-import com.revrobotics.ControlType;
-import com.revrobotics.EncoderType;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -26,9 +23,9 @@ public class ArcadeDrive extends CommandBase {
   XboxController controller;
   Timer t;
 
-  public ArcadeDrive(DriveSystem m_Drive, XboxController controller) {
+  public ArcadeDrive(DriveSystem drive, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
-    myDrive = m_Drive;
+    myDrive = drive;
     this.controller = controller;
     addRequirements(myDrive);
     t = new Timer();
@@ -42,7 +39,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     //t.start();
-    double turn = -controller.getRawAxis(ControllerMap.leftX);
+    /*double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
     double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
     if(turn < Constants.driveDeadzone || throttle < Constants.driveDeadzone) {
@@ -69,7 +66,9 @@ public class ArcadeDrive extends CommandBase {
     //t.stop();
     //System.out.println(t.get());
     //t.reset();
-    //t.start();
+    //t.start();*/
+    myDrive.getLeftMotorOne().set(controller.getTriggerAxis(Hand.kLeft));
+    myDrive.getRightMotorOne().set(controller.getTriggerAxis(Hand.kRight));
   }
 
   // Returns true when the command should end.

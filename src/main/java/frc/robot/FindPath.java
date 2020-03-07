@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import frc.robot.subsystems.DriveSystem;
 
 public class FindPath {
     private static TrajectoryConfig config;
@@ -20,20 +21,26 @@ public class FindPath {
         config.setKinematics(new DifferentialDriveKinematics(trackWidth));
     }
 
-    public static Trajectory generateTrajectory(Pose2d start, Pose2d end, List < Translation2d > interiorPoints) {
+    public static Trajectory generateTrajectory(Pose2d start, Pose2d end, List <Translation2d> interiorPoints) {
         return TrajectoryGenerator.generateTrajectory(start, interiorPoints, end, config);
     }
 
     // will we give pose robot based or world based? would need to "reset" t265
     // origin every time we start path for robot based
-    public static Trajectory getTurn(double angle) {
-        return generateTrajectory(new Pose2d(new Translation2d(), new Rotation2d()),
-            new Pose2d(new Translation2d(), new Rotation2d(angle * Math.PI / 180f)),
-            new ArrayList <Translation2d>());
+    public static Trajectory getTurn(double angle, DriveSystem drive) {
+        ArrayList<Translation2d> interior = new ArrayList<Translation2d>();
+        interior.add(new Translation2d());
+
+        return generateTrajectory(drive.getPose(),
+            new Pose2d(drive.getPose().getTranslation(), new Rotation2d(angle * Math.PI / 180f)),
+            interior);
     }
 
-    public static Trajectory getStraight(double dist) {
+    /*public static Trajectory getStraight(double dist) {
+        ArrayList<Translation2d> interior = new ArrayList<Translation2d>();
+        interior.add(new Translation2d(0, dist/2));
+
         return generateTrajectory(new Pose2d(new Translation2d(), new Rotation2d()),
             new Pose2d(new Translation2d(0, dist), new Rotation2d()), new ArrayList<Translation2d>());
-    }
+    }*/
 }
