@@ -55,7 +55,7 @@ public class DriveSystem extends SubsystemBase {
     rightMotorOne.restoreFactoryDefaults();
     leftMotorTwo.restoreFactoryDefaults();
     rightMotorTwo.restoreFactoryDefaults();
-
+    
     left = leftMotorOne.getPIDController();
     right = rightMotorOne.getPIDController();
     encL = leftMotorOne.getEncoder();
@@ -81,6 +81,9 @@ public class DriveSystem extends SubsystemBase {
     leftMotorTwo.setSmartCurrentLimit(50);
     rightMotorOne.setSmartCurrentLimit(50);
     rightMotorTwo.setSmartCurrentLimit(50);
+
+    leftMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin());
+    rightMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin());
 
     odometry = new DifferentialDriveOdometry(new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
     navx = new AHRS(SPI.Port.kMXP);
