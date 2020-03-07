@@ -98,8 +98,6 @@ public class RobotContainer {
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
 
     climbSystem.setDefaultCommand(new ClimbCommand(climbSystem, ControllerMap.operator).perpetually());
-    
-    new JoystickButton(ControllerMap.operator, ControllerMap.back).whileHeld(new Winch(climbSystem));
 
     JoystickButton shooterForward = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     shooterForward.whileHeld(new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));

@@ -113,10 +113,6 @@ public class DriveSystem extends SubsystemBase {
     return odometry.getPoseMeters();
   }
 
-  public Pose2d getAngle(){
-    return new Pose2d(0, 0, new Rotation2d(navx.getAngle()));
-  }
-
   public SimpleMotorFeedforward getFF(){
     return feedForward;
   }

@@ -39,7 +39,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     //t.start();
-    double turn = -controller.getRawAxis(ControllerMap.leftX);
+    /*double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
     double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
     if(turn < Constants.driveDeadzone || throttle < Constants.driveDeadzone) {
@@ -66,7 +66,9 @@ public class ArcadeDrive extends CommandBase {
     //t.stop();
     //System.out.println(t.get());
     //t.reset();
-    //t.start();
+    //t.start();*/
+    myDrive.getLeftMotorOne().set(controller.getTriggerAxis(Hand.kLeft));
+    myDrive.getRightMotorOne().set(controller.getTriggerAxis(Hand.kRight));
   }
 
   // Returns true when the command should end.

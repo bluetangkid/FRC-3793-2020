@@ -88,14 +88,16 @@ public class HowitzerSystem extends SubsystemBase {
       Constants.howP*error + .12);
     else aimTalon.set(ControlMode.PercentOutput, 0);
 
-    if (operatorController != null && operatorController.getPOV() == 180 && targetPreset > -1 && debounce > 20) {//TODO Better debounce
+    if (operatorController != null && operatorController.getPOV() == 180 && targetPreset > -1 && debounce > 40) {//TODO Better debounce
       debounce = 0;
       targetPreset -= 1;
     }
-    else if (operatorController != null && operatorController.getPOV() == 0 && targetPreset < 3 && debounce > 20) {
+    else if (operatorController != null && operatorController.getPOV() == 0 && targetPreset < 4 && debounce > 40) {
       debounce = 0;
       targetPreset += 1;
     }
+
+    if(operatorController.getPOV() == -1) debounce = 30;
 
     switch(targetPreset){
       case 0:

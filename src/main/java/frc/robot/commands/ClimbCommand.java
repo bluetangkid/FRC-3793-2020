@@ -40,6 +40,13 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(controller.getRawButton(ControllerMap.back) && controller.getRawButton(ControllerMap.start)) {
+
+    } else if(){
+
+    } else if() {
+      
+    }
     dir = controller.getRawAxis(ControllerMap.rightY);
     if(Math.abs(dir) > .1)
     climbSystem.set(Constants.climbSpeed * dir);
