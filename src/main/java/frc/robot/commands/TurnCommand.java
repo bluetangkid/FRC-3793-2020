@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
 import frc.robot.FindPath;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveSystem;
 
 public class TurnCommand extends CommandBase {
     DoubleSupplier getAngle;
     DriveSystem driveSystem;
     PIDController command;
+    double offset;
     public TurnCommand(DriveSystem driveSystem, DoubleSupplier getAngle) {
         super();
         this.driveSystem = driveSystem;
@@ -26,7 +28,7 @@ public class TurnCommand extends CommandBase {
     @Override
     public void initialize() {
         command = new PIDController(5.04, 0, 2.47, .001);
-        //if he too fast just decrease P a little vro
+        offset = driveSystem.getAngle();
     }
 
     @Override
@@ -36,7 +38,8 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void end(boolean bool) {
-        command.calculate(driveSystem.getAngOffset(), setpoint);
+        double pid = command.calculate(driveSystem.getAngle(), Robot.horizontalOffset.getDouble(0) + offset);
+        driveSystem.setMotorVelocity(-pid*.7, -pid*.7);
         super.end(bool);
     }
 
