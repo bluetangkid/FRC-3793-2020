@@ -99,6 +99,10 @@ public class DriveSystem extends SubsystemBase {
     odometry.update(new Rotation2d(navx.getAngle()), encL.getPosition()*.1524*Math.PI, encR.getPosition()*.1524*Math.PI);//TODO what is gearbox reduction
   }
 
+  public double getAngle(){
+    return navx.getAngle();
+  }
+
   public CANSparkMax getLeftMotorOne() {
     return leftMotorOne;
   }

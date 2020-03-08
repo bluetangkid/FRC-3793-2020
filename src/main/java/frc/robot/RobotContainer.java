@@ -72,7 +72,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() { // TODO collision avoidance
     autoSelector = new SendableChooser<CommandBase>();
-    FindPath.config(3, .5f, 0, 1.88797f);
+    FindPath.config(3, 7, 0, 1.88797f);
 
     autoSelector.addOption("Ideal", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, false));
     autoSelector.addOption("Ideal Offset", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, true));
