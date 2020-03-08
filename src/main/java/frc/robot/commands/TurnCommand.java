@@ -26,7 +26,6 @@ public class TurnCommand extends CommandBase {
     @Override
     public void initialize() {
         command = new PIDController(5.04, 0, 2.47, .001);
-        
         //if he too fast just decrease P a little vro
     }
 
@@ -37,7 +36,7 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void end(boolean bool) {
-        command.calculate(measurement, setpoint);
+        command.calculate(driveSystem.getAngOffset(), setpoint);
         super.end(bool);
     }
 
