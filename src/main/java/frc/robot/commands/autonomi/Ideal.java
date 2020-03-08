@@ -35,9 +35,9 @@ public class Ideal extends CommandBase {
         turn = new TurnCommand(drive, () -> Robot.horizontalOffset.getDouble(0));
         try {
             if(offset)
-            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal.json")));
+            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal.wpilib.json")));
             else
-            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "idealOffset.json")));
+            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal_off.wpilib.json")));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -54,15 +54,24 @@ public class Ideal extends CommandBase {
     public void execute () {
         switch(phase) {
             case(0):
+                if(timer.hasPeriodPassed(2)) {
+                    phase++;
+                    timer.stop();
+                    timer.reset();
+                    timer.start();
+                }
+                break;
+            case(1):
                 shoot.execute();
                 if(timer.hasPeriodPassed(2)) {
                     phase++;
                     timer.stop();
                     timer.reset();
+                    timer.start();
                     shoot.end(false);
                 }
                 break;
-            case(1):
+            case(2):
                 follower.execute();
                 intake.execute();
                 if(follower.isFinished()) {
@@ -71,17 +80,17 @@ public class Ideal extends CommandBase {
                     turn.initialize();
                 }
                 break;
-            case(2):
+            case(3):
                 turn.execute();
-                if(turn.isFinished()) {
+                if(turn.isFinished()) {//TODO lower howitzer for further shot
                     phase++;
                     turn.end(false);
                     timer.start();
                 }
                 break;
-            case(3):
+            case(4):
                 shoot.execute();
-                if(timer.hasPeriodPassed(1.5)) {
+                if(timer.hasPeriodPassed(3)) {
                     phase++;
                     timer.stop();
                     timer.reset();
@@ -92,6 +101,6 @@ public class Ideal extends CommandBase {
     }
 
     public boolean isFinished() {
-        return phase > 3;
+        return phase > 4;
     }
 }
