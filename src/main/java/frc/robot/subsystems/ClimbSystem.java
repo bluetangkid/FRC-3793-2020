@@ -34,7 +34,7 @@ public class ClimbSystem extends SubsystemBase {
     climbMotor.set(d);
   }
   public CANSparkMax getClimbMotor(){
-return climbMotor;
+    return climbMotor;
   }
   public Spark getWinch(){
     return winch;

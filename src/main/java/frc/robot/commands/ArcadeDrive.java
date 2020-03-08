@@ -39,36 +39,36 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     //t.start();
-    /*double turn = -controller.getRawAxis(ControllerMap.leftX);
+    double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
-    double magnitude = Math.max(Math.sqrt(turn*turn + throttle*throttle), 1);
-    if(turn < Constants.driveDeadzone || throttle < Constants.driveDeadzone) {
-      if(Math.abs(throttle) < Constants.driveDeadzone)
+    double magnitude = Math.sqrt(turn*turn + throttle*throttle);
+    throttle /= magnitude;
+    turn /= magnitude;
+    if(magnitude < Constants.driveDeadzone) {
         throttle = 0;
-      if(Math.abs(turn) < Constants.driveDeadzone)
-      turn = 0;
+        turn = 0;
     } else {
-      throttle *= ((magnitude - Constants.driveDeadzone) / (Constants.throttleMax - Constants.driveDeadzone));
-      turn *= ((magnitude - Constants.driveDeadzone) / (Constants.turnMax - Constants.driveDeadzone));
-      turn = Math.signum(turn)*turn*turn;
+      throttle *= ((Math.max(magnitude, 1) - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
+      turn *= ((Math.max(magnitude, 1) - Constants.driveDeadzone) / (1 - Constants.driveDeadzone));
+      throttle *= Constants.throttleMax;
+      turn *= Constants.turnMax;
     }
     double leftMotorOutput = -(throttle - turn);
     double rightMotorOutput = throttle + turn;
+    System.out.println(leftMotorOutput + "\nR" + rightMotorOutput);
     
     if(leftMotorOutput == 0) {
-      myDrive.getLeftMotorOne().set(0);
-      myDrive.getRightMotorOne().set(0);
+      myDrive.diss();
     } else {
       //myDrive.getLeftMotorOne().set(leftMotorOutput);
       //myDrive.getRightMotorOne().set(rightMotorOutput);
-      myDrive.setMotorVelocity(leftMotorOutput*Constants.maxVelocity, rightMotorOutput*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
+      //myDrive.setMotorVelocity(leftMotorOutput*Constants.maxVelocity, rightMotorOutput*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
+      myDrive.setMotorVelocity(leftMotorOutput, rightMotorOutput); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
     }
     //t.stop();
     //System.out.println(t.get());
     //t.reset();
-    //t.start();*/
-    myDrive.getLeftMotorOne().set(controller.getTriggerAxis(Hand.kLeft));
-    myDrive.getRightMotorOne().set(controller.getTriggerAxis(Hand.kRight));
+    //t.start();
   }
 
   // Returns true when the command should end.

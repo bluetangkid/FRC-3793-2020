@@ -41,16 +41,17 @@ public class ClimbCommand extends CommandBase {
   @Override
   public void execute() {
     if(controller.getRawButton(ControllerMap.back) && controller.getRawButton(ControllerMap.start)) {
-
-    } else if(){
-
-    } else if() {
-      
+      climbSystem.getWinch().set(1);
+    } else if(controller.getRawButton(ControllerMap.back)){
+      climbSystem.getClimbMotor().set(-1);
+      climbSystem.getWinch().set(0);
+    } else if(controller.getRawButton(ControllerMap.start)) {
+      climbSystem.getClimbMotor().set(1);
+      climbSystem.getWinch().set(0);
+    } else {
+      climbSystem.getWinch().set(0);
+      climbSystem.getClimbMotor().set(0);
     }
-    dir = controller.getRawAxis(ControllerMap.rightY);
-    if(Math.abs(dir) > .1)
-    climbSystem.set(Constants.climbSpeed * dir);
-    else climbSystem.set(0);
   }
 
   @Override

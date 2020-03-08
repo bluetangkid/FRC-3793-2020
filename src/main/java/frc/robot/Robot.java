@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
 
   public static Timer gameTime;
 
+  public static boolean auto = true;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -87,11 +89,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    auto = true;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      m_autonomousCommand.perpetually().schedule();
     }
   }
 
@@ -103,6 +106,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    auto = false;
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -120,12 +124,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     //System.out.println("Max Limit " + m_robotContainer.howitzerSystem.maxLimitSwitch.get());
     //System.out.println("Min Limit " + m_robotContainer.howitzerSystem.minLimitSwitch.get());
-    if(ControllerMap.driver.getRawButton(ControllerMap.back)){
-      shootDumb();
-    }else{
+    //if(ControllerMap.driver.getRawButton(ControllerMap.back)){
+      //shootDumb();
+    //}else{
       //m_robotContainer.shooterSystem.getTopWheel().set(0);
       //m_robotContainer.shooterSystem.getBottomWheel().set(0);
-    }
+    //}
   }
 
   @Override

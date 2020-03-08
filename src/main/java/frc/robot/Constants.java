@@ -22,10 +22,10 @@ public final class Constants {
     public final static double trackWidth = 1.88797;
     public final static double b = .7;
     public final static double zeta = .5;
-    public final static double turnMax = .1;
+    public final static double turnMax = .6;
     public final static double throttleMax = 1;
     public final static double maxVelocity = 30;
-    public final static double driveDeadzone = .12f;
+    public final static double driveDeadzone = .15f;
     public final static double kPdt = 0.00002;
     public final static double kSdt = 0.138;
     public final static double kVdt = 0.817;

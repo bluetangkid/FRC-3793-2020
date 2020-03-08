@@ -33,7 +33,7 @@ public class DriveSystem extends SubsystemBase {
   private CANSparkMax leftMotorTwo;
   private CANSparkMax rightMotorOne;
   private CANSparkMax rightMotorTwo;
-  private CANPIDController left, right;
+  private CANPIDController left, right, left2, right2;
   private CANEncoder encL, encR;
   private SimpleMotorFeedforward feedForward;
   private DifferentialDriveOdometry odometry;
@@ -55,10 +55,12 @@ public class DriveSystem extends SubsystemBase {
     
     left = leftMotorOne.getPIDController();
     right = rightMotorOne.getPIDController();
+    left2 = leftMotorTwo.getPIDController();
+    right2 = rightMotorTwo.getPIDController();
     encL = leftMotorOne.getEncoder();
     encR = rightMotorOne.getEncoder();
-    encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
-    encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    //encL = leftMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
+    //encR = rightMotorOne.getEncoder(EncoderType.kQuadrature, 8192);
     //left.setFeedbackDevice(encL);
     //right.setFeedbackDevice(encR);
 
@@ -68,20 +70,21 @@ public class DriveSystem extends SubsystemBase {
     right.setP(Constants.kPdt);
     right.setI(0);
     right.setD(0);
-    leftMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin());
-    rightMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin());
+    left2.setP(Constants.kPdt);
+    left2.setI(0);
+    left2.setD(0);
+    right2.setP(Constants.kPdt);
+    right2.setI(0);
+    right2.setD(0);
     leftMotorOne.setIdleMode(IdleMode.kBrake);
-    leftMotorTwo.setIdleMode(IdleMode.kBrake);
+    leftMotorTwo.setIdleMode(IdleMode.kCoast);
     rightMotorOne.setIdleMode(IdleMode.kBrake);
-    rightMotorTwo.setIdleMode(IdleMode.kBrake);
+    rightMotorTwo.setIdleMode(IdleMode.kCoast);
     leftMotorOne.setSmartCurrentLimit(50);
     leftMotorTwo.setSmartCurrentLimit(50);
     rightMotorOne.setSmartCurrentLimit(50);
     rightMotorTwo.setSmartCurrentLimit(50);
-
-    leftMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.LEFT_DRIVE_MOTOR_ONE.getPin());
-    rightMotorTwo.follow(CANSparkMax.ExternalFollower.kFollowerSparkMax, RobotMap.RIGHT_DRIVE_MOTOR_ONE.getPin());
-
+    
     odometry = new DifferentialDriveOdometry(new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
     navx = new AHRS(SPI.Port.kMXP);
   }
@@ -121,8 +124,20 @@ public class DriveSystem extends SubsystemBase {
   }
 
   public void setMotorVelocity(double leftV, double rightV) {
-    left.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
-    right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
+    leftMotorOne.set(leftV);
+    rightMotorOne.set(rightV);
+    //leftMotorTwo.set(leftV/30f);
+    //rightMotorTwo.set(rightV/30f);
+    //left.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
+    //right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
+    //left2.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));
+    //right2.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
+  }
+  public void diss(){
+    leftMotorOne.set(0);
+    rightMotorOne.set(0);
+    leftMotorTwo.set(0);
+    rightMotorTwo.set(0);
   }
   public void addOffset() {
     turnOffset += 1;

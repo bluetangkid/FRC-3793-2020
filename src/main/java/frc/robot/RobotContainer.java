@@ -21,6 +21,7 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnCommand;
 import frc.robot.commands.Winch;
 import frc.robot.commands.autonomi.Ideal;
+import frc.robot.commands.autonomi.SimpleAuto;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
@@ -80,6 +81,9 @@ public class RobotContainer {
     //ballHandler.perpetually();
     JoystickButton aim = new JoystickButton(ControllerMap.driver, ControllerMap.LB);
     aim.whileHeld(new TurnCommand(driveSystem, () -> Robot.horizontalOffset.getDouble(0)));
+    
+    JoystickButton limelight = new JoystickButton(ControllerMap.driver, ControllerMap.X);
+    limelight.whenPressed(()-> howitzerSystem.toggleLimelight());
     //JoystickButton ball = new JoystickButton(ControllerMap.driver, ControllerMap.RB);
     //ball.whileHeld(new GetBall(driveSystem, ballHandler));
 
@@ -92,8 +96,8 @@ public class RobotContainer {
     // ---------- OPERATOR ----------
 
     //new IntakePivotCommand(intakeSystem, ControllerMap.operator).perpetually().schedule();
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.getSpark().set(-.5));
-    new JoystickButton(ControllerMap.driver, ControllerMap.X).whileHeld(() -> intakeSystem.getSpark().set(.8));
+    new JoystickButton(ControllerMap.driver, ControllerMap.Y).whileHeld(() -> intakeSystem.getSpark().set(-.8));
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.getSpark().set(.5));
 
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
 
@@ -102,8 +106,8 @@ public class RobotContainer {
     JoystickButton shooterForward = new JoystickButton(ControllerMap.operator, ControllerMap.B);
     shooterForward.whileHeld(new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
 
-    new JoystickButton(ControllerMap.operator, ControllerMap.start)
-        .whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
+    //new JoystickButton(ControllerMap.operator, ControllerMap.start)
+    //    .whenPressed(new ColorWheelRotationCommand((colorWheelSystem)).andThen(new CW_ColorCommand(colorWheelSystem)));
     
     new DPad(ControllerMap.operator, DPad.Direction.UP).whenPressed(() ->
         howitzerSystem.addOffset());
@@ -128,7 +132,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return new FollowPath(driveSystem, FindPath.getStraight(2));
     //FindPath.config(3, 3, 0, (float)Constants.trackWidth);
-    return autoSelector.getSelected();
+    return new SimpleAuto(driveSystem, new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
     // An ExampleCommand will run in autonomous
   }
 }

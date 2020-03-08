@@ -13,12 +13,15 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
+import frc.robot.ControllerMap;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.AimCommand;
 
@@ -42,10 +45,15 @@ public class HowitzerSystem extends SubsystemBase {
   double presetAngle;
   JoystickButton in, out;
   XboxController operatorController;
-  int targetPreset = 0;
+  int targetPreset = 2;
   Spark winch;
   AimCommand aim;
   int debounce;
+  int debounceT;
+  boolean manual = false;
+
+
+  int LEDMode = 1;
   public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
     this.out = out;
@@ -56,6 +64,8 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configContinuousCurrentLimit(40);
     gyro = new PigeonIMU(s.getTalon());
     aim.perpetually().schedule();
+
+    
   }
 
   public HowitzerSystem(XboxController operatorController, ConveyorSystem s) {
@@ -70,51 +80,49 @@ public class HowitzerSystem extends SubsystemBase {
 
   @Override
   public void periodic() {//TODO autoaim toggle instead
-    debounce++;
+    manual = false;
+    if(!Robot.auto) {
+      switch(operatorController.getPOV()){
+        case 180:
+          presetAngle = -34;
+          break;
+        case 90:
+          presetAngle = -28.5;
+          break;
+        case 270:
+          presetAngle = -23.5;
+          break;
+        case 0:
+          presetAngle = -1;
+          break;
+        default:
+          manual = true;
+          break;
+      }
+    } else presetAngle = -23.5;
+    
     double[] ypr = new double[3];
     gyro.getYawPitchRoll(ypr);
-    howitzerAngle = ypr[2];
-    System.out.println(howitzerAngle);
-    double error = targetAngle + aimOffset - howitzerAngle;
+    howitzerAngle = ypr[2] + 50;
+
+    System.out.print("RAW SENSOR ");
+    System.out.println(howitzerAngle - 50);
+    double error = presetAngle - (howitzerAngle - 50);
     if (!maxLimitSwitch.get())
-      aimTalon.set(ControlMode.PercentOutput, 0.2);
+      aimTalon.set(ControlMode.PercentOutput, 0.3);
     else if (!minLimitSwitch.get())
-      aimTalon.set(ControlMode.PercentOutput, -.2);
-    //else if (operatorController != null && operatorController.getPOV() == 180)
-      //aimTalon.set(ControlMode.PercentOutput, -.5);
-    //else if (operatorController != null && operatorController.getPOV() == 0)
-      //aimTalon.set(ControlMode.PercentOutput, .5);
-    else if (error > .1) aimTalon.set(ControlMode.PercentOutput, 
-      Constants.howP*error + .12);
+      aimTalon.set(ControlMode.PercentOutput, -.3);
+    else if(manual && Math.abs(operatorController.getRawAxis(ControllerMap.rightY)) > .1) {
+      aimTalon.set(ControlMode.PercentOutput, -operatorController.getRawAxis(ControllerMap.rightY));
+    } else if (Math.abs(error) > 3 && !manual) aimTalon.set(ControlMode.PercentOutput, Math.signum(error));
     else aimTalon.set(ControlMode.PercentOutput, 0);
 
-    if (operatorController != null && operatorController.getPOV() == 180 && targetPreset > -1 && debounce > 40) {//TODO Better debounce
-      debounce = 0;
-      targetPreset -= 1;
-    }
-    else if (operatorController != null && operatorController.getPOV() == 0 && targetPreset < 4 && debounce > 40) {
-      debounce = 0;
-      targetPreset += 1;
-    }
+    //if(debounceT > 3 && !operatorController.getRawButton(10)) debounceT = 30;
+    //if (operatorController != null && operatorController.getRawButton(10) && debounceT > 40) {
+      //debounce = 0;
+      //manual = !manual;
+    //}
 
-    if(operatorController.getPOV() == -1) debounce = 30;
-
-    switch(targetPreset){
-      case 0:
-        presetAngle = 26;// this one is all the way down, not sure on angle
-        break;
-      case 1:
-        presetAngle = 30.1;
-        break;
-      case 2:
-        presetAngle = 38.5;
-        break;
-      default:
-        break;
-    }
-    if(targetPreset < 0 || targetPreset > 2) {
-      targetAngle = aim.getAngle();
-    } else targetAngle = presetAngle;
   }
 
   public void goToAngle(double angle) {
@@ -127,5 +135,14 @@ public class HowitzerSystem extends SubsystemBase {
 
   public void subOffset() {
     aimOffset -= .5;
+  }
+
+  public void toggleLimelight(){
+
+    if(LEDMode ==1) LEDMode = 3;
+    else LEDMode = 1;
+
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(LEDMode);
+    
   }
 }
