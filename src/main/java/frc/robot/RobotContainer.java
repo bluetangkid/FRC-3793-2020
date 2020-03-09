@@ -21,7 +21,7 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnCommand;
 import frc.robot.commands.Winch;
 import frc.robot.commands.autonomi.Ideal;
-import frc.robot.commands.autonomi.SimpleAuto;
+import frc.robot.commands.autonomi.SimpAuto;
 import frc.robot.subsystems.ClimbSystem;
 import frc.robot.subsystems.ColorWheelSystem;
 import frc.robot.subsystems.ConveyorSystem;
@@ -132,7 +132,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // return new FollowPath(driveSystem, FindPath.getStraight(2));
     //FindPath.config(3, 3, 0, (float)Constants.trackWidth);
-    return new SimpleAuto(driveSystem, new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
+    return new SimpAuto(driveSystem, new ShootCommand(shooterSystem, conveyorSystem, Constants.shooterSpeedT, Constants.shooterSpeedB));
     // An ExampleCommand will run in autonomous
   }
 }

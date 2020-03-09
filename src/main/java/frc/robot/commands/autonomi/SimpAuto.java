@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DriveSystem;
-import frc.robot.subsystems.ShooterSystem;
 
-public class SimpleAuto extends CommandBase {
+public class SimpAuto extends CommandBase {
   /**
    * Creates a new SimpleAuto.
    */
@@ -23,7 +22,7 @@ public class SimpleAuto extends CommandBase {
 
    Timer t;
    int phase = 0;
-  public SimpleAuto(DriveSystem d, ShootCommand s) {
+  public SimpAuto(DriveSystem d, ShootCommand s) {
     this.shoot = s;
     driveSystem = d;
     t = new Timer();
