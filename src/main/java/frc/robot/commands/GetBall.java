@@ -23,10 +23,10 @@ public class GetBall extends CommandBase {
     public void initialize() {
         Pose2d pose = dSystem.getPose();
         Double[] goodBall = ball.getCloseBall();
-        new FollowPath(dSystem,
-            FindPath.generateTrajectory(pose,
-                new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1]) * goodBall[0], pose.getTranslation().getY() * Math.sin(goodBall[1]) * goodBall[0], pose.getRotation()),
-                new ArrayList < Translation2d > ()));
+        //new FollowPath(dSystem,
+        //    FindPath.generateTrajectory(pose,
+        //        new Pose2d(pose.getTranslation().getX() + Math.cos(goodBall[1]) * goodBall[0], pose.getTranslation().getY() * Math.sin(goodBall[1]) * goodBall[0], pose.getRotation()),
+        //        new ArrayList < Translation2d > ()));
         command.schedule();
     }
 

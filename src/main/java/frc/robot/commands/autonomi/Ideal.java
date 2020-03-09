@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.commands.FollowPath;
+//import frc.robot.commands.FollowPath;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnCommand;
@@ -25,7 +25,7 @@ public class Ideal extends CommandBase {
     int phase;
     ShootCommand shoot;
     IntakeCommand intake;
-    FollowPath follower;
+    //FollowPath follower;
     TurnCommand turn;
     DriveSystem drive;
 
@@ -34,10 +34,10 @@ public class Ideal extends CommandBase {
         intake = new IntakeCommand(intakey, conveyey);
         turn = new TurnCommand(drive, () -> Robot.horizontalOffset.getDouble(0));
         try {
-            if(offset)
-            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal.wpilib.json")));
-            else
-            follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal_off.wpilib.json")));
+            //if(offset)
+            //follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal.wpilib.json")));
+            //else
+            //follower = new FollowPath(drive, TrajectoryUtil.fromPathweaverJson(Path.of(Filesystem.getDeployDirectory().getPath(), "ideal_off.wpilib.json")));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -72,13 +72,13 @@ public class Ideal extends CommandBase {
                 }
                 break;
             case(2):
-                follower.execute();
+                //follower.execute();
                 intake.execute();
-                if(follower.isFinished()) {
+                //if(follower.isFinished()) {
                     phase++;
                     intake.end(false);
                     turn.initialize();
-                }
+                //}
                 break;
             case(3):
                 turn.execute();

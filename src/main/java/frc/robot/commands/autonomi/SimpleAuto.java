@@ -67,9 +67,9 @@ public class SimpleAuto extends CommandBase {
         break;
       case 3:
         if(t.hasElapsed(1)){
-          driveSystem.setMotorVelocity(0, 0);
+          driveSystem.setMotorVelocity(0, 0, false);
         }else{
-          driveSystem.setMotorVelocity(-6, 6);
+          driveSystem.setMotorVelocity(-6, 6, false);
         }
         break;
     }

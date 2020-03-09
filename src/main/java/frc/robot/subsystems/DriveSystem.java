@@ -127,9 +127,19 @@ public class DriveSystem extends SubsystemBase {
     return feedForward;
   }
 
-  public void setMotorVelocity(double leftV, double rightV) {
+  public void setMotorVelocity(double leftV, double rightV, boolean working) {
     leftMotorOne.set(leftV);
+    //
     rightMotorOne.set(rightV);
+    //
+    /*if(working) {
+      rightMotorTwo.set(rightV);
+      leftMotorTwo.set(leftV);
+    } else {
+      rightMotorTwo.set(0);
+      leftMotorTwo.set(0);
+    }*/
+
     //leftMotorTwo.set(leftV/30f);
     //rightMotorTwo.set(rightV/30f);
     //left.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)

@@ -22,6 +22,8 @@ public class ArcadeDrive extends CommandBase {
   DriveSystem myDrive;
   XboxController controller;
   Timer t;
+  boolean working;
+  int heck;
 
   public ArcadeDrive(DriveSystem drive, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,6 +40,11 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    heck++;
+    if(controller.getStartButton() && heck > 50) {
+      heck = 0;
+      working = !working;
+    }
     //t.start();
     double turn = -controller.getRawAxis(ControllerMap.leftX);
     double throttle = controller.getTriggerAxis(Hand.kRight) - controller.getTriggerAxis(Hand.kLeft);
@@ -63,7 +70,7 @@ public class ArcadeDrive extends CommandBase {
       //myDrive.getLeftMotorOne().set(leftMotorOutput);
       //myDrive.getRightMotorOne().set(rightMotorOutput);
       //myDrive.setMotorVelocity(leftMotorOutput*Constants.maxVelocity, rightMotorOutput*Constants.maxVelocity); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
-      myDrive.setMotorVelocity(leftMotorOutput, rightMotorOutput); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
+      myDrive.setMotorVelocity(leftMotorOutput, rightMotorOutput, working); //if drive don't work reduce drive p or remove the 60f and maybe the maxVelocity
     }
     //t.stop();
     //System.out.println(t.get());

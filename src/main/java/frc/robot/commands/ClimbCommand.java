@@ -40,18 +40,16 @@ public class ClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(controller.getRawButton(ControllerMap.back) && controller.getRawButton(ControllerMap.start)) {
-      climbSystem.getWinch().set(1);
-    } else if(controller.getRawButton(ControllerMap.back)){
+    if(controller.getRawButton(ControllerMap.back)){
       climbSystem.getClimbMotor().set(-1);
-      climbSystem.getWinch().set(0);
     } else if(controller.getRawButton(ControllerMap.start)) {
       climbSystem.getClimbMotor().set(1);
-      climbSystem.getWinch().set(0);
     } else {
-      climbSystem.getWinch().set(0);
       climbSystem.getClimbMotor().set(0);
     }
+
+    if(controller.getRawButton(ControllerMap.X)) climbSystem.getWinch().set(1);
+    else climbSystem.getWinch().set(0);
   }
 
   @Override

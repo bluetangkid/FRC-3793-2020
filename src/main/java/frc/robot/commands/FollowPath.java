@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSystem;
 
-public class FollowPath extends RamseteCommand {
-    public FollowPath(DriveSystem dSystem, Trajectory trajectory) {
-        super(trajectory, dSystem::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), dSystem::setMotorVelocity, dSystem);
-    }
-}
+//public class FollowPath extends RamseteCommand {
+    //public FollowPath(DriveSystem dSystem, Trajectory trajectory) {
+        //super(trajectory, dSystem::getPose, new RamseteController(Constants.b, Constants.zeta), new DifferentialDriveKinematics(Constants.trackWidth), dSystem::setMotorVelocity, dSystem);
+    //}
+//}
