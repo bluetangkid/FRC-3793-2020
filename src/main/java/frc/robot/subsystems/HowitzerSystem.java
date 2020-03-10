@@ -112,8 +112,8 @@ public class HowitzerSystem extends SubsystemBase {
       aimTalon.set(ControlMode.PercentOutput, 0.3);
     else if (!minLimitSwitch.get())
       aimTalon.set(ControlMode.PercentOutput, -.3);
-    else if(manual && Math.abs(operatorController.getRawAxis(ControllerMap.rightY)) > .1) {
-      aimTalon.set(ControlMode.PercentOutput, -operatorController.getRawAxis(ControllerMap.rightY));
+    else if(manual && Math.abs(operatorController.getRawAxis(ControllerMap.leftY)) > .1) {
+      aimTalon.set(ControlMode.PercentOutput, -operatorController.getRawAxis(ControllerMap.leftY));
     } else if (Math.abs(error) > 3 && !manual) aimTalon.set(ControlMode.PercentOutput, Math.signum(error));
     else aimTalon.set(ControlMode.PercentOutput, 0);
 
