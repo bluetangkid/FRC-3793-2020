@@ -127,32 +127,20 @@ public class DriveSystem extends SubsystemBase {
     return feedForward;
   }
 
-  public void setMotorVelocity(double leftV, double rightV, boolean working) {
-    leftMotorOne.set(leftV);
-    //
-    rightMotorOne.set(rightV);
-    //
-    /*if(working) {
-      rightMotorTwo.set(rightV);
-      leftMotorTwo.set(leftV);
-    } else {
-      rightMotorTwo.set(0);
-      leftMotorTwo.set(0);
-    }*/
-
-    //leftMotorTwo.set(leftV/30f);
-    //rightMotorTwo.set(rightV/30f);
-    //left.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
-    //right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
-    //left2.setReference(leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));
-    //right2.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
+  public void setMotorVelocity(double leftV, double rightV) {//TODO find the gearing multiplier. assume we are passed linear m/s speed and convert to motor rotational speed
+    left.setReference(-leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
+    right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
+    left2.setReference(-leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));
+    right2.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));
   }
+
   public void diss(){
     leftMotorOne.set(0);
     rightMotorOne.set(0);
     leftMotorTwo.set(0);
     rightMotorTwo.set(0);
   }
+  
   public void addOffset() {
     turnOffset += 1;
   }

@@ -39,7 +39,7 @@ public class TurnCommand extends CommandBase {
     @Override
     public void end(boolean bool) {
         double pid = command.calculate(driveSystem.getAngle(), Robot.horizontalOffset.getDouble(0) + offset);
-        driveSystem.setMotorVelocity(-pid*.7, -pid*.7, false);
+        driveSystem.setMotorVelocity(pid*.7, -pid*.7);
         super.end(bool);
     }
 

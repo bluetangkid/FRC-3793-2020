@@ -97,7 +97,7 @@ public class RobotContainer {
 
     //new IntakePivotCommand(intakeSystem, ControllerMap.operator).perpetually().schedule();
     new JoystickButton(ControllerMap.driver, ControllerMap.Y).whileHeld(() -> intakeSystem.getSpark().set(-.8));
-    new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.getSpark().set(.5));
+    new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.drop());
 
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);
 

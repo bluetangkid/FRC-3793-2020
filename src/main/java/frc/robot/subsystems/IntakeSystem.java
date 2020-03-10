@@ -36,6 +36,10 @@ public class IntakeSystem extends SubsystemBase {
     return intakeMotor;
   }
 
+  public void drop(){
+    pivotMotor.set(.5);
+  }
+
   public IntakeSystem setMotor(double d) {
     intakeMotor.set(ControlMode.PercentOutput, d);
     return this;

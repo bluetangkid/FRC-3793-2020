@@ -56,6 +56,10 @@ public class ShootCommand extends CommandBase {
     SmartDashboard.putNumber("t", system.topE.getVelocity()/60f);
   }
 
+  public void spool(){
+    system.setSpeed(top, bottom);
+  }
+
   @Override
   public void end(boolean b) {
     system.setSpeed(0, 0);
