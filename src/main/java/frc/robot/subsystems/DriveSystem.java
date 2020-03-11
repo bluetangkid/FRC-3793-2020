@@ -126,9 +126,9 @@ public class DriveSystem extends SubsystemBase {
   public SimpleMotorFeedforward getFF(){
     return feedForward;
   }
-
-  public double getSpeed() {
-    return Math.sqrt(Math.pow(encL.getPosition(), 2) + Math.pow(encR.getPosition(), 2));
+  public double getSpeedAway() {
+    double spe = Math.sqrt(Math.pow(encL.getVelocity(), 2) + Math.pow(encR.getVelocity(), 2));
+    return spe*Math.cos(navx.getAngle()+90);//TODO gearing + sign for it
   }
 
   public void setMotorVelocity(double leftV, double rightV) {//TODO find the gearing multiplier. assume we are passed linear m/s speed and convert to motor rotational speed

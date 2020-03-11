@@ -12,7 +12,7 @@ public class TurnCommand extends CommandBase {
     DriveSystem driveSystem;
     PIDController command;
     double offset;
-    public TurnCommand(DriveSystem driveSystem, DoubleSupplier getAngle) {
+    public TurnCommand(DriveSystem driveSystem, DoubleSupplier getAngle) {//TODO turn bias
         super();
         this.driveSystem = driveSystem;
         this.getAngle = new AngleSupplier(getAngle, driveSystem.getAngOffset());
@@ -32,13 +32,15 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void end(boolean bool) {
-        double pid = command.calculate(driveSystem.getAngle(), Robot.horizontalOffset.getDouble(0) + offset);
-        driveSystem.setMotorVelocity(pid*.7, -pid*.7);
         super.end(bool);
     }
 
     public boolean isFinished() {
         return command.atSetpoint();
+    }
+
+    public double getBias(){
+        return command.calculate(driveSystem.getAngle(), Robot.horizontalOffset.getDouble(0) + offset);
     }
 }
 

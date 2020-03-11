@@ -46,7 +46,7 @@ public class AimCommand extends CommandBase {
     double y = 0;
 
     angle = (float) Math.toDegrees(Math.sin(2.44 / 7)); //y/x
-    Vx = Math.cos(angle * Math.PI / 180) * V;//TODO current velocity thing
+    Vx = Math.cos(angle * Math.PI / 180) * V + driveSystem.getSpeedAway();
     Vy = Math.sin(angle * Math.PI / 180) * V;
     ax = -(V / .1375) * (Vx * Us + Um * Vy);
     ay = (V / .1375) * (-Vy * Us + Um * Vx);
@@ -84,8 +84,8 @@ public class AimCommand extends CommandBase {
         y = 0;
       }
     }
-    if(angle < 45 && angle > 28) calculatedAngle = angle;
-    if(xDist == 0) howitzerSystem.goToAngle(30.1);
+    if(angle < 45 && angle > 28) calculatedAngle = angle - 45;
+    if(xDist == 0) howitzerSystem.goToAngle(-34);
     else howitzerSystem.goToAngle(calculatedAngle); //TODO use pose for dist if there is no ll dist
   }
 

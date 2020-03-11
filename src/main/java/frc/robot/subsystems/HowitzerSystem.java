@@ -17,6 +17,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.ControllerMap;
@@ -94,7 +95,10 @@ public class HowitzerSystem extends SubsystemBase {
           manual = true;
           break;
       }
-    } else presetAngle = -23.5;
+    }
+    if(targetAngle != 0 && (!Robot.auto || operatorController.getTriggerAxis(Hand.kLeft) > .5)) {
+      presetAngle = targetAngle;
+    }
     
     double[] ypr = new double[3];
     gyro.getYawPitchRoll(ypr);
@@ -123,6 +127,10 @@ public class HowitzerSystem extends SubsystemBase {
 
   public void subOffset() {
     aimOffset -= .5;
+  }
+
+  public void setForAuto(double d) {
+    this.presetAngle = d;
   }
 
   public void toggleLimelight(){

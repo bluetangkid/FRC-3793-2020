@@ -27,10 +27,12 @@ public class Bees extends CommandBase {
     FollowPath[] follower;
     TurnCommand turn;
     DriveSystem drive;
+    HowitzerSystem howieMandel;
 
-    public Bees(ShooterSystem shooter, IntakeSystem intakey, ConveyorSystem conveyey, DriveSystem drive, HowitzerSystem how, boolean offset){
+    public Bees(ShooterSystem shooter, IntakeSystem intakey, ConveyorSystem conveyey, DriveSystem drive, HowitzerSystem how, boolean offset, HowitzerSystem howieMandel){
         shoot = new ShootCommand(shooter, conveyey, Constants.shooterSpeedT, Constants.shooterSpeedB);
         intake = intakey;
+        this.howieMandel = howieMandel;
         turn = new TurnCommand(drive, () -> Robot.horizontalOffset.getDouble(0));
         follower = new FollowPath[4];
         try {
@@ -57,6 +59,7 @@ public class Bees extends CommandBase {
         intake.drop();
         switch(phase) {
             case(0)://wait for howitzer to drop
+                howieMandel.setForAuto(-23.5);
                 if(timer.hasPeriodPassed(2)) {
                     phase++;
                     timer.stop();
@@ -72,6 +75,7 @@ public class Bees extends CommandBase {
                     timer.reset();
                     timer.start();
                     shoot.end(false);
+                    howieMandel.setForAuto(-34);
                 }
                 break;
             case(2)://go pick up trench balls
@@ -81,6 +85,7 @@ public class Bees extends CommandBase {
                     shoot.initialize();
                     timer.stop();
                     timer.reset();
+                    howieMandel.setForAuto(-27.5);
                 }
                 break;
             case(3)://drive to the 5 ball shot
