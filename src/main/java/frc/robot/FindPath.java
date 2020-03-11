@@ -35,12 +35,4 @@ public class FindPath {
             new Pose2d(drive.getPose().getTranslation(), new Rotation2d(angle * Math.PI / 180f)),
             interior);
     }
-
-    /*public static Trajectory getStraight(double dist) {
-        ArrayList<Translation2d> interior = new ArrayList<Translation2d>();
-        interior.add(new Translation2d(0, dist/2));
-
-        return generateTrajectory(new Pose2d(new Translation2d(), new Rotation2d()),
-            new Pose2d(new Translation2d(0, dist), new Rotation2d()), new ArrayList<Translation2d>());
-    }*/
 }

@@ -41,16 +41,20 @@ public class ShootCommand extends CommandBase {
       phase --;
       conveyor.setVictor(0, false);
     }
-    if(phase == 2) {
-      system.setSpeed(top, bottom);
-      conveyor.setVictor(Constants.conveyorSpeed, true);
-    } else if(phase == 1) {
-      system.setSpeed(top, bottom);
-      conveyor.setVictor(0, false);
-      if(system.mayShoot()) phase++;
-    } else {
-      conveyor.setVictor(-1, true);
-      if(timer.hasPeriodPassed(.05)) phase++;
+    switch(phase){
+      case(1):
+        system.setSpeed(top, bottom);
+        conveyor.setVictor(0, false);
+        if(system.mayShoot()) phase++;
+        break;
+      case(2):
+        system.setSpeed(top, bottom);
+        conveyor.setVictor(Constants.conveyorSpeed, true);
+        break;
+      default:
+        conveyor.setVictor(-1, true);
+        if(timer.hasPeriodPassed(.05)) phase++;
+        break;
     }
     SmartDashboard.putNumber("b", system.botE.getVelocity()/60f);
     SmartDashboard.putNumber("t", system.topE.getVelocity()/60f);

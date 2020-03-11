@@ -34,8 +34,6 @@ public class ConveyorSystem extends SubsystemBase {
     if(sonar.getRangeInches() < 8 || override)
       conveyor.set(ControlMode.PercentOutput, speed);
     else conveyor.set(ControlMode.PercentOutput, 0);
-    //if(System.currentTimeMillis() %10 ==0)
-    //System.out.println("sonar: " + sonar.getRangeInches());
   }
 
   public TalonSRX getTalon(){

@@ -46,7 +46,7 @@ public class AimCommand extends CommandBase {
     double y = 0;
 
     angle = (float) Math.toDegrees(Math.sin(2.44 / 7)); //y/x
-    Vx = Math.cos(angle * Math.PI / 180) * V;
+    Vx = Math.cos(angle * Math.PI / 180) * V;//TODO current velocity thing
     Vy = Math.sin(angle * Math.PI / 180) * V;
     ax = -(V / .1375) * (Vx * Us + Um * Vy);
     ay = (V / .1375) * (-Vy * Us + Um * Vx);

@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.ControllerMap;
 import frc.robot.subsystems.ClimbSystem;
 
@@ -41,11 +40,11 @@ public class ClimbCommand extends CommandBase {
   @Override
   public void execute() {
     if(controller.getRawButton(ControllerMap.back)){
-      climbSystem.getClimbMotor().set(-1);
+      climbSystem.getRodMotor().set(-1);
     } else if(controller.getRawButton(ControllerMap.start)) {
-      climbSystem.getClimbMotor().set(1);
+      climbSystem.getRodMotor().set(1);
     } else {
-      climbSystem.getClimbMotor().set(0);
+      climbSystem.getRodMotor().set(0);
     }
 
     if(controller.getRawButton(ControllerMap.X)) climbSystem.getWinch().set(1);

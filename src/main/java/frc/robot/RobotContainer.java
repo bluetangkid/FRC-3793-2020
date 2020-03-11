@@ -12,14 +12,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.CW_ColorCommand;
 import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.ColorWheelRotationCommand;
 import frc.robot.commands.IntakeBackward;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnCommand;
-import frc.robot.commands.Winch;
 import frc.robot.commands.autonomi.Ideal;
 import frc.robot.commands.autonomi.SimpAuto;
 import frc.robot.subsystems.ClimbSystem;
@@ -96,7 +93,7 @@ public class RobotContainer {
     // ---------- OPERATOR ----------
 
     //new IntakePivotCommand(intakeSystem, ControllerMap.operator).perpetually().schedule();
-    new JoystickButton(ControllerMap.driver, ControllerMap.Y).whileHeld(() -> intakeSystem.getSpark().set(-.8));
+    new JoystickButton(ControllerMap.driver, ControllerMap.Y).whileHeld(() -> intakeSystem.getPivot().set(-.8));
     new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.drop());
 
     howitzerSystem = new HowitzerSystem(ControllerMap.operator, conveyorSystem);

@@ -35,15 +35,13 @@ public class IntakePivotCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if(Math.abs(controller.getRawAxis(ControllerMap.leftY)) > .2 ){
-    intakeSystem.getSpark().set(-.3);
-  //}
+    intakeSystem.getPivot().set(-.3);
 }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //m_IntakeSystem.getSpark().set(0);
+    intakeSystem.getPivot().set(0);
   }
 
   // Returns true when the command should end.

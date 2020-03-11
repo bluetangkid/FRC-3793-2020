@@ -27,10 +27,7 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 
   public VictorSPX getIntakeMotor() {
     return intakeMotor;
@@ -40,12 +37,12 @@ public class IntakeSystem extends SubsystemBase {
     pivotMotor.set(.5);
   }
 
-  public IntakeSystem setMotor(double d) {
+  public IntakeSystem setIntake(double d) {
     intakeMotor.set(ControlMode.PercentOutput, d);
     return this;
   }
 
-  public Spark getSpark(){
+  public Spark getPivot(){
     return pivotMotor;
   }
 

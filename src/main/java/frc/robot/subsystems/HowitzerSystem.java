@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants;
 import frc.robot.ControllerMap;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -51,8 +50,6 @@ public class HowitzerSystem extends SubsystemBase {
   int debounce;
   int debounceT;
   boolean manual = false;
-
-
   int LEDMode = 1;
   public HowitzerSystem(JoystickButton in, JoystickButton out, ConveyorSystem s) {
     this.in = in;
@@ -64,8 +61,6 @@ public class HowitzerSystem extends SubsystemBase {
     aimTalon.configContinuousCurrentLimit(40);
     gyro = new PigeonIMU(s.getTalon());
     aim.perpetually().schedule();
-
-    
   }
 
   public HowitzerSystem(XboxController operatorController, ConveyorSystem s) {
@@ -116,13 +111,6 @@ public class HowitzerSystem extends SubsystemBase {
       aimTalon.set(ControlMode.PercentOutput, -operatorController.getRawAxis(ControllerMap.leftY));
     } else if (Math.abs(error) > 3 && !manual) aimTalon.set(ControlMode.PercentOutput, Math.signum(error));
     else aimTalon.set(ControlMode.PercentOutput, 0);
-
-    //if(debounceT > 3 && !operatorController.getRawButton(10)) debounceT = 30;
-    //if (operatorController != null && operatorController.getRawButton(10) && debounceT > 40) {
-      //debounce = 0;
-      //manual = !manual;
-    //}
-
   }
 
   public void goToAngle(double angle) {
@@ -138,11 +126,9 @@ public class HowitzerSystem extends SubsystemBase {
   }
 
   public void toggleLimelight(){
-
     if(LEDMode ==1) LEDMode = 3;
     else LEDMode = 1;
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(LEDMode);
-    
   }
 }

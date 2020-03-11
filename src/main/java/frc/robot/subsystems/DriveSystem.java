@@ -127,6 +127,10 @@ public class DriveSystem extends SubsystemBase {
     return feedForward;
   }
 
+  public double getSpeed() {
+    return Math.sqrt(Math.pow(encL.getPosition(), 2) + Math.pow(encR.getPosition(), 2));
+  }
+
   public void setMotorVelocity(double leftV, double rightV) {//TODO find the gearing multiplier. assume we are passed linear m/s speed and convert to motor rotational speed
     left.setReference(-leftV, ControlType.kVelocity, 0, feedForward.calculate(leftV));//might need to divide by (60f*Constants.maxVelocity)
     right.setReference(rightV, ControlType.kVelocity, 0, feedForward.calculate(rightV));

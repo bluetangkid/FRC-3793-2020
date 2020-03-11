@@ -65,9 +65,6 @@ public class ColorWheelSystem extends SubsystemBase {
 
   public int showColor() {
     currentColor = colorSensor.getColor();
-    // System.out.println(currentColor.red*255*2 + ", " + currentColor.green*255*2 +
-    // ", " + currentColor.blue*2*255);
-
     // Red = 1
     // Yellow = 2
     // Blue = 3
@@ -98,12 +95,10 @@ public class ColorWheelSystem extends SubsystemBase {
   }
 
   public void goToColor(Color8Bit desiredColor) {
-
     if (!isColor(desiredColor)) {
       colorWheel.set(ControlMode.PercentOutput, Constants.colorWheelSpeed);
     } else {
       colorWheel.set(ControlMode.PercentOutput, 0);
     }
-
   }
 }

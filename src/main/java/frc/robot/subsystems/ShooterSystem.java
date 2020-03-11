@@ -54,9 +54,7 @@ public class ShooterSystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 
   public CANSparkMax getTopWheel() {
     return topWheel;

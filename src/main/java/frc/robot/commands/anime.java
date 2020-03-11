@@ -20,7 +20,7 @@ public class anime extends CommandBase {
 
   int cur;
 
-  public anime( LightingSystem lightingSystem, int s, int e) {
+  public anime(LightingSystem lightingSystem, int s, int e) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.lightingSystem = lightingSystem;
     start = s;
