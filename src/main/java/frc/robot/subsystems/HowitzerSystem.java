@@ -71,6 +71,8 @@ public class HowitzerSystem extends SubsystemBase {
     minLimitSwitch = new DigitalInput(RobotMap.MIN_LIMIT_SWITCH.getPin());
 
     aimTalon.configContinuousCurrentLimit(40);
+    aimTalon.configPeakCurrentLimit(60);
+    aimTalon.configPeakCurrentDuration(1000);
     gyro = new PigeonIMU(s.getTalon());
   }
 

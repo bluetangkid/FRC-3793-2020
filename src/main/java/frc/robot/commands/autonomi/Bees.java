@@ -116,6 +116,7 @@ public class Bees extends CommandBase {
                     phase++;
                     timer.start();
                 }
+                break;
             case(7)://shoot final 2
                 shoot.execute();
                 if(timer.hasPeriodPassed(2.5)) {
@@ -123,6 +124,7 @@ public class Bees extends CommandBase {
                     shoot.end(false);
                     timer.stop();
                 }
+                break;
             default:
                 break;
         }

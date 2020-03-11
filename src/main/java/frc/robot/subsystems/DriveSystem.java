@@ -77,13 +77,18 @@ public class DriveSystem extends SubsystemBase {
     right2.setI(0);
     right2.setD(0);
     leftMotorOne.setIdleMode(IdleMode.kBrake);
-    leftMotorTwo.setIdleMode(IdleMode.kCoast);
+    leftMotorTwo.setIdleMode(IdleMode.kBrake);
     rightMotorOne.setIdleMode(IdleMode.kBrake);
-    rightMotorTwo.setIdleMode(IdleMode.kCoast);
+    rightMotorTwo.setIdleMode(IdleMode.kBrake);
     leftMotorOne.setSmartCurrentLimit(50);
     leftMotorTwo.setSmartCurrentLimit(50);
     rightMotorOne.setSmartCurrentLimit(50);
     rightMotorTwo.setSmartCurrentLimit(50);
+
+    leftMotorOne.setClosedLoopRampRate(.5);
+    leftMotorTwo.setClosedLoopRampRate(.5);
+    rightMotorOne.setClosedLoopRampRate(.5);
+    rightMotorTwo.setClosedLoopRampRate(.5);
     
     odometry = new DifferentialDriveOdometry(new Rotation2d(0), new Pose2d(0, 0, new Rotation2d(0)));
     navx = new AHRS(SPI.Port.kMXP);

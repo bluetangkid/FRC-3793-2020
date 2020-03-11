@@ -15,16 +15,20 @@ public class PowerMonitor extends SubsystemBase {
   /**
    * Creates a new IntakeSystem.
    */
+  boolean brownout = false;
   private PowerDistributionPanel pdp;
+  private double[] highestAmps;
 
   public PowerMonitor() {
     pdp = new PowerDistributionPanel(RobotMap.PDP_ID.getPin());
+    highestAmps = new double[15];
   }
 
   @Override
   public void periodic() {//use a thing to slow down motors if voltage drops too low
-    if(pdp.getVoltage() < 9.5);
-    // This method will be called once per scheduler run
+    if(pdp.getVoltage() < 9.5){
+      brownout = true;
+    } else brownout = false;
   }
 
   public PowerDistributionPanel getPDP() {

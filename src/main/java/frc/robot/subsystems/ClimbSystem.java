@@ -22,6 +22,7 @@ public class ClimbSystem extends SubsystemBase {
   CANSparkMax climbMotor;
   public ClimbSystem() {
     climbMotor = new CANSparkMax(RobotMap.CLIMB_MOTOR.getPin(), MotorType.kBrushless);
+    climbMotor.setSmartCurrentLimit(50);
     winch = new Spark(RobotMap.WINCH.getPin());
     climbMotor.setInverted(true);
   }

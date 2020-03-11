@@ -51,6 +51,9 @@ public class ShooterSystem extends SubsystemBase {
     bottom.setI(0);
     bottom.setD(0);
     topWheel.setIdleMode(IdleMode.kCoast);
+
+    topWheel.setSmartCurrentLimit(50);
+    bottomWheel.setSmartCurrentLimit(50);
   }
 
   @Override
