@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -37,6 +38,8 @@ public class Robot extends TimedRobot {
 
   public static boolean auto = true;
 
+  private static Timer teleop;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -44,6 +47,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     gameTime = new Timer();
+    teleop = new Timer();
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -104,6 +108,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    teleop.start();
     auto = false;
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -120,14 +125,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //System.out.println("Max Limit " + m_robotContainer.howitzerSystem.maxLimitSwitch.get());
-    //System.out.println("Min Limit " + m_robotContainer.howitzerSystem.minLimitSwitch.get());
-    //if(ControllerMap.driver.getRawButton(ControllerMap.back)){
-      //shootDumb();
-    //}else{
-      //m_robotContainer.shooterSystem.getTopWheel().set(0);
-      //m_robotContainer.shooterSystem.getBottomWheel().set(0);
-    //}
+    if(teleop.hasElapsed(135-30) && !teleop.hasElapsed(135-29.5)) {
+      ControllerMap.driver.setRumble(RumbleType.kLeftRumble, 1);
+      ControllerMap.driver.setRumble(RumbleType.kRightRumble, 1);
+      ControllerMap.operator.setRumble(RumbleType.kLeftRumble, 1);
+      ControllerMap.operator.setRumble(RumbleType.kRightRumble, 1);
+    }
+
+    if(teleop.hasElapsed(135-20) && !teleop.hasElapsed(135-19.5)) {
+      ControllerMap.driver.setRumble(RumbleType.kLeftRumble, 1);
+      ControllerMap.driver.setRumble(RumbleType.kRightRumble, 1);
+      ControllerMap.operator.setRumble(RumbleType.kLeftRumble, 1);
+      ControllerMap.operator.setRumble(RumbleType.kRightRumble, 1);
+    }
   }
 
   @Override
