@@ -86,7 +86,7 @@ public class AimCommand extends CommandBase {
     }
     if(angle < 45 && angle > 28) calculatedAngle = angle;
     if(xDist == 0) howitzerSystem.goToAngle(30.1);
-    else howitzerSystem.goToAngle(calculatedAngle); //TODO make it limit if we go under trench, also use pose for dist if there is no ll dist
+    else howitzerSystem.goToAngle(calculatedAngle); //TODO use pose for dist if there is no ll dist
   }
 
   public Double[] getLinearDist(){

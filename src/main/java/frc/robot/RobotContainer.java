@@ -46,7 +46,7 @@ public class RobotContainer {
   public HowitzerSystem howitzerSystem;
   public final IntakeSystem intakeSystem = new IntakeSystem();
   public final ShooterSystem shooterSystem = new ShooterSystem();
-  //private final PowerMonitor powerMonitor = new PowerMonitor();
+  private final PowerMonitor powerMonitor = new PowerMonitor();
 
   //private final BallHandler ballHandler = new BallHandler();
 
@@ -68,9 +68,11 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() { // TODO collision avoidance
+    powerMonitor.register();
+
     autoSelector = new SendableChooser<CommandBase>();
     FindPath.config(3, 7, 0, 1.88797f);
-
+    
     autoSelector.addOption("Ideal", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, false));
     autoSelector.addOption("Ideal Offset", new Ideal(shooterSystem, intakeSystem, conveyorSystem, driveSystem, howitzerSystem, true));
 
@@ -92,7 +94,6 @@ public class RobotContainer {
     intakeBackward.whileHeld(new IntakeBackward(conveyorSystem, shooterSystem, intakeSystem));
     // ---------- OPERATOR ----------
 
-    //new IntakePivotCommand(intakeSystem, ControllerMap.operator).perpetually().schedule();
     new JoystickButton(ControllerMap.driver, ControllerMap.Y).whileHeld(() -> intakeSystem.getPivot().set(-.8));
     new JoystickButton(ControllerMap.driver, ControllerMap.A).whileHeld(() -> intakeSystem.drop());
 

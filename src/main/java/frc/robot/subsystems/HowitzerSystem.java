@@ -74,7 +74,7 @@ public class HowitzerSystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {//TODO autoaim toggle instead
+  public void periodic() {
     manual = false;
     if(!Robot.auto) {
       switch(operatorController.getPOV()){
