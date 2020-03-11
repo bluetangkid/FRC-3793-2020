@@ -97,7 +97,7 @@ public class Bees extends CommandBase {
                 break;
             case(4)://shoot 5 ball
                 shoot.execute();
-                if(timer.hasPeriodPassed(2.5)) {//TODO move howitzer
+                if(timer.hasPeriodPassed(2.5)) {
                     phase++;
                     shoot.end(false);
                     timer.stop();
